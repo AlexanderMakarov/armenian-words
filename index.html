@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armenian Language Learning App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🇦🇲 Armenian Language Learning</h1>
+            <p>Learn Armenian vocabulary step by step</p>
+        </header>
+
+        <!-- Language Level Selection Screen -->
+        <div id="level-selection" class="screen active">
+            <h2>Select Your Armenian Level</h2>
+            <div class="level-buttons">
+                <button class="level-btn" data-level="A1">A1 - Beginner</button>
+                <button class="level-btn" data-level="A2">A2 - Elementary</button>
+                <button class="level-btn" data-level="B1">B1 - Intermediate</button>
+                <button class="level-btn" data-level="B2">B2 - Upper Intermediate</button>
+            </div>
+            
+            <div class="quiz-language-selection">
+                <h3>Quiz Language</h3>
+                <p>Choose the language for quiz questions:</p>
+                <div class="language-buttons">
+                    <button class="language-btn active" data-language="english">English</button>
+                    <button class="language-btn" data-language="russian">Russian</button>
+                </div>
+            </div>
+            
+            <div class="stats" id="user-stats"></div>
+        </div>
+
+        <!-- Learning Mode Screen -->
+        <div id="learning-mode" class="screen">
+            <div class="progress-bar">
+                <div class="progress" id="learning-progress"></div>
+                <span class="progress-text" id="learning-progress-text">1 / 10</span>
+            </div>
+            
+            <div class="word-card">
+                <div class="armenian-word" id="armenian-word">բարև</div>
+                <div class="translation" id="translation">hello (English) / привет (Russian)</div>
+                <button id="next-word" class="btn primary">Next Word</button>
+            </div>
+            
+            <div class="learning-complete" id="learning-complete" style="display: none;">
+                <h3>Learning Complete!</h3>
+                <p>You've studied 10 words. Ready for the quiz?</p>
+                <button id="start-quiz" class="btn primary">Start Quiz</button>
+            </div>
+        </div>
+
+        <!-- Quiz Mode Screen -->
+        <div id="quiz-mode" class="screen">
+            <div class="progress-bar">
+                <div class="progress" id="quiz-progress"></div>
+                <span class="progress-text" id="quiz-progress-text">1 / ?</span>
+            </div>
+            
+            <div class="quiz-card">
+                <div class="quiz-question">
+                    <p>Select the Armenian word for:</p>
+                    <div class="translation-question" id="translation-question">hello</div>
+                </div>
+                <div class="options" id="quiz-options">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="quiz-complete" id="quiz-complete" style="display: none;">
+                <h3>Quiz Complete!</h3>
+                <div class="score" id="final-score">Score: 8/10 (80%)</div>
+                <div class="actions">
+                    <button id="restart-app" class="btn primary">One More Time</button>
+                    <button id="change-level" class="btn secondary">Change Level</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vocabulary.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

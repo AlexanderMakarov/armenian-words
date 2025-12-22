@@ -1,0 +1,358 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 600px;
+    width: 90%;
+    min-height: 500px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+}
+
+header p {
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Level Selection */
+.level-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.level-btn {
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.level-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+    transform: translateY(-2px);
+}
+
+.level-btn:active {
+    transform: translateY(0);
+}
+
+/* Quiz Language Selection */
+.quiz-language-selection {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.quiz-language-selection h3 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.quiz-language-selection p {
+    color: #718096;
+    margin-bottom: 1rem;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.language-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.language-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.language-btn.active {
+    border-color: #667eea;
+    background: #667eea;
+    color: white;
+}
+
+/* Progress Bar */
+.progress-bar {
+    background: #e2e8f0;
+    border-radius: 10px;
+    height: 8px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+    width: 10%;
+}
+
+.progress-text {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    font-size: 0.9rem;
+    color: #718096;
+    font-weight: 600;
+}
+
+/* Word Card */
+.word-card {
+    text-align: center;
+    padding: 2rem;
+}
+
+.armenian-word {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-family: 'Arial Unicode MS', Arial, sans-serif;
+}
+
+.translation {
+    font-size: 1.2rem;
+    color: #718096;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* Quiz Card */
+.quiz-card {
+    padding: 2rem;
+}
+
+.quiz-question {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.quiz-question p {
+    font-size: 1.1rem;
+    color: #718096;
+    margin-bottom: 0.5rem;
+}
+
+.translation-question {
+    font-size: 1.5rem;
+    color: #2d3748;
+    font-weight: 600;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.option-btn {
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    font-family: 'Arial Unicode MS', Arial, sans-serif;
+    text-align: center;
+}
+
+.option-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.option-btn.correct {
+    border-color: #48bb78;
+    background: #f0fff4;
+    color: #22543d;
+}
+
+.option-btn.incorrect {
+    border-color: #f56565;
+    background: #fff5f5;
+    color: #742a2a;
+}
+
+.option-btn.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Buttons */
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn.primary {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn.secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.btn.secondary:hover {
+    background: #cbd5e0;
+    transform: translateY(-2px);
+}
+
+/* Completion Screens */
+.learning-complete,
+.quiz-complete {
+    text-align: center;
+    padding: 2rem;
+}
+
+.learning-complete h3,
+.quiz-complete h3 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 2rem;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Stats */
+.stats {
+    background: #f7fafc;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.stats h4 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+.stats p {
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .armenian-word {
+        font-size: 2.5rem;
+    }
+    
+    .level-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .options {
+        grid-template-columns: 1fr;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.word-card,
+.quiz-card {
+    animation: fadeIn 0.5s ease;
+}
