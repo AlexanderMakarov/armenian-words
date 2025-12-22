@@ -77,6 +77,51 @@ header p {
     transform: translateY(0);
 }
 
+/* Quiz Language Selection */
+.quiz-language-selection {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.quiz-language-selection h3 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.quiz-language-selection p {
+    color: #718096;
+    margin-bottom: 1rem;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.language-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.language-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.language-btn.active {
+    border-color: #667eea;
+    background: #667eea;
+    color: white;
+}
+
 /* Progress Bar */
 .progress-bar {
     background: #e2e8f0;
@@ -130,13 +175,25 @@ header p {
     padding: 2rem;
 }
 
-.definition {
-    font-size: 1.3rem;
-    color: #2d3748;
-    margin-bottom: 2rem;
+.quiz-question {
     text-align: center;
-    font-weight: 500;
-    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.quiz-question p {
+    font-size: 1.1rem;
+    color: #718096;
+    margin-bottom: 0.5rem;
+}
+
+.translation-question {
+    font-size: 1.5rem;
+    color: #2d3748;
+    font-weight: 600;
+    padding: 1rem;
+    background: #f7fafc;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
 }
 
 .options {

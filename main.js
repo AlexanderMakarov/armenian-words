@@ -3,6 +3,7 @@
 class ArmenianLearningApp {
     constructor() {
         this.currentLevel = null;
+        this.quizLanguage = 'english'; // Default to English
         this.learningWords = [];
         this.currentWordIndex = 0;
         this.quizWords = [];
@@ -14,9 +15,17 @@ class ArmenianLearningApp {
     }
 
     initializeApp() {
+        this.loadQuizLanguage();
         this.bindEvents();
         this.showLevelSelection();
         this.displayUserStats();
+    }
+
+    loadQuizLanguage() {
+        const savedLanguage = localStorage.getItem('armenianApp_quizLanguage');
+        if (savedLanguage) {
+            this.quizLanguage = savedLanguage;
+        }
     }
 
     bindEvents() {
@@ -24,6 +33,13 @@ class ArmenianLearningApp {
         document.querySelectorAll('.level-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.selectLevel(e.target.dataset.level);
+            });
+        });
+
+        // Language selection
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.selectQuizLanguage(e.target.dataset.language);
             });
         });
 
@@ -99,12 +115,32 @@ class ArmenianLearningApp {
     showLevelSelection() {
         this.showScreen('level-selection');
         this.displayUserStats();
+        
+        // Set the correct active language button
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-language="${this.quizLanguage}"]`).classList.add('active');
     }
 
     // Level Selection
     selectLevel(level) {
         this.currentLevel = level;
         this.startLearning();
+    }
+
+    // Language Selection for Quiz
+    selectQuizLanguage(language) {
+        this.quizLanguage = language;
+        
+        // Update active button
+        document.querySelectorAll('.language-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`[data-language="${language}"]`).classList.add('active');
+        
+        // Save to localStorage
+        localStorage.setItem('armenianApp_quizLanguage', language);
     }
 
     // Learning Mode
@@ -124,8 +160,13 @@ class ArmenianLearningApp {
 
         const word = this.learningWords[this.currentWordIndex];
         document.getElementById('armenian-word').textContent = word.armenian;
+        
+        // Handle both string and array translations
+        const englishText = Array.isArray(word.english) ? word.english.join(', ') : word.english;
+        const russianText = Array.isArray(word.russian) ? word.russian.join(', ') : word.russian;
+        
         document.getElementById('translation').textContent = 
-            `${word.english} (English) / ${word.russian} (Russian)`;
+            `${englishText} (English) / ${russianText} (Russian)`;
     }
 
     nextWord() {
@@ -193,7 +234,18 @@ class ArmenianLearningApp {
         }
 
         const question = this.quizWords[this.currentQuizIndex];
-        document.getElementById('definition').textContent = question.definition;
+        const translationData = this.quizLanguage === 'english' ? question.english : question.russian;
+        
+        // Handle both string and array translations
+        let translation;
+        if (Array.isArray(translationData)) {
+            // For quiz, randomly pick one translation from the array
+            translation = translationData[Math.floor(Math.random() * translationData.length)];
+        } else {
+            translation = translationData;
+        }
+        
+        document.getElementById('translation-question').textContent = translation;
         
         const optionsContainer = document.getElementById('quiz-options');
         optionsContainer.innerHTML = '';

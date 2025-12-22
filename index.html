@@ -21,9 +21,17 @@
                 <button class="level-btn" data-level="A2">A2 - Elementary</button>
                 <button class="level-btn" data-level="B1">B1 - Intermediate</button>
                 <button class="level-btn" data-level="B2">B2 - Upper Intermediate</button>
-                <button class="level-btn" data-level="C1">C1 - Advanced</button>
-                <button class="level-btn" data-level="C2">C2 - Proficient</button>
             </div>
+            
+            <div class="quiz-language-selection">
+                <h3>Quiz Language</h3>
+                <p>Choose the language for quiz questions:</p>
+                <div class="language-buttons">
+                    <button class="language-btn active" data-language="english">English</button>
+                    <button class="language-btn" data-language="russian">Russian</button>
+                </div>
+            </div>
+            
             <div class="stats" id="user-stats"></div>
         </div>
 
@@ -55,7 +63,10 @@
             </div>
             
             <div class="quiz-card">
-                <div class="definition" id="definition">A greeting used when meeting someone</div>
+                <div class="quiz-question">
+                    <p>Select the Armenian word for:</p>
+                    <div class="translation-question" id="translation-question">hello</div>
+                </div>
                 <div class="options" id="quiz-options">
                     <!-- Options will be populated by JavaScript -->
                 </div>
