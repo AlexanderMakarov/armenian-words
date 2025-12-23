@@ -15,12 +15,19 @@
 
         <!-- Language Level Selection Screen -->
         <div id="level-selection" class="screen active">
+            <p class="app-description">Choose your level, pick how many cards to learn, and test yourself with quick quizzes. Your preferences and progress stay saved on this device.</p>
             <h2>Select Your Armenian Level</h2>
             <div class="level-buttons">
                 <button class="level-btn" data-level="A1">A1 - Beginner</button>
                 <button class="level-btn" data-level="A2">A2 - Elementary</button>
                 <button class="level-btn" data-level="B1">B1 - Intermediate</button>
                 <button class="level-btn" data-level="B2">B2 - Upper Intermediate</button>
+            </div>
+            
+            <div class="cards-count-selection">
+                <h3>Number of Cards</h3>
+                <p>Choose how many words to learn:</p>
+                <input type="number" id="cards-count" class="cards-count-input" min="1" max="100" value="10">
             </div>
             
             <div class="quiz-language-selection">
@@ -33,10 +40,14 @@
             </div>
             
             <div class="stats" id="user-stats"></div>
+            <div class="reset-section">
+                <button id="reset-progress" class="btn secondary">Reset Progress</button>
+            </div>
         </div>
 
         <!-- Learning Mode Screen -->
         <div id="learning-mode" class="screen">
+            <div class="learning-count" id="learning-count">1 / 10</div>
             <div class="progress-bar">
                 <div class="progress" id="learning-progress"></div>
                 <span class="progress-text" id="learning-progress-text">1 / 10</span>
@@ -50,13 +61,14 @@
             
             <div class="learning-complete" id="learning-complete" style="display: none;">
                 <h3>Learning Complete!</h3>
-                <p>You've studied 10 words. Ready for the quiz?</p>
+                <p id="learning-complete-text">You've studied words. Ready for the quiz?</p>
                 <button id="start-quiz" class="btn primary">Start Quiz</button>
             </div>
         </div>
 
         <!-- Quiz Mode Screen -->
         <div id="quiz-mode" class="screen">
+            <div class="quiz-correct" id="quiz-correct-count">0 / 0</div>
             <div class="progress-bar">
                 <div class="progress" id="quiz-progress"></div>
                 <span class="progress-text" id="quiz-progress-text">1 / ?</span>
@@ -77,13 +89,12 @@
                 <div class="score" id="final-score">Score: 8/10 (80%)</div>
                 <div class="actions">
                     <button id="restart-app" class="btn primary">One More Time</button>
-                    <button id="change-level" class="btn secondary">Change Level</button>
+                    <button id="change-level" class="btn secondary">Change Settings</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="vocabulary.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

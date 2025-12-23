@@ -18,15 +18,15 @@ body {
     background: white;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    max-width: 600px;
-    width: 90%;
+    padding: 1.75rem;
+    max-width: 640px;
+    width: 92%;
     min-height: 500px;
 }
 
 header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 header h1 {
@@ -37,7 +37,7 @@ header h1 {
 
 header p {
     color: #718096;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .screen {
@@ -49,15 +49,40 @@ header p {
 }
 
 /* Level Selection */
+#level-selection.screen {
+    display: none;
+}
+
+#level-selection.screen.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 500px;
+}
+
+#level-selection h2 {
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 1rem;
+}
+
+.app-description {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+    font-size: 0.95rem;
+}
+
 .level-buttons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
 }
 
 .level-btn {
-    padding: 1rem;
+    padding: 0.85rem;
     border: 2px solid #e2e8f0;
     border-radius: 12px;
     background: white;
@@ -77,9 +102,56 @@ header p {
     transform: translateY(0);
 }
 
+/* Cards Count Selection */
+.cards-count-selection {
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+.cards-count-selection h3 {
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.cards-count-selection p {
+    color: #718096;
+    margin-bottom: 1rem;
+}
+
+.cards-count-input {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #4a5568;
+    width: 120px;
+    text-align: center;
+}
+
+.cards-count-input:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.cards-count-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
 /* Quiz Language Selection */
 .quiz-language-selection {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
+    text-align: center;
+}
+
+/* Reset Section */
+.reset-section {
+    margin-top: 1.5rem;
     text-align: center;
 }
 
@@ -101,7 +173,7 @@ header p {
 }
 
 .language-btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.7rem 1.2rem;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     background: white;
@@ -147,6 +219,20 @@ header p {
     font-size: 0.9rem;
     color: #718096;
     font-weight: 600;
+}
+
+.learning-count {
+    text-align: right;
+    margin-bottom: 0.5rem;
+    color: #4a5568;
+    font-weight: 700;
+}
+
+.quiz-correct {
+    text-align: right;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 0.25rem;
 }
 
 /* Word Card */
@@ -273,7 +359,7 @@ header p {
 .learning-complete,
 .quiz-complete {
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .learning-complete h3,
@@ -283,11 +369,16 @@ header p {
     font-size: 1.5rem;
 }
 
+.learning-complete p {
+    margin-bottom: 1.5rem;
+    color: #718096;
+}
+
 .score {
     font-size: 1.5rem;
     font-weight: bold;
     color: #667eea;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .actions {

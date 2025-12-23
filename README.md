@@ -26,6 +26,7 @@ A web-based static application for learning Armenian vocabulary with interactive
 - Uses browser localStorage for persistent settings and progress
 - Responsive design with modern CSS Grid and Flexbox
 - Vocabulary database with 200+ Armenian words across difficulty levels
+- Browser caching: `vocabulary.json` is cached by browsers using default caching behavior
 
 ## GitHub Pages Deployment
 
@@ -54,12 +55,18 @@ To run locally:
 ├── index.html          # Main HTML file
 ├── styles.css          # CSS styles
 ├── main.js            # Application logic
-├── vocabulary.js      # Armenian vocabulary database
+├── vocabulary.json    # Armenian vocabulary database (JSON format for better browser caching)
 ├── README.md          # This file
 └── .github/
     └── workflows/
         └── deploy.yml # GitHub Pages deployment workflow
 ```
+
+## Caching Configuration
+
+The vocabulary data is stored as `vocabulary.json` instead of a JavaScript file. Browsers typically cache JSON files more aggressively than JavaScript files by default, providing better caching behavior on GitHub Pages without requiring custom HTTP headers.
+
+This approach works well with GitHub Pages since it relies on browser default caching policies rather than server-side cache headers.
 
 ## Contributing
 
