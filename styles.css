@@ -26,7 +26,7 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
 header h1 {
@@ -62,14 +62,14 @@ header p {
 
 #level-selection h2 {
     text-align: center;
-    margin: 0 0 1.25rem 0;
-    padding-bottom: 1rem;
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.5rem;
 }
 
 .app-description {
     text-align: center;
     color: #4a5568;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.75rem;
     line-height: 1.4;
     font-size: 0.95rem;
 }
@@ -78,7 +78,7 @@ header p {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 0.75rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .level-btn {
@@ -104,19 +104,15 @@ header p {
 
 /* Cards Count Selection */
 .cards-count-selection {
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     text-align: center;
 }
 
-.cards-count-selection h3 {
-    color: #4a5568;
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-}
-
 .cards-count-selection p {
-    color: #718096;
-    margin-bottom: 1rem;
+    color: #4a5568;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 .cards-count-input {
@@ -145,25 +141,21 @@ header p {
 
 /* Quiz Language Selection */
 .quiz-language-selection {
-    margin: 1.5rem 0;
+    margin: 0.75rem 0;
     text-align: center;
+}
+
+.quiz-language-selection p {
+    color: #4a5568;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 /* Reset Section */
 .reset-section {
     margin-top: 1.5rem;
     text-align: center;
-}
-
-.quiz-language-selection h3 {
-    color: #4a5568;
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-}
-
-.quiz-language-selection p {
-    color: #718096;
-    margin-bottom: 1rem;
 }
 
 .language-buttons {
@@ -179,7 +171,7 @@ header p {
     background: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
 }
 
@@ -393,7 +385,7 @@ header p {
     background: #f7fafc;
     border-radius: 12px;
     padding: 1rem;
-    margin-top: 2rem;
+    margin-top: 0.75rem;
     text-align: center;
 }
 

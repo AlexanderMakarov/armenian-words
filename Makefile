@@ -1,5 +1,3 @@
-.PHONY: build build-no-cache serve
-
 # Build vocabulary.json using caches (default)
 vocabulary-build:
 	@echo "Building vocabulary.json (using caches)..."

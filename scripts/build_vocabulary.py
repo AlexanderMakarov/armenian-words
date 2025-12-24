@@ -23,20 +23,7 @@ PDF_DICT_FILE = Path("vocabulary_sources/dictionary-armenian-english ocr.pdf")
 OUTPUT_FILE = Path("vocabulary.json")
 TMP_DIR = Path("scripts/tmp")
 TMP_DIR.mkdir(parents=True, exist_ok=True)
-MAX_WORDS = 10000
 MIN_WORDS_PER_SOURCE = 700
-
-# Common word patterns to prioritize (shorter, simpler words are more common)
-COMMON_PATTERNS = {
-    'common_length': (1, 20),  # Words between 1-20 characters (allow one-letter words)
-    'prefer_simple': True,  # Prefer words without complex morphology
-}
-
-# Words to exclude (rare, technical, archaic)
-EXCLUDE_PATTERNS = [
-    r'^[Ա-Ֆ]$',  # Single capital letters
-    r'[0-9]',  # Words with numbers
-]
 
 
 def is_abbreviation(word: str) -> bool:
@@ -48,98 +35,157 @@ def is_abbreviation(word: str) -> bool:
     return len(word) <= 3 and word.isupper() and all(c.isalpha() for c in word)
 
 
-def clean_translation(translation: str) -> List[str]:
+def fix_ocr_pronunciation(pron: str) -> str:
     """
-    Clean translation text to extract single words.
-    Removes numbers, markup, symbols, and returns list of clean words.
+    Fix common OCR errors in pronunciations.
+    Common errors: "879" -> "azq", "8" -> "a", "7" -> "z", "9" -> "q"
+    """
+    if not pron:
+        return pron
+    
+    # Common OCR error patterns for Armenian pronunciations
+    # These are based on visual similarity in OCR
+    ocr_fixes = {
+        '879': 'azq',  # Common error for "azq"
+        '8': 'a',
+        '7': 'z', 
+        '9': 'q',
+        '0': 'o',
+        '1': 'l',
+        '5': 's',
+    }
+    
+    # If the entire pronunciation is a known OCR error pattern, fix it
+    if pron in ocr_fixes:
+        return ocr_fixes[pron]
+    
+    # Otherwise, try character-by-character fixes for all-digit strings
+    if pron.isdigit() and len(pron) <= 5:
+        # Try to fix each digit
+        fixed = ''.join(ocr_fixes.get(c, c) for c in pron)
+        return fixed
+    
+    return pron
+
+
+def clean_translation(translation: str) -> Tuple[List[str], str]:
+    """
+    Clean translation text to extract meanings/phrases.
+    Keeps phrases together (e.g., "ударило в голову" stays as one phrase).
+    Removes numbers, markup, symbols, and returns (translations, usage_examples).
+    Extracts Russian/English text even when mixed with Armenian.
+    All translations are lowercased.
+    
+    Format: "1. wordtype. Translation. 2. wordtype. Translation. ◊ usage examples..."
+    - Everything before ◊ is translations (numbered meanings)
+    - Everything after ◊ is usage examples (for CEFR calculation, not translations)
     """
     if not translation:
-        return []
+        return [], ""
 
     # Remove HTML tags
     translation = re.sub(r'<[^>]+>', '', translation)
 
-    # Remove special symbols
-    translation = re.sub(r'[◊•▪▫]', '', translation)
+    # Split by ◊ symbol - everything before is translations, after is usage examples
+    parts = translation.split('◊', 1)
+    translation_part = parts[0].strip()
+    usage_examples = parts[1].strip() if len(parts) > 1 else ""
 
-    # Remove numbers at the start (like "1. ", "2. ")
-    translation = re.sub(r'^\d+\.?\s*', '', translation)
-
-    # Split by common delimiters
-    parts = re.split(r'[;,\n]|\.\s+(?=[А-ЯA-Z])', translation)  # Split on period only if followed by capital
-    words = []
-    for part in parts:
-        part = part.strip()
+    # Split by numbered meanings (patterns like "1. ", "2. ", etc.)
+    # Format: "1. wordtype. Translation. 2. wordtype. Translation."
+    numbered_parts = re.split(r'\s*\d+\.\s+', translation_part)
+    
+    # Remove empty first part if translation starts with number
+    if numbered_parts and not numbered_parts[0].strip():
+        numbered_parts = numbered_parts[1:]
+    
+    meanings = []
+    
+    for numbered_part in numbered_parts:
+        part = numbered_part.strip()
         if not part:
             continue
-
-        # Remove parentheses and brackets content
-        part = re.sub(r'\([^)]*\)', '', part)
-        part = re.sub(r'\[[^\]]*\]', '', part)
-        part = re.sub(r'\{[^}]*\}', '', part)
-        part = part.strip()
-
-        if not part:
+        
+        # Remove word type markers (Armenian abbreviations like "թվ.", "գ.", etc.)
+        # These are typically 1-3 Armenian characters followed by a period
+        part = re.sub(r'[ա-ֆԱ-Ֆ]{1,3}\.\s*', '', part)
+        
+        # Find the first Russian/English translation segment
+        # Stop when we encounter Armenian characters (which indicate usage examples)
+        # Pattern: extract Russian/English text until we hit Armenian characters
+        # Example: "Нация. Ազգերի..." -> extract "Нация" and stop at "Ազգերի"
+        
+        # Find all sequences of Russian/English text, but stop at Armenian
+        # We want the FIRST such sequence (the main translation)
+        # Everything after Armenian characters is usage examples
+        
+        # Split by Armenian characters to get the part before usage examples
+        parts_before_armenian = re.split(r'[\u0530-\u058F\u0531-\u0556]', part, maxsplit=1)
+        main_part = parts_before_armenian[0].strip() if parts_before_armenian else ""
+        
+        if not main_part:
             continue
+        
+        # Remove parentheses and brackets content (often contain grammar notes)
+        main_part = re.sub(r'\([^)]*\)', '', main_part)
+        main_part = re.sub(r'\[[^\]]*\]', '', main_part)
+        main_part = re.sub(r'\{[^}]*\}', '', main_part)
+        main_part = main_part.strip()
+        
+        if not main_part:
+            continue
+        
+        # Extract Russian/English text from the main part (before usage examples)
+        # Find sequences of Cyrillic/Latin characters
+        russian_english_text = re.findall(r'[\u0400-\u04FFa-zA-Z][\u0400-\u04FFa-zA-Z\s,\.;:!?\-]*[\u0400-\u04FFa-zA-Z]|[\u0400-\u04FFa-zA-Z]+', main_part)
+        
+        if not russian_english_text:
+            continue
+        
+        # Join the extracted text
+        extracted = ' '.join(russian_english_text).strip()
+        
+        # Clean up - remove leading/trailing punctuation
+        extracted = re.sub(r'^\.+\s*', '', extracted)
+        extracted = extracted.rstrip('.,;:!?').strip()
+        
+        # Skip if too short
+        if len(extracted) < 2:
+            continue
+        
+        # Check if it contains valid letters (Cyrillic, Latin)
+        if not re.search(r'[\u0400-\u04FFa-zA-Z]', extracted):
+            continue
+        
+        # Lowercase all translations
+        meanings.append(extracted.lower())
 
-        # Extract words - only Cyrillic or Latin (no Armenian in translations)
-        # Match sequences of letters (Cyrillic, Latin) possibly with hyphens
-        word_matches = re.findall(r'[\u0400-\u04FFa-zA-Z]+(?:-[\u0400-\u04FFa-zA-Z]+)*', part)
-        for word in word_matches:
+    # If no meanings found, try to extract Russian/English text from mixed content
+    if not meanings and translation_part.strip():
+        # Extract all Russian/English text segments (sequences of Cyrillic/Latin characters)
+        # This handles cases where Armenian and Russian/English are mixed
+        russian_english_segments = re.findall(r'[\u0400-\u04FFa-zA-Z][\u0400-\u04FFa-zA-Z\s,\.;:!?\-]*[\u0400-\u04FFa-zA-Z]|[\u0400-\u04FFa-zA-Z]+', translation_part)
+        
+        for segment in russian_english_segments:
+            segment = segment.strip()
+            # Remove leading periods and spaces
+            segment = re.sub(r'^\.+\s*', '', segment)
             # Remove trailing punctuation
-            word = word.rstrip('.,;:!?')
-            # Filter: must be at least 2 chars, not a digit, and not Armenian
-            if len(word) >= 2 and not word.isdigit() and not re.search(r'[\u0530-\u058F\u0531-\u0556]', word):
-                words.append(word)
-
-    # If no words found, try to extract at least something from the original
-    if not words and translation.strip():
-        # Last resort: take first word-like sequence
-        first_word = re.search(r'[\u0400-\u04FF\u0530-\u058F\u0590-\u05FFa-zA-Z]{2,}', translation)
-        if first_word:
-            words.append(first_word.group().rstrip('.,;:!?'))
+            segment = segment.rstrip('.,;:!?').strip()
+            
+            if len(segment) >= 2 and not re.search(r'[\u0530-\u058F\u0531-\u0556]', segment):
+                meanings.append(segment.lower())
 
     # Remove duplicates while preserving order
     seen = set()
-    unique_words = []
-    for word in words:
-        word_lower = word.lower()
-        if word_lower not in seen:
-            seen.add(word_lower)
-            unique_words.append(word)
+    unique_meanings = []
+    for meaning in meanings:
+        meaning_lower = meaning.lower()
+        if meaning_lower not in seen:
+            seen.add(meaning_lower)
+            unique_meanings.append(meaning)
 
-    return unique_words[:5]  # Limit to 5 translations max
-
-
-def is_common_word(word: str, translation: str = "", strict: bool = False) -> bool:
-    """
-    Determine if a word is likely common/used in daily life.
-    Filters out rare, technical, or archaic words.
-    If strict=False, only applies basic filters.
-    """
-    # Basic checks - always apply
-    if len(word) < 1:
-        return False
-
-    # Filter out abbreviations (all uppercase, 2-3 chars max)
-    if is_abbreviation(word):
-        return False
-
-    # Exclude patterns
-    for pattern in EXCLUDE_PATTERNS:
-        if re.search(pattern, word):
-            return False
-
-    if strict:
-        # Strict filtering
-        if not (COMMON_PATTERNS['common_length'][0] <= len(word) <= COMMON_PATTERNS['common_length'][1]):
-            return False
-
-        # Prefer words with Armenian lowercase letters
-        if not re.search(r'[ա-ֆ]', word):
-            return False
-
-    return True
+    return unique_meanings, usage_examples  # Return translations and usage examples
 
 
 def save_to_csv(data: Dict[str, List[str]], filepath: Path):
@@ -286,11 +332,8 @@ def parse_stardict_dict(dict_path: Path, entries: List[Tuple[str, int, int]], ca
         try:
             for word, offset, size in entries:
                 try:
-                    # Skip abbreviations
-                    if is_abbreviation(word):
-                        skipped_count += 1
-                        pbar.update(1)
-                        continue
+                    # Don't filter abbreviations here - StarDict has many uppercase words that are not abbreviations
+                    # Abbreviations will be filtered out during merge if they don't have both translations
 
                     f.seek(offset)
                     data = f.read(size)
@@ -304,15 +347,14 @@ def parse_stardict_dict(dict_path: Path, entries: List[Tuple[str, int, int]], ca
                             continue
 
                         # Clean and extract words from translation
-                        clean_words = clean_translation(translation_raw)
+                        clean_words, usage_examples = clean_translation(translation_raw)
 
                         if clean_words:
-                            # Use lenient filtering during extraction
-                            if is_common_word(word, strict=False):
-                                armenian_russian[word] = clean_words
-                                extracted_count += 1
-                            else:
-                                skipped_count += 1
+                            # Store all words with valid translations
+                            # Usage examples are stored separately for CEFR calculation
+                            armenian_russian[word] = clean_words
+                            # TODO: Store usage_examples for CEFR calculation
+                            extracted_count += 1
                         else:
                             skipped_count += 1
                     else:
@@ -348,6 +390,10 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
         raise ImportError("PyMuPDF (pymupdf) is required for PDF parsing. Install it with: pip install pymupdf")
 
     armenian_english: Dict[str, Dict[str, Any]] = defaultdict(lambda: {'english': [], 'pronunciation': None})
+    
+    # Statistics
+    words_with_pronunciation = 0
+    words_without_pronunciation = 0
 
     print(f"  Extracting text from PDF...")
     pdf_doc = fitz.open(pdf_file)
@@ -385,9 +431,34 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                 
                 # Column 2 (middle, 200 <= x < 350): Pronunciation
                 elif 200 <= x0 < 350:
-                    # Use y0 as key (rounded for matching)
-                    y_key = round(y0, 1)
-                    pronunciation_blocks[y_key] = text
+                    # Pronunciation blocks may contain multiple pronunciations
+                    # They can be on separate lines OR on the same line separated by spaces
+                    # Split by newlines first, then by spaces within each line
+                    pron_lines = text.split('\n')
+                    all_pronunciations = []
+                    for pron_line in pron_lines:
+                        if pron_line.strip():
+                            # Split by spaces to get individual pronunciations
+                            pron_words = pron_line.strip().split()
+                            all_pronunciations.extend(pron_words)
+                    
+                    # Store each pronunciation with its calculated y-coordinate
+                    if all_pronunciations:
+                        for i, pron in enumerate(all_pronunciations):
+                            pron_clean = pron.strip()
+                            # Skip invalid pronunciations (page numbers, single digits, etc.)
+                            if pron_clean and len(pron_clean) >= 2:
+                                # Fix OCR errors (e.g., "879" -> "azq")
+                                pron_fixed = fix_ocr_pronunciation(pron_clean)
+                                
+                                # Skip if it's still just a number after fixing (likely a page number)
+                                if pron_fixed.isdigit() and len(pron_fixed) > 3:
+                                    continue
+                                
+                                # Calculate y-coordinate for this pronunciation within the block
+                                line_y = y0 + (i + 0.5) * ((y1 - y0) / max(len(all_pronunciations), 1))
+                                y_key = round(line_y, 1)
+                                pronunciation_blocks[y_key] = pron_fixed
                 
                 # Column 3 (right, x >= 350): English translations
                 elif x0 >= 350 and re.search(r'[a-zA-Z]', text):
@@ -410,11 +481,12 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                     word_y = arm_y0 + (i + 0.5) * (block_height / len(armenian_words)) if len(armenian_words) > 1 else (arm_y0 + arm_y1) / 2
                     word_y_key = round(word_y, 1)
                     
-                    # Find matching pronunciation and English (within 10 pixels tolerance)
+                    # Find matching pronunciation and English (within 30 pixels tolerance)
+                    # Increased tolerance to handle OCR misalignment
                     pronunciation = None
                     english_text = None
-                    best_pron_dist = 10.0
-                    best_eng_dist = 10.0
+                    best_pron_dist = 30.0
+                    best_eng_dist = 30.0
                     
                     # Find closest pronunciation
                     for pron_y, pron_text in pronunciation_blocks.items():
@@ -431,7 +503,7 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                             english_text = eng_text
                     
                     # Process if we have Armenian and English
-                    if armenian_word and english_text:
+                    if armenian_word and english_text and english_text.strip():
                         # Clean Armenian word
                         armenian_word = armenian_word.strip('.,;:()[]{}')
                         
@@ -443,52 +515,109 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                         if is_abbreviation(armenian_word):
                             continue
                         
+                        # Skip section headers (e.g., "Ի-բ", "A-a", etc.)
+                        # These are typically very short and contain non-Armenian characters
+                        if len(armenian_word) <= 3 and re.search(r'[-–—]', armenian_word):
+                            continue
+                        
+                        # Skip if contains only non-Armenian characters (section markers)
+                        if not re.search(r'[ա-ֆ]', armenian_word):  # Must have lowercase Armenian
+                            continue
+                        
                         # Allow one-letter words
                         if len(armenian_word) < 1:
                             continue
                         
                         # Parse English translations (comma-separated)
-                        english_words = [w.strip().lower() for w in english_text.split(',') if w.strip()]
+                        # English entries from PDF are already clean, just split and store
+                        # Also split on newlines and clean them
+                        english_text_clean = english_text.replace('\n', ' ').replace('  ', ' ')
+                        english_words = [w.strip() for w in english_text_clean.split(',') if w.strip()]
                         
                         if english_words:
-                            # Clean English words - take first few main translations
-                            clean_english = []
-                            for eng in english_words[:3]:  # Limit to first 3 comma-separated groups
-                                # Clean each translation
-                                cleaned = eng.strip().lower()
-                                # Remove common prefixes like "to ", "a ", "an "
-                                cleaned = re.sub(r'^(to|a|an|the)\s+', '', cleaned)
-                                if cleaned and len(cleaned) >= 2:
-                                    clean_english.append(cleaned)
+                            # Store all English translations (no filtering, no limits)
+                            # Remove duplicates only
+                            for eng_word in english_words:
+                                if eng_word not in armenian_english[armenian_word]['english']:
+                                    armenian_english[armenian_word]['english'].append(eng_word)
                             
-                            # Remove duplicates
-                            clean_english = list(dict.fromkeys(clean_english))
-                            
-                            if clean_english:
-                                # Store entry
-                                for eng_word in clean_english:
-                                    if eng_word not in armenian_english[armenian_word]['english']:
-                                        armenian_english[armenian_word]['english'].append(eng_word)
-                                
-                                # Store pronunciation if available and not already set
-                                # Only store if it's a valid pronunciation (not empty, reasonable length)
-                                if pronunciation:
-                                    pronunciation_clean = pronunciation.strip('[]()')
-                                    if pronunciation_clean and 2 <= len(pronunciation_clean) <= 50:
-                                        if not armenian_english[armenian_word]['pronunciation']:
-                                            armenian_english[armenian_word]['pronunciation'] = pronunciation_clean
+                            # Pronunciation is optional (some may be images in PDF, not text)
+                            # Clean and validate pronunciation if found
+                            if pronunciation:
+                                pronunciation_clean = pronunciation.strip('[]()')
+                                if pronunciation_clean and 2 <= len(pronunciation_clean) <= 50:
+                                    # Store pronunciation (keep * character as it's part of the pronunciation)
+                                    if not armenian_english[armenian_word]['pronunciation']:
+                                        armenian_english[armenian_word]['pronunciation'] = pronunciation_clean
+                                        words_with_pronunciation += 1
+                            else:
+                                # Track words without pronunciation
+                                words_without_pronunciation += 1
                 
             pbar.update(1)
     finally:
         pbar.close()
         pdf_doc.close()
 
-    result = dict(armenian_english)
+    # Merge duplicates (case-insensitive) - use lowercase version as key
+    merged_result = {}
+    duplicates_found = []
+    
+    for word, data in armenian_english.items():
+        word_lower = word.lower()
+        if word_lower in merged_result:
+            # Merge with existing entry
+            existing_data = merged_result[word_lower]
+            # Merge English translations
+            for eng in data['english']:
+                if eng not in existing_data['english']:
+                    existing_data['english'].append(eng)
+            # Use pronunciation from either entry (prefer non-empty)
+            if not existing_data['pronunciation'] and data['pronunciation']:
+                existing_data['pronunciation'] = data['pronunciation']
+            # Track duplicate
+            if word != existing_data.get('_original_word', word_lower):
+                duplicates_found.append((word, existing_data.get('_original_word', word_lower)))
+            # Keep track of original word (prefer lowercase version)
+            if any(c.islower() for c in word):
+                existing_data['_original_word'] = word
+        else:
+            # New entry
+            merged_result[word_lower] = {
+                'english': list(data['english']),
+                'pronunciation': data['pronunciation'],
+                '_original_word': word
+            }
+    
+    # Check for true duplicates (same word, different case is OK, but exact duplicates should fail)
+    # Remove _original_word tracking before returning
+    result = {}
+    for word_lower, data in merged_result.items():
+        original_word = data.pop('_original_word', word_lower)
+        result[original_word] = {
+            'english': data['english'],
+            'pronunciation': data['pronunciation']
+        }
+    
+    if duplicates_found:
+        print(f"  ⚠️  Merged {len(duplicates_found)} case-insensitive duplicate(s):")
+        for dup_word, original_word in duplicates_found[:5]:
+            print(f"    '{dup_word}' merged with '{original_word}'")
+        if len(duplicates_found) > 5:
+            print(f"    ... and {len(duplicates_found) - 5} more")
 
     # Save to cache
     if result:
         save_english_dict_to_csv(result, cache_file)
         print(f"  Cached {len(result)} entries to {cache_file}")
+    
+    # Print statistics
+    total_words = words_with_pronunciation + words_without_pronunciation
+    if total_words > 0:
+        pron_percentage = (words_with_pronunciation / total_words) * 100
+        print(f"  Pronunciation statistics:")
+        print(f"    Words with pronunciation: {words_with_pronunciation} ({pron_percentage:.1f}%)")
+        print(f"    Words without pronunciation: {words_without_pronunciation} ({100 - pron_percentage:.1f}%)")
 
     return result
 
@@ -580,33 +709,34 @@ def normalize_armenian_word(word: str) -> str:
 
 def merge_vocabularies(
     armenian_russian: Dict[str, List[str]],
-    armenian_english: Dict[str, Dict],
-    max_words: int = MAX_WORDS
-) -> List[Dict]:
+    armenian_english: Dict[str, Dict]
+) -> Tuple[List[Dict], Dict[str, Any]]:
     """
     Merge Armenian-Russian and Armenian-English dictionaries.
     Only keeps words with both Russian AND English translations.
-    Returns list of vocabulary entries with "am", "ru", "en" keys.
+    Matches by lowercased Armenian words only.
+    Returns (vocabulary list, statistics dict).
     """
     vocabulary = []
 
     print("\nMerging vocabularies...")
 
-    # Normalize Armenian words for case-insensitive matching
+    # Normalize Armenian words to lowercase for matching
     # Create normalized lookup maps
-    russian_normalized = {normalize_armenian_word(k): (k, v) for k, v in armenian_russian.items()}
-    english_normalized = {normalize_armenian_word(k): (k, v) for k, v in armenian_english.items()}
+    russian_normalized = {k.lower(): (k, v) for k, v in armenian_russian.items()}
+    english_normalized = {k.lower(): (k, v) for k, v in armenian_english.items()}
 
-    # Find common words (case-insensitive)
+    # Find common words (case-insensitive matching by lowercase)
     common_words_normalized = set(russian_normalized.keys()) & set(english_normalized.keys())
     print(f"  Found {len(common_words_normalized)} words with both translations")
 
-    pbar = tqdm(total=min(len(common_words_normalized), max_words), desc="Merging translations", unit="words")
+    # Statistics
+    ru_translation_counts = []
+    en_translation_counts = []
+
+    pbar = tqdm(total=len(common_words_normalized), desc="Merging translations", unit="words")
     try:
         for normalized_word in common_words_normalized:
-            if len(vocabulary) >= max_words:
-                break
-
             # Get original words and translations
             armenian_word_ru, russian_translations = russian_normalized[normalized_word]
             armenian_word_en, english_data = english_normalized[normalized_word]
@@ -618,28 +748,24 @@ def merge_vocabularies(
             else:
                 armenian_word = armenian_word_ru
 
-            # Get English translations
+            # Get English translations (already clean from PDF parsing)
             english_list = english_data['english']
             if not english_list:
                 continue  # Skip if no English translations
 
-            # Clean English translations
-            clean_english = []
-            for eng in english_list:
-                clean_words = clean_translation(eng)
-                clean_english.extend(clean_words)
+            # English translations are already clean, just use them directly
+            # Remove duplicates (no limit)
+            clean_english = list(dict.fromkeys(english_list))
 
-            if not clean_english:
-                continue  # Skip if no clean English translations
+            # Collect statistics
+            ru_translation_counts.append(len(russian_translations))
+            en_translation_counts.append(len(clean_english))
 
-            # Remove duplicates
-            clean_english = list(dict.fromkeys(clean_english))[:5]  # Max 5 translations
-
-            # Create entry with new format
+            # Create entry with new format (no limits on translations)
             entry = {
                 'am': armenian_word,
-                'ru': russian_translations[:5],  # Max 5 translations
-                'en': clean_english
+                'ru': russian_translations,  # All translations, no limit
+                'en': clean_english  # All translations, no limit
             }
 
             # Add pronunciation if available
@@ -651,7 +777,21 @@ def merge_vocabularies(
     finally:
         pbar.close()
 
-    return vocabulary
+    # Calculate statistics
+    stats = {
+        'ru': {
+            'avg': sum(ru_translation_counts) / len(ru_translation_counts) if ru_translation_counts else 0,
+            'max': max(ru_translation_counts) if ru_translation_counts else 0,
+            'min': min(ru_translation_counts) if ru_translation_counts else 0,
+        },
+        'en': {
+            'avg': sum(en_translation_counts) / len(en_translation_counts) if en_translation_counts else 0,
+            'max': max(en_translation_counts) if en_translation_counts else 0,
+            'min': min(en_translation_counts) if en_translation_counts else 0,
+        }
+    }
+
+    return vocabulary, stats
 
 
 def main():
@@ -729,8 +869,11 @@ def main():
 
     # Merge vocabularies
     print("\n[3/4] Merging vocabularies...")
-    vocabulary = merge_vocabularies(armenian_russian, armenian_english, max_words=MAX_WORDS)
-    print(f"  Merged {len(vocabulary):,} vocabulary entries (max: {MAX_WORDS:,})")
+    vocabulary, stats = merge_vocabularies(armenian_russian, armenian_english)
+    print(f"  Merged {len(vocabulary):,} vocabulary entries")
+    print(f"\n  Translation statistics:")
+    print(f"    Russian: avg={stats['ru']['avg']:.2f}, min={stats['ru']['min']}, max={stats['ru']['max']}")
+    print(f"    English: avg={stats['en']['avg']:.2f}, min={stats['en']['min']}, max={stats['en']['max']}")
 
     if len(vocabulary) == 0:
         raise ValueError("❌ Error: No vocabulary entries after merging. Check source files.")
