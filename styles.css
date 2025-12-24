@@ -22,6 +22,8 @@ body {
     max-width: 640px;
     width: 92%;
     min-height: 500px;
+    display: flex;
+    flex-direction: column;
 }
 
 header {
@@ -438,4 +440,26 @@ header p {
 .word-card,
 .quiz-card {
     animation: fadeIn 0.5s ease;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-top: 1px solid #e2e8f0;
+    flex-shrink: 0;
+}
+
+footer a {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #764ba2;
+    text-decoration: underline;
 }

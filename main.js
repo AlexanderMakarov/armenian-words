@@ -65,6 +65,7 @@ class ArmenianLearningApp {
         this.bindEvents();
         this.showLevelSelection();
         this.displayUserStats();
+        this.setupIssueLink();
     }
 
     loadQuizLanguage() {
@@ -506,6 +507,122 @@ class ArmenianLearningApp {
         
         // Start new learning session with same level
         this.startLearning();
+    }
+
+    // GitHub Issue Reporting
+    setupIssueLink() {
+        const issueLink = document.getElementById('report-issue-link');
+        if (issueLink) {
+            issueLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const issueUrl = this.generateIssueUrl();
+                window.open(issueUrl, '_blank', 'noopener,noreferrer');
+            });
+        }
+    }
+
+    generateIssueUrl() {
+        const repoUrl = 'https://github.com/AlexanderMakarov/armenian-words';
+        const title = encodeURIComponent('Issue Report');
+        
+        // Collect cache settings
+        const cacheSettings = this.getCacheSettings();
+        const cacheSettingsText = this.formatCacheSettings(cacheSettings);
+        
+        const body = encodeURIComponent(`## Problem Description
+
+Please explain the problem you encountered:
+
+<!-- Describe the issue here -->
+
+
+---
+
+## Translation Issue (if applicable)
+
+If this is a translation issue, please provide:
+
+- **Correct translation (English):** 
+- **Correct translation (Russian):** 
+- **Pronunciation (if known):** 
+- **Armenian word:** 
+
+
+---
+
+## Your Current Settings
+
+\`\`\`
+${cacheSettingsText}
+\`\`\`
+
+---
+
+## Additional Information
+
+<!-- Add any other relevant information here -->`);
+        
+        return `${repoUrl}/issues/new?title=${title}&body=${body}`;
+    }
+
+    getCacheSettings() {
+        const settings = {};
+        
+        // Quiz language preference
+        const quizLanguage = localStorage.getItem('armenianApp_quizLanguage');
+        if (quizLanguage) {
+            settings.quizLanguage = quizLanguage;
+        }
+        
+        // Cards count
+        const cardsCount = localStorage.getItem('armenianApp_cardsCount');
+        if (cardsCount) {
+            settings.cardsCount = cardsCount;
+        }
+        
+        // User statistics
+        const stats = localStorage.getItem('armenianLearningStats');
+        if (stats) {
+            try {
+                settings.userStats = JSON.parse(stats);
+            } catch (e) {
+                settings.userStats = 'Error parsing stats';
+            }
+        }
+        
+        // Learnt words count
+        const learntWords = localStorage.getItem('armenianApp_learntWords');
+        if (learntWords) {
+            const wordsArray = learntWords.split(',').filter(w => w.trim());
+            settings.learntWordsCount = wordsArray.length;
+        }
+        
+        // Current level (if available)
+        if (this.currentLevel) {
+            settings.currentLevel = this.currentLevel;
+        }
+        
+        return settings;
+    }
+
+    formatCacheSettings(settings) {
+        let text = 'Cache Settings:\n';
+        text += `- Quiz Language: ${settings.quizLanguage || 'not set'}\n`;
+        text += `- Cards Count: ${settings.cardsCount || 'not set'}\n`;
+        text += `- Current Level: ${settings.currentLevel || 'not set'}\n`;
+        text += `- Learnt Words Count: ${settings.learntWordsCount || 0}\n`;
+        
+        if (settings.userStats && typeof settings.userStats === 'object') {
+            text += `- User Statistics:\n`;
+            Object.entries(settings.userStats).forEach(([level, stats]) => {
+                const accuracy = stats.totalQuestions > 0 
+                    ? ((stats.totalCorrect / stats.totalQuestions) * 100).toFixed(1) 
+                    : '0.0';
+                text += `  * ${level}: ${stats.totalQuizzes} quizzes, ${accuracy}% accuracy\n`;
+            });
+        }
+        
+        return text;
     }
 }
 
