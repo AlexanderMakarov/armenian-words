@@ -406,10 +406,10 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
             # Extract text blocks (preserves column layout)
             blocks = page.get_text("blocks")
             
-            # Separate blocks by type and store with y-coordinates
+            # Separate blocks by type and store with y-coordinates and heights
             armenian_blocks = []  # (y0, y1, words_list) - may contain multiple words
-            pronunciation_blocks = {}  # y -> text
-            english_blocks = {}  # y -> text
+            pronunciation_blocks = []  # List of (text, y0, y1) - store all blocks with height info
+            english_blocks = []  # List of (text, y0, y1) - store all blocks with height info
             
             for block in blocks:
                 if len(block) < 5:
@@ -429,8 +429,8 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                     if armenian_words:
                         armenian_blocks.append((y0, y1, armenian_words))
                 
-                # Column 2 (middle, 200 <= x < 350): Pronunciation
-                elif 200 <= x0 < 350:
+                # Column 2 (middle, 200 <= x < 340): Pronunciation
+                elif 200 <= x0 < 340:
                     # Pronunciation blocks may contain multiple pronunciations
                     # They can be on separate lines OR on the same line separated by spaces
                     # Split by newlines first, then by spaces within each line
@@ -442,7 +442,7 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                             pron_words = pron_line.strip().split()
                             all_pronunciations.extend(pron_words)
                     
-                    # Store each pronunciation with its calculated y-coordinate
+                    # Store each pronunciation with its calculated y-coordinate and height
                     if all_pronunciations:
                         for i, pron in enumerate(all_pronunciations):
                             pron_clean = pron.strip()
@@ -455,18 +455,21 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                                 if pron_fixed.isdigit() and len(pron_fixed) > 3:
                                     continue
                                 
-                                # Calculate y-coordinate for this pronunciation within the block
-                                line_y = y0 + (i + 0.5) * ((y1 - y0) / max(len(all_pronunciations), 1))
-                                y_key = round(line_y, 1)
-                                pronunciation_blocks[y_key] = pron_fixed
+                                # Store pronunciation with block height info (y0, y1) for better matching
+                                # Each pronunciation gets its own entry with the full block bounds
+                                pronunciation_blocks.append((pron_fixed, y0, y1))
                 
-                # Column 3 (right, x >= 350): English translations
-                elif x0 >= 350 and re.search(r'[a-zA-Z]', text):
-                    y_key = round(y0, 1)
-                    if y_key in english_blocks:
-                        english_blocks[y_key] += ', ' + text
-                    else:
-                        english_blocks[y_key] = text
+                # Column 3 (right, x >= 340): English translations
+                elif x0 >= 340 and re.search(r'[a-zA-Z]', text):
+                    # Store the entire block with its original bounds (y0, y1)
+                    # This allows matching any word within the block's vertical range
+                    # Clean and store the text (split by newlines and join with commas)
+                    eng_lines = [line.strip() for line in text.split('\n') if line.strip()]
+                    eng_text = ', '.join(eng_lines)
+                    # Only store if we have text
+                    if eng_text:
+                        # Store with block height info (y0, y1) for better matching
+                        english_blocks.append((eng_text, y0, y1))
             
             # Process each Armenian block - split into individual words and match
             for arm_y0, arm_y1, armenian_words in armenian_blocks:
@@ -481,66 +484,68 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
                     word_y = arm_y0 + (i + 0.5) * (block_height / len(armenian_words)) if len(armenian_words) > 1 else (arm_y0 + arm_y1) / 2
                     word_y_key = round(word_y, 1)
                     
-                    # Find matching pronunciation and English (within 30 pixels tolerance)
-                    # Increased tolerance to handle OCR misalignment
+                    # Find matching pronunciation and English using block height-based matching
+                    # Match if word_y is within the block's vertical range (y0 to y1)
+                    # This is more robust than fixed pixel tolerance
                     pronunciation = None
                     english_text = None
-                    best_pron_dist = 30.0
-                    best_eng_dist = 30.0
+                    best_pron_overlap = 0.0  # Track overlap amount (how much of word is within block)
+                    best_eng_overlap = 0.0
                     
-                    # Find closest pronunciation
-                    for pron_y, pron_text in pronunciation_blocks.items():
-                        dist = abs(float(pron_y) - word_y)
-                        if dist < best_pron_dist:
-                            best_pron_dist = dist
-                            pronunciation = pron_text
+                    # Find pronunciation where word_y is within block's vertical range
+                    for pron_text, pron_y0, pron_y1 in pronunciation_blocks:
+                        # Check if word_y is within the block's vertical range
+                        if pron_y0 <= word_y <= pron_y1:
+                            # Calculate overlap (how well the word aligns with this block)
+                            # Prefer blocks where word_y is closer to the center
+                            block_center = (pron_y0 + pron_y1) / 2
+                            overlap = 1.0 - abs(word_y - block_center) / max((pron_y1 - pron_y0), 1.0)
+                            if overlap > best_pron_overlap:
+                                best_pron_overlap = overlap
+                                pronunciation = pron_text
                     
-                    # Find closest English
-                    for eng_y, eng_text in english_blocks.items():
-                        dist = abs(float(eng_y) - word_y)
-                        if dist < best_eng_dist:
-                            best_eng_dist = dist
-                            english_text = eng_text
+                    # Find English translation where word_y is within block's vertical range
+                    for eng_text, eng_y0, eng_y1 in english_blocks:
+                        # Check if word_y is within the block's vertical range
+                        if eng_y0 <= word_y <= eng_y1:
+                            # Calculate overlap (how well the word aligns with this block)
+                            block_center = (eng_y0 + eng_y1) / 2
+                            overlap = 1.0 - abs(word_y - block_center) / max((eng_y1 - eng_y0), 1.0)
+                            if overlap > best_eng_overlap:
+                                best_eng_overlap = overlap
+                                english_text = eng_text
                     
                     # Process if we have Armenian and English
                     if armenian_word and english_text and english_text.strip():
-                        # Clean Armenian word
+                        # Clean Armenian word (before filtering checks)
+                        armenian_word_original = armenian_word
                         armenian_word = armenian_word.strip('.,;:()[]{}')
-                        
-                        # Skip if not Armenian Unicode
                         if not re.search(r'[\u0530-\u058F\u0531-\u0556]', armenian_word):
                             continue
-                        
                         # Skip abbreviations
                         if is_abbreviation(armenian_word):
                             continue
-                        
                         # Skip section headers (e.g., "Ի-բ", "A-a", etc.)
                         # These are typically very short and contain non-Armenian characters
                         if len(armenian_word) <= 3 and re.search(r'[-–—]', armenian_word):
                             continue
-                        
                         # Skip if contains only non-Armenian characters (section markers)
                         if not re.search(r'[ա-ֆ]', armenian_word):  # Must have lowercase Armenian
                             continue
-                        
                         # Allow one-letter words
                         if len(armenian_word) < 1:
                             continue
-                        
                         # Parse English translations (comma-separated)
                         # English entries from PDF are already clean, just split and store
                         # Also split on newlines and clean them
                         english_text_clean = english_text.replace('\n', ' ').replace('  ', ' ')
                         english_words = [w.strip() for w in english_text_clean.split(',') if w.strip()]
-                        
                         if english_words:
                             # Store all English translations (no filtering, no limits)
                             # Remove duplicates only
                             for eng_word in english_words:
                                 if eng_word not in armenian_english[armenian_word]['english']:
                                     armenian_english[armenian_word]['english'].append(eng_word)
-                            
                             # Pronunciation is optional (some may be images in PDF, not text)
                             # Clean and validate pronunciation if found
                             if pronunciation:
@@ -562,7 +567,7 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
     # Merge duplicates (case-insensitive) - use lowercase version as key
     merged_result = {}
     duplicates_found = []
-    
+
     for word, data in armenian_english.items():
         word_lower = word.lower()
         if word_lower in merged_result:
@@ -598,7 +603,7 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
             'english': data['english'],
             'pronunciation': data['pronunciation']
         }
-    
+
     if duplicates_found:
         print(f"  ⚠️  Merged {len(duplicates_found)} case-insensitive duplicate(s):")
         for dup_word, original_word in duplicates_found[:5]:
