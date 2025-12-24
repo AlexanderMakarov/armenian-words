@@ -157,6 +157,39 @@ def clean_translation(translation: str) -> Tuple[List[str], str]:
         if not re.search(r'[\u0400-\u04FFa-zA-Z]', extracted):
             continue
         
+        # Filter out usage examples - these are typically complete sentences with verbs
+        # Usage examples often contain phrases like "это и есть", "это есть", etc.
+        # They're usually longer and contain more complex grammar
+        # Check BEFORE lowercasing to catch the patterns
+        is_usage_example = False
+        
+        # Check for common usage example patterns (complete sentences)
+        # These patterns indicate usage examples, not translations
+        usage_patterns = [
+            r'это\s+(и\s+)?есть',  # "это есть", "это и есть" (anywhere in text)
+            r'это\s+и\s+есть',  # "это и есть" (more specific)
+            r'это\s+есть\s+наш',  # "это есть наш"
+            r'это\s+есть\s+его',  # "это есть его"
+            r'желание',  # "желание" often appears in usage examples
+            r'последний\s+бой',  # "последний бой" is a usage example
+        ]
+        
+        extracted_lower = extracted.lower()
+        for pattern in usage_patterns:
+            if re.search(pattern, extracted_lower):
+                is_usage_example = True
+                break
+        
+        # Also check for very long phrases (likely sentences, not simple translations)
+        # Simple translations are usually 1-4 words, usage examples are longer
+        word_count = len(extracted.split())
+        if word_count > 4:
+            is_usage_example = True
+        
+        # Skip usage examples
+        if is_usage_example:
+            continue
+        
         # Lowercase all translations
         meanings.append(extracted.lower())
 
@@ -174,7 +207,23 @@ def clean_translation(translation: str) -> Tuple[List[str], str]:
             segment = segment.rstrip('.,;:!?').strip()
             
             if len(segment) >= 2 and not re.search(r'[\u0530-\u058F\u0531-\u0556]', segment):
-                meanings.append(segment.lower())
+                # Filter out usage examples here too
+                is_usage = False
+                usage_patterns = [
+                    r'это\s+(и\s+)?есть',
+                    r'это\s+и\s+есть',
+                    r'это\s+есть\s+наш',
+                    r'это\s+есть\s+его',
+                ]
+                for pattern in usage_patterns:
+                    if re.search(pattern, segment, re.IGNORECASE):
+                        is_usage = True
+                        break
+                if len(segment.split()) > 5:
+                    is_usage = True
+                
+                if not is_usage:
+                    meanings.append(segment.lower())
 
     # Remove duplicates while preserving order
     seen = set()
@@ -400,164 +449,120 @@ def parse_pdf_dictionary(pdf_file: Path, cache_file: Path, use_cache: bool = Tru
     total_pages = len(pdf_doc)
     pbar = tqdm(total=total_pages, desc="Parsing PDF dictionary", unit="pages")
     
+    # Matching tolerance (pixels) - words on the same row should be within this distance
+    Y_TOLERANCE = 8.0
+    
     try:
         for page_num in range(total_pages):
             page = pdf_doc[page_num]
-            # Extract text blocks (preserves column layout)
-            blocks = page.get_text("blocks")
+            # Extract text using 'dict' mode to get actual span positions
+            text_dict = page.get_text('dict')  # type: ignore
             
-            # Separate blocks by type and store with y-coordinates and heights
-            armenian_blocks = []  # (y0, y1, words_list) - may contain multiple words
-            pronunciation_blocks = []  # List of (text, y0, y1) - store all blocks with height info
-            english_blocks = []  # List of (text, y0, y1) - store all blocks with height info
+            # Extract all spans with their actual positions
+            armenian_spans = []  # List of (text, y, x)
+            pronunciation_spans = []  # List of (text, y, x)
+            english_spans = []  # List of (text, y, x)
             
-            for block in blocks:
-                if len(block) < 5:
-                    continue
-                x0, y0, x1, y1 = float(block[0]), float(block[1]), float(block[2]), float(block[3])
-                text = block[4] if len(block) > 4 else ""
-                if not text or not text.strip():
-                    continue
-                
-                text = text.strip()
-                
-                # Column 1 (left, x < 200): Armenian words (may be multiple per block)
-                if x0 < 200 and re.search(r'[\u0530-\u058F\u0531-\u0556]', text):
-                    # Split into individual words
-                    words = [w.strip() for w in text.split('\n') if w.strip()]
-                    armenian_words = [w for w in words if re.search(r'[\u0530-\u058F\u0531-\u0556]', w)]
-                    if armenian_words:
-                        armenian_blocks.append((y0, y1, armenian_words))
-                
-                # Column 2 (middle, 200 <= x < 340): Pronunciation
-                elif 200 <= x0 < 340:
-                    # Pronunciation blocks may contain multiple pronunciations
-                    # They can be on separate lines OR on the same line separated by spaces
-                    # Split by newlines first, then by spaces within each line
-                    pron_lines = text.split('\n')
-                    all_pronunciations = []
-                    for pron_line in pron_lines:
-                        if pron_line.strip():
-                            # Split by spaces to get individual pronunciations
-                            pron_words = pron_line.strip().split()
-                            all_pronunciations.extend(pron_words)
-                    
-                    # Store each pronunciation with its calculated y-coordinate and height
-                    if all_pronunciations:
-                        for i, pron in enumerate(all_pronunciations):
-                            pron_clean = pron.strip()
-                            # Skip invalid pronunciations (page numbers, single digits, etc.)
-                            if pron_clean and len(pron_clean) >= 2:
-                                # Fix OCR errors (e.g., "879" -> "azq")
-                                pron_fixed = fix_ocr_pronunciation(pron_clean)
-                                
-                                # Skip if it's still just a number after fixing (likely a page number)
-                                if pron_fixed.isdigit() and len(pron_fixed) > 3:
+            for block in text_dict.get('blocks', []):  # type: ignore
+                if isinstance(block, dict) and 'lines' in block:
+                    for line in block.get('lines', []):
+                        if isinstance(line, dict) and 'spans' in line:
+                            for span in line.get('spans', []):
+                                if not isinstance(span, dict):
+                                    continue
+                                bbox = span.get('bbox', [])
+                                if len(bbox) < 4:
+                                    continue
+                                x0, y0 = float(bbox[0]), float(bbox[1])
+                                text = span.get('text', '').strip()
+                                if not text:
                                     continue
                                 
-                                # Store pronunciation with block height info (y0, y1) for better matching
-                                # Each pronunciation gets its own entry with the full block bounds
-                                pronunciation_blocks.append((pron_fixed, y0, y1))
-                
-                # Column 3 (right, x >= 340): English translations
-                elif x0 >= 340 and re.search(r'[a-zA-Z]', text):
-                    # Store the entire block with its original bounds (y0, y1)
-                    # This allows matching any word within the block's vertical range
-                    # Clean and store the text (split by newlines and join with commas)
-                    eng_lines = [line.strip() for line in text.split('\n') if line.strip()]
-                    eng_text = ', '.join(eng_lines)
-                    # Only store if we have text
-                    if eng_text:
-                        # Store with block height info (y0, y1) for better matching
-                        english_blocks.append((eng_text, y0, y1))
+                                # Categorize by column position
+                                if x0 < 200 and re.search(r'[\u0530-\u058F\u0531-\u0556]', text):
+                                    # Armenian column - split by newlines to get individual words
+                                    words = [w.strip() for w in text.split('\n') if w.strip() and re.search(r'[\u0530-\u058F\u0531-\u0556]', w)]
+                                    for word in words:
+                                        armenian_spans.append((word, y0, x0))
+                                elif 200 <= x0 < 340:
+                                    # Pronunciation column
+                                    # Split by spaces and newlines to get individual pronunciations
+                                    pron_parts = text.replace('\n', ' ').split()
+                                    for pron_part in pron_parts:
+                                        pron_clean = pron_part.strip()
+                                        if pron_clean and len(pron_clean) >= 2:
+                                            pron_fixed = fix_ocr_pronunciation(pron_clean)
+                                            if not (pron_fixed.isdigit() and len(pron_fixed) > 3):
+                                                pronunciation_spans.append((pron_fixed, y0, x0))
+                                elif x0 >= 340 and re.search(r'[a-zA-Z]', text):
+                                    # English column - keep as is (may contain commas)
+                                    english_spans.append((text, y0, x0))
             
-            # Process each Armenian block - split into individual words and match
-            for arm_y0, arm_y1, armenian_words in armenian_blocks:
-                block_height = arm_y1 - arm_y0
-                # Use actual line count (including empty lines) for more accurate positioning
-                total_lines = max(len(armenian_words), int(block_height / 20))  # Estimate ~20px per line
-                line_height = block_height / total_lines if total_lines > 0 else 20
+            # Match Armenian words with pronunciation and English based on actual y-coordinates
+            for arm_word, arm_y, arm_x in armenian_spans:
+                # Find closest pronunciation and English within tolerance
+                pronunciation = None
+                english_text = None
+                best_pron_dist = float('inf')
+                best_eng_dist = float('inf')
                 
-                for i, armenian_word in enumerate(armenian_words):
-                    # Calculate y position for this word (middle of its line)
-                    # Assume words are evenly distributed in the block
-                    word_y = arm_y0 + (i + 0.5) * (block_height / len(armenian_words)) if len(armenian_words) > 1 else (arm_y0 + arm_y1) / 2
-                    word_y_key = round(word_y, 1)
-                    
-                    # Find matching pronunciation and English using block height-based matching
-                    # Match if word_y is within the block's vertical range (y0 to y1)
-                    # This is more robust than fixed pixel tolerance
-                    pronunciation = None
-                    english_text = None
-                    best_pron_overlap = 0.0  # Track overlap amount (how much of word is within block)
-                    best_eng_overlap = 0.0
-                    
-                    # Find pronunciation where word_y is within block's vertical range
-                    for pron_text, pron_y0, pron_y1 in pronunciation_blocks:
-                        # Check if word_y is within the block's vertical range
-                        if pron_y0 <= word_y <= pron_y1:
-                            # Calculate overlap (how well the word aligns with this block)
-                            # Prefer blocks where word_y is closer to the center
-                            block_center = (pron_y0 + pron_y1) / 2
-                            overlap = 1.0 - abs(word_y - block_center) / max((pron_y1 - pron_y0), 1.0)
-                            if overlap > best_pron_overlap:
-                                best_pron_overlap = overlap
-                                pronunciation = pron_text
-                    
-                    # Find English translation where word_y is within block's vertical range
-                    for eng_text, eng_y0, eng_y1 in english_blocks:
-                        # Check if word_y is within the block's vertical range
-                        if eng_y0 <= word_y <= eng_y1:
-                            # Calculate overlap (how well the word aligns with this block)
-                            block_center = (eng_y0 + eng_y1) / 2
-                            overlap = 1.0 - abs(word_y - block_center) / max((eng_y1 - eng_y0), 1.0)
-                            if overlap > best_eng_overlap:
-                                best_eng_overlap = overlap
-                                english_text = eng_text
-                    
-                    # Process if we have Armenian and English
-                    if armenian_word and english_text and english_text.strip():
-                        # Clean Armenian word (before filtering checks)
-                        armenian_word_original = armenian_word
-                        armenian_word = armenian_word.strip('.,;:()[]{}')
-                        if not re.search(r'[\u0530-\u058F\u0531-\u0556]', armenian_word):
-                            continue
-                        # Skip abbreviations
-                        if is_abbreviation(armenian_word):
-                            continue
-                        # Skip section headers (e.g., "Ի-բ", "A-a", etc.)
-                        # These are typically very short and contain non-Armenian characters
-                        if len(armenian_word) <= 3 and re.search(r'[-–—]', armenian_word):
-                            continue
-                        # Skip if contains only non-Armenian characters (section markers)
-                        if not re.search(r'[ա-ֆ]', armenian_word):  # Must have lowercase Armenian
-                            continue
-                        # Allow one-letter words
-                        if len(armenian_word) < 1:
-                            continue
-                        # Parse English translations (comma-separated)
-                        # English entries from PDF are already clean, just split and store
-                        # Also split on newlines and clean them
-                        english_text_clean = english_text.replace('\n', ' ').replace('  ', ' ')
-                        english_words = [w.strip() for w in english_text_clean.split(',') if w.strip()]
-                        if english_words:
-                            # Store all English translations (no filtering, no limits)
-                            # Remove duplicates only
-                            for eng_word in english_words:
-                                if eng_word not in armenian_english[armenian_word]['english']:
-                                    armenian_english[armenian_word]['english'].append(eng_word)
-                            # Pronunciation is optional (some may be images in PDF, not text)
-                            # Clean and validate pronunciation if found
-                            if pronunciation:
-                                pronunciation_clean = pronunciation.strip('[]()')
-                                if pronunciation_clean and 2 <= len(pronunciation_clean) <= 50:
-                                    # Store pronunciation (keep * character as it's part of the pronunciation)
-                                    if not armenian_english[armenian_word]['pronunciation']:
-                                        armenian_english[armenian_word]['pronunciation'] = pronunciation_clean
-                                        words_with_pronunciation += 1
-                            else:
-                                # Track words without pronunciation
-                                words_without_pronunciation += 1
+                # Find pronunciation on the same row (within Y_TOLERANCE)
+                for pron_text, pron_y, pron_x in pronunciation_spans:
+                    dist = abs(pron_y - arm_y)
+                    if dist < Y_TOLERANCE and dist < best_pron_dist:
+                        best_pron_dist = dist
+                        pronunciation = pron_text
+                
+                # Find English on the same row (within Y_TOLERANCE)
+                for eng_text, eng_y, eng_x in english_spans:
+                    dist = abs(eng_y - arm_y)
+                    if dist < Y_TOLERANCE and dist < best_eng_dist:
+                        best_eng_dist = dist
+                        english_text = eng_text
+                
+                # Process if we have Armenian and English
+                if arm_word and english_text and english_text.strip():
+                    # Clean Armenian word (before filtering checks)
+                    armenian_word_original = arm_word
+                    armenian_word = arm_word.strip('.,;:()[]{}')
+                    if not re.search(r'[\u0530-\u058F\u0531-\u0556]', armenian_word):
+                        continue
+                    # Skip abbreviations
+                    if is_abbreviation(armenian_word):
+                        continue
+                    # Skip section headers (e.g., "Ի-բ", "A-a", etc.)
+                    # These are typically very short and contain non-Armenian characters
+                    if len(armenian_word) <= 3 and re.search(r'[-–—]', armenian_word):
+                        continue
+                    # Skip if contains only non-Armenian characters (section markers)
+                    if not re.search(r'[ա-ֆ]', armenian_word):  # Must have lowercase Armenian
+                        continue
+                    # Allow one-letter words
+                    if len(armenian_word) < 1:
+                        continue
+                    # Parse English translations (comma-separated)
+                    # English entries from PDF are already clean, just split and store
+                    # Also split on newlines and clean them
+                    english_text_clean = english_text.replace('\n', ' ').replace('  ', ' ')
+                    english_words = [w.strip() for w in english_text_clean.split(',') if w.strip()]
+                    if english_words:
+                        # Store all English translations (no filtering, no limits)
+                        # Remove duplicates only
+                        for eng_word in english_words:
+                            if eng_word not in armenian_english[armenian_word]['english']:
+                                armenian_english[armenian_word]['english'].append(eng_word)
+                        # Pronunciation is optional (some may be images in PDF, not text)
+                        # Clean and validate pronunciation if found
+                        if pronunciation:
+                            pronunciation_clean = pronunciation.strip('[]()')
+                            if pronunciation_clean and 2 <= len(pronunciation_clean) <= 50:
+                                # Store pronunciation (keep * character as it's part of the pronunciation)
+                                if not armenian_english[armenian_word]['pronunciation']:
+                                    armenian_english[armenian_word]['pronunciation'] = pronunciation_clean
+                                    words_with_pronunciation += 1
+                        else:
+                            # Track words without pronunciation
+                            words_without_pronunciation += 1
                 
             pbar.update(1)
     finally:
@@ -665,7 +670,7 @@ def assign_levels(vocabulary: List[Dict], max_per_level: int = 2500) -> Dict[str
     # Sort by complexity
     vocabulary_with_scores = []
     for entry in vocabulary:
-        has_pronunciation = 'pronunciation' in entry and entry['pronunciation']
+        has_pronunciation = 'spell' in entry and entry['spell']
         armenian_word = entry.get('am', '')
         complexity = calculate_word_complexity(armenian_word, has_pronunciation)
         vocabulary_with_scores.append((complexity, entry))
@@ -738,6 +743,8 @@ def merge_vocabularies(
     # Statistics
     ru_translation_counts = []
     en_translation_counts = []
+    words_with_pronunciation = 0
+    words_without_pronunciation = 0
 
     pbar = tqdm(total=len(common_words_normalized), desc="Merging translations", unit="words")
     try:
@@ -773,9 +780,12 @@ def merge_vocabularies(
                 'en': clean_english  # All translations, no limit
             }
 
-            # Add pronunciation if available
+            # Add pronunciation if available (use "spell" key)
             if english_data['pronunciation']:
-                entry['pronunciation'] = english_data['pronunciation']
+                entry['spell'] = english_data['pronunciation']
+                words_with_pronunciation += 1
+            else:
+                words_without_pronunciation += 1
 
             vocabulary.append(entry)
             pbar.update(1)
@@ -793,6 +803,11 @@ def merge_vocabularies(
             'avg': sum(en_translation_counts) / len(en_translation_counts) if en_translation_counts else 0,
             'max': max(en_translation_counts) if en_translation_counts else 0,
             'min': min(en_translation_counts) if en_translation_counts else 0,
+        },
+        'pronunciation': {
+            'with': words_with_pronunciation,
+            'without': words_without_pronunciation,
+            'total': len(vocabulary)
         }
     }
 
@@ -879,6 +894,7 @@ def main():
     print(f"\n  Translation statistics:")
     print(f"    Russian: avg={stats['ru']['avg']:.2f}, min={stats['ru']['min']}, max={stats['ru']['max']}")
     print(f"    English: avg={stats['en']['avg']:.2f}, min={stats['en']['min']}, max={stats['en']['max']}")
+    print(f"    Pronunciation: {stats['pronunciation']['with']} with, {stats['pronunciation']['without']} without")
 
     if len(vocabulary) == 0:
         raise ValueError("❌ Error: No vocabulary entries after merging. Check source files.")

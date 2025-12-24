@@ -54,12 +54,25 @@ python scripts/build_vocabulary.py --no-cache-english
    - Matches pronunciation and English blocks by y-coordinate (within 10 pixel tolerance)
    - Caches results to `scripts/tmp/armenian_english.csv`
    
-   **Note**: The PDF was generated using OCR from the original PDF:
+   **Note**: The original PDF was generated from a DOCX file and has a font encoding issue where Armenian characters are stored as Latin letters (e.g., "agaf" instead of "ագահ"). OCR is required to restore proper Unicode Armenian characters.
+   
+   **OCR command** (tested and working):
    ```bash
-   # tesseract was installed already.
-   sudo apt install ocrmypdf
-   ocrmypdf --force-ocr -l hye+eng --sidecar dictionary_layout.txt dictionary-armenian-english.pdf dictionary-armenian-english ocr.pdf
+   # Install dependencies
+   sudo apt install ocrmypdf tesseract-ocr tesseract-ocr-hye tesseract-ocr-eng
+   
+   # Simple OCR command that produces good results
+   ocrmypdf --force-ocr -l hye+eng \
+     dictionary-armenian-english.pdf \
+     "dictionary-armenian-english ocr.pdf"
    ```
+   
+   The `--force-ocr` flag is required because the original PDF has embedded text with incorrect encoding. This command:
+   - Re-OCRs the entire document to extract proper Unicode Armenian characters
+   - Preserves the original layout and column structure
+   - Produces a PDF with searchable text that can be parsed by PyMuPDF
+   
+   **Note**: Additional flags like `--deskew`, `--clean`, or `--tesseract-pagesegmode` were tested but don't improve results for this dictionary format. The simple command above works best.
 
 3. **Merges vocabularies**
    - Matches Armenian words from both sources (case-insensitive)
