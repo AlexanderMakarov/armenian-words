@@ -45,13 +45,17 @@ class ArmenianLearningApp {
         try {
             const response = await fetch('vocabulary.json');
             if (!response.ok) {
-                throw new Error('Failed to load vocabulary');
+                throw new Error(`Failed to load vocabulary: ${response.status} ${response.statusText}`);
             }
             vocabulary = await response.json();
             this.initializeApp();
         } catch (error) {
             console.error('Error loading vocabulary:', error);
-            document.body.innerHTML = '<div class="container"><h1>Error</h1><p>Failed to load vocabulary data. Please refresh the page.</p></div>';
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'container';
+            errorDiv.innerHTML = '<h1>Error</h1><p>Failed to load vocabulary data. Please refresh the page.</p><p style="color: red;">' + error.message + '</p>';
+            document.body.innerHTML = '';
+            document.body.appendChild(errorDiv);
         }
     }
 
@@ -83,9 +87,13 @@ class ArmenianLearningApp {
 
     bindEvents() {
         // Level selection
-        document.querySelectorAll('.level-btn').forEach(btn => {
+        const levelButtons = document.querySelectorAll('.level-btn');
+        levelButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                this.selectLevel(e.target.dataset.level);
+                const level = e.currentTarget.dataset.level;
+                if (level) {
+                    this.selectLevel(level);
+                }
             });
         });
 
@@ -119,27 +127,42 @@ class ArmenianLearningApp {
         }
 
         // Reset progress button
-        document.getElementById('reset-progress').addEventListener('click', () => {
-            this.resetProgress();
-        });
+        const resetBtn = document.getElementById('reset-progress');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                this.resetProgress();
+            });
+        }
 
         // Learning mode
-        document.getElementById('next-word').addEventListener('click', () => {
-            this.nextWord();
-        });
+        const nextWordBtn = document.getElementById('next-word');
+        if (nextWordBtn) {
+            nextWordBtn.addEventListener('click', () => {
+                this.nextWord();
+            });
+        }
 
-        document.getElementById('start-quiz').addEventListener('click', () => {
-            this.startQuiz();
-        });
+        const startQuizBtn = document.getElementById('start-quiz');
+        if (startQuizBtn) {
+            startQuizBtn.addEventListener('click', () => {
+                this.startQuiz();
+            });
+        }
 
         // Quiz mode
-        document.getElementById('restart-app').addEventListener('click', () => {
-            this.restartApp();
-        });
+        const restartBtn = document.getElementById('restart-app');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                this.restartApp();
+            });
+        }
 
-        document.getElementById('change-level').addEventListener('click', () => {
-            this.showLevelSelection();
-        });
+        const changeLevelBtn = document.getElementById('change-level');
+        if (changeLevelBtn) {
+            changeLevelBtn.addEventListener('click', () => {
+                this.showLevelSelection();
+            });
+        }
     }
 
     // Local Storage Management
@@ -163,11 +186,11 @@ class ArmenianLearningApp {
     }
 
     isWordLearnt(word) {
-        return this.learntWords.includes(word.armenian);
+        return this.learntWords.includes(word.am);
     }
 
     markWordAsLearnt(word) {
-        const wordText = word.armenian;
+        const wordText = word.am;
         if (!this.learntWords.includes(wordText)) {
             this.learntWords.push(wordText);
             this.saveLearntWords();
@@ -211,7 +234,12 @@ class ArmenianLearningApp {
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.remove('active');
         });
-        document.getElementById(screenId).classList.add('active');
+        const screen = document.getElementById(screenId);
+        if (!screen) {
+            console.error('Screen not found:', screenId);
+            return;
+        }
+        screen.classList.add('active');
     }
 
     showLevelSelection() {
@@ -268,8 +296,8 @@ class ArmenianLearningApp {
         const uniqueByWord = [];
         const seen = new Set();
         combined.forEach(w => {
-            if (!seen.has(w.armenian)) {
-                seen.add(w.armenian);
+            if (!seen.has(w.am)) {
+                seen.add(w.am);
                 uniqueByWord.push(w);
             }
         });
@@ -289,15 +317,15 @@ class ArmenianLearningApp {
         }
 
         const word = this.learningWords[this.currentWordIndex];
-        document.getElementById('armenian-word').textContent = word.armenian;
+        document.getElementById('armenian-word').textContent = word.am;
         
-        // Show translation based on saved language preference
-        const translationData = this.quizLanguage === 'english' ? word.english : word.russian;
+        // Show ALL translations in learning mode (based on saved language preference)
+        const translationData = this.quizLanguage === 'english' ? word.en : word.ru;
         let translationText;
         if (Array.isArray(translationData)) {
             translationText = translationData.join(', ');
         } else {
-            translationText = translationData;
+            translationText = translationData || '';
         }
         
         const languageLabel = this.quizLanguage === 'english' ? 'English' : 'Russian';
@@ -342,12 +370,7 @@ class ArmenianLearningApp {
     }
 
     createQuizQuestions() {
-        // Filter words that have unique definitions to avoid ambiguity
-        const uniqueWords = this.learningWords.filter((word, index, arr) => {
-            return arr.findIndex(w => w.definition === word.definition) === index;
-        });
-        
-        return uniqueWords.map(word => ({
+        return this.learningWords.map(word => ({
             ...word,
             options: this.generateQuizOptions(word)
         }));
@@ -360,7 +383,7 @@ class ArmenianLearningApp {
         // Add random incorrect options
         while (options.length < Math.min(10, allWords.length)) {
             const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
-            if (!options.find(opt => opt.armenian === randomWord.armenian)) {
+            if (!options.find(opt => opt.am === randomWord.am)) {
                 options.push(randomWord);
             }
         }
@@ -376,15 +399,16 @@ class ArmenianLearningApp {
         }
 
         const question = this.quizWords[this.currentQuizIndex];
-        const translationData = this.quizLanguage === 'english' ? question.english : question.russian;
+        const translationData = this.quizLanguage === 'english' ? question.en : question.ru;
         
-        // Handle both string and array translations
+        // For quiz, use only ONE translation (randomly pick from array)
         let translation;
-        if (Array.isArray(translationData)) {
-            // For quiz, randomly pick one translation from the array
+        if (Array.isArray(translationData) && translationData.length > 0) {
             translation = translationData[Math.floor(Math.random() * translationData.length)];
-        } else {
+        } else if (translationData) {
             translation = translationData;
+        } else {
+            translation = '';
         }
         
         document.getElementById('translation-question').textContent = translation;
@@ -395,7 +419,7 @@ class ArmenianLearningApp {
         question.options.forEach((option, index) => {
             const button = document.createElement('button');
             button.className = 'option-btn';
-            button.textContent = option.armenian;
+            button.textContent = option.am;
             button.addEventListener('click', () => {
                 this.selectQuizOption(option, question, button);
             });
@@ -404,7 +428,7 @@ class ArmenianLearningApp {
     }
 
     selectQuizOption(selectedOption, correctQuestion, clickedButton) {
-        const isCorrect = selectedOption.armenian === correctQuestion.armenian;
+        const isCorrect = selectedOption.am === correctQuestion.am;
         
         // Disable all buttons
         document.querySelectorAll('.option-btn').forEach(btn => {
@@ -414,7 +438,7 @@ class ArmenianLearningApp {
         
         // Highlight correct and incorrect answers
         document.querySelectorAll('.option-btn').forEach(btn => {
-            if (btn.textContent === correctQuestion.armenian) {
+            if (btn.textContent === correctQuestion.am) {
                 btn.classList.add('correct');
             } else if (btn === clickedButton && !isCorrect) {
                 btn.classList.add('incorrect');

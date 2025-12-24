@@ -1,2 +1,4 @@
 tmp**
 screenshot_**
+vocabulary_sources/*
+*.pyc

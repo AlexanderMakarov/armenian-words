@@ -38,16 +38,46 @@ Once deployed, the app will be available at: `https://[username].github.io/[repo
 
 ## Development
 
-To run locally:
+### Prerequisites
+
+- Python 3 (for building vocabulary and running local server)
+- Required Python packages (for building vocabulary):
+  ```bash
+  pip install -r scripts/requirements.txt
+  ```
+
+### Building the Vocabulary
+
+The vocabulary database (`vocabulary.json`) is built from multiple dictionary sources. Use the Makefile for convenient commands:
+
+```bash
+# Build vocabulary using caches (faster, default)
+make vocabulary-build
+
+# Build vocabulary without caches (rebuild everything)
+make vocabulary-build-no-cache
+```
+
+### Running Locally
+
+To run the app locally:
 
 1. Clone the repository
-2. Open `index.html` in a web browser, or
-3. Serve with a local HTTP server:
+2. Build the vocabulary (if needed):
    ```bash
-   python -m http.server 8000
+   make build
+   ```
+3. Start the local server:
+   ```bash
+   make serve
+   ```
+   Or manually:
+   ```bash
+   python3 -m http.server 8000
    # or
    npx serve .
    ```
+4. Open `http://localhost:8000` in your browser
 
 ## File Structure
 
@@ -56,7 +86,11 @@ To run locally:
 ├── styles.css          # CSS styles
 ├── main.js            # Application logic
 ├── vocabulary.json    # Armenian vocabulary database (JSON format for better browser caching)
+├── Makefile           # Build and development commands
 ├── README.md          # This file
+├── scripts/           # Vocabulary building scripts
+│   ├── build_vocabulary.py
+│   └── requirements.txt
 └── .github/
     └── workflows/
         └── deploy.yml # GitHub Pages deployment workflow

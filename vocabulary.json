@@ -1,377 +1,8970 @@
 {
-    "A1": [
-        {
-            "armenian": "բարև",
-            "english": "hello",
-            "russian": "привет",
-            "definition": "A greeting used when meeting someone"
-        },
-        {
-            "armenian": "ցտեսություն",
-            "english": "goodbye",
-            "russian": "до свидания",
-            "definition": "A farewell expression when parting"
-        },
-        {
-            "armenian": "շնորհակալություն",
-            "english": "thank you",
-            "russian": "спасибо",
-            "definition": "An expression of gratitude"
-        },
-        {
-            "armenian": "ներողություն",
-            "english": "excuse me / sorry",
-            "russian": "извините",
-            "definition": "An apology or way to get attention politely"
-        },
-        {
-            "armenian": "այո",
-            "english": "yes",
-            "russian": "да",
-            "definition": "An affirmative response"
-        },
-        {
-            "armenian": "ոչ",
-            "english": "no",
-            "russian": "нет",
-            "definition": "A negative response"
-        },
-        {
-            "armenian": "ջուր",
-            "english": "water",
-            "russian": "вода",
-            "definition": "A clear liquid essential for life"
-        },
-        {
-            "armenian": "հաց",
-            "english": "bread",
-            "russian": "хлеб",
-            "definition": "A basic food made from flour and water"
-        },
-        {
-            "armenian": "տուն",
-            "english": "house",
-            "russian": "дом",
-            "definition": "A building where people live"
-        },
-        {
-            "armenian": "մայր",
-            "english": "mother",
-            "russian": "мать",
-            "definition": "A female parent"
-        },
-        {
-            "armenian": "հայր",
-            "english": "father",
-            "russian": "отец",
-            "definition": "A male parent"
-        },
-        {
-            "armenian": "երեխա",
-            "english": "child",
-            "russian": "ребёнок",
-            "definition": "A young human being"
-        },
-        {
-            "armenian": "գիրք",
-            "english": "book",
-            "russian": "книга",
-            "definition": "A written or printed work consisting of pages"
-        },
-        {
-            "armenian": "դպրոց",
-            "english": "school",
-            "russian": "школа",
-            "definition": "An institution for educating children"
-        },
-        {
-            "armenian": "ուսուցիչ",
-            "english": "teacher",
-            "russian": "учитель",
-            "definition": "A person who teaches students"
-        },
-        {
-            "armenian": "ինչ",
-            "english": ["what", "which", "something"],
-            "russian": ["что", "какой", "что-то"],
-            "definition": "An interrogative word used to ask about things"
-        }
-    ],
-    "A2": [
-        {
-            "armenian": "ընկեր",
-            "english": "friend",
-            "russian": "друг",
-            "definition": "A person you know well and like"
-        },
-        {
-            "armenian": "աշխատանք",
-            "english": "work",
-            "russian": "работа",
-            "definition": "Activity involving mental or physical effort"
-        },
-        {
-            "armenian": "ժամանակ",
-            "english": "time",
-            "russian": "время",
-            "definition": "The indefinite continued progress of existence"
-        },
-        {
-            "armenian": "փող",
-            "english": "money",
-            "russian": "деньги",
-            "definition": "A medium of exchange in the form of coins and banknotes"
-        },
-        {
-            "armenian": "ճանապարհ",
-            "english": "road / way",
-            "russian": "дорога",
-            "definition": "A wide way leading from one place to another"
-        },
-        {
-            "armenian": "մեքենա",
-            "english": "car",
-            "russian": "машина",
-            "definition": "A road vehicle with an engine"
-        },
-        {
-            "armenian": "բժիշկ",
-            "english": "doctor",
-            "russian": "врач",
-            "definition": "A person qualified to treat sick people"
-        },
-        {
-            "armenian": "հիվանդանոց",
-            "english": "hospital",
-            "russian": "больница",
-            "definition": "An institution providing medical treatment"
-        },
-        {
-            "armenian": "ուտելիք",
-            "english": "food",
-            "russian": "еда",
-            "definition": "Any nutritious substance that people eat"
-        },
-        {
-            "armenian": "ռեստորան",
-            "english": "restaurant",
-            "russian": "ресторан",
-            "definition": "A place where people pay to sit and eat meals"
-        },
-        {
-            "armenian": "հագուստ",
-            "english": "clothes",
-            "russian": "одежда",
-            "definition": "Items worn to cover the body"
-        },
-        {
-            "armenian": "եղանակ",
-            "english": "weather",
-            "russian": "погода",
-            "definition": "The state of the atmosphere at a particular time"
-        },
-        {
-            "armenian": "ամառ",
-            "english": "summer",
-            "russian": "лето",
-            "definition": "The warmest season of the year"
-        },
-        {
-            "armenian": "ձմեռ",
-            "english": "winter",
-            "russian": "зима",
-            "definition": "The coldest season of the year"
-        },
-        {
-            "armenian": "սիրել",
-            "english": "to love",
-            "russian": "любить",
-            "definition": "To feel deep affection for someone or something"
-        }
-    ],
-    "B1": [
-        {
-            "armenian": "կրթություն",
-            "english": "education",
-            "russian": "образование",
-            "definition": "The process of receiving or giving systematic instruction"
-        },
-        {
-            "armenian": "պատմություն",
-            "english": "history",
-            "russian": "история",
-            "definition": "The study of past events"
-        },
-        {
-            "armenian": "մշակույթ",
-            "english": "culture",
-            "russian": "культура",
-            "definition": "The arts and other manifestations of human achievement"
-        },
-        {
-            "armenian": "քաղաքականություն",
-            "english": "politics",
-            "russian": "политика",
-            "definition": "The activities of government and public affairs"
-        },
-        {
-            "armenian": "տնտեսություն",
-            "english": "economy",
-            "russian": "экономика",
-            "definition": "The system of trade and industry in a country"
-        },
-        {
-            "armenian": "բնություն",
-            "english": "nature",
-            "russian": "природа",
-            "definition": "The physical world including plants, animals, and landscapes"
-        },
-        {
-            "armenian": "շրջակա միջավայր",
-            "english": "environment",
-            "russian": "окружающая среда",
-            "definition": "The surroundings or conditions in which organisms live"
-        },
-        {
-            "armenian": "տեխնոլոգիա",
-            "english": "technology",
-            "russian": "технология",
-            "definition": "The application of scientific knowledge for practical purposes"
-        },
-        {
-            "armenian": "հաղորդակցություն",
-            "english": "communication",
-            "russian": "общение",
-            "definition": "The means of sending or receiving information"
-        },
-        {
-            "armenian": "փորձառություն",
-            "english": "experience",
-            "russian": "опыт",
-            "definition": "Practical contact with and observation of facts or events"
-        },
-        {
-            "armenian": "հնարավորություն",
-            "english": "opportunity",
-            "russian": "возможность",
-            "definition": "A set of circumstances that makes it possible to do something"
-        },
-        {
-            "armenian": "խնդիր",
-            "english": "problem",
-            "russian": "проблема",
-            "definition": "A matter or situation regarded as unwelcome or harmful"
-        },
-        {
-            "armenian": "լուծում",
-            "english": "solution",
-            "russian": "решение",
-            "definition": "A means of solving a problem or dealing with a difficult situation"
-        },
-        {
-            "armenian": "զարգացում",
-            "english": "development",
-            "russian": "развитие",
-            "definition": "The process of developing or being developed"
-        },
-        {
-            "armenian": "ապագա",
-            "english": "future",
-            "russian": "будущее",
-            "definition": "The time that is to come"
-        }
-    ],
-    "B2": [
-        {
-            "armenian": "գիտակցություն",
-            "english": "consciousness",
-            "russian": "сознание",
-            "definition": "The state of being awake and aware of one's surroundings"
-        },
-        {
-            "armenian": "պատասխանատվություն",
-            "english": "responsibility",
-            "russian": "ответственность",
-            "definition": "The state of being accountable for something"
-        },
-        {
-            "armenian": "անկախություն",
-            "english": "independence",
-            "russian": "независимость",
-            "definition": "The fact or state of being independent"
-        },
-        {
-            "armenian": "ժողովրդավարություն",
-            "english": "democracy",
-            "russian": "демократия",
-            "definition": "A system of government by the whole population"
-        },
-        {
-            "armenian": "արդարություն",
-            "english": "justice",
-            "russian": "справедливость",
-            "definition": "Just behavior or treatment according to moral principles"
-        },
-        {
-            "armenian": "ազատություն",
-            "english": "freedom",
-            "russian": "свобода",
-            "definition": "The power or right to act, speak, or think freely"
-        },
-        {
-            "armenian": "հավասարություն",
-            "english": "equality",
-            "russian": "равенство",
-            "definition": "The state of being equal in status, rights, and opportunities"
-        },
-        {
-            "armenian": "բարեփոխում",
-            "english": "reform",
-            "russian": "реформа",
-            "definition": "The action of making changes to improve a system"
-        },
-        {
-            "armenian": "նվաճում",
-            "english": "achievement",
-            "russian": "достижение",
-            "definition": "A thing done successfully with effort, skill, or courage"
-        },
-        {
-            "armenian": "ճանաչում",
-            "english": "recognition",
-            "russian": "признание",
-            "definition": "Acknowledgment of the existence, validity, or legality of something"
-        },
-        {
-            "armenian": "համագործակցություն",
-            "english": "cooperation",
-            "russian": "сотрудничество",
-            "definition": "The process of working together to the same end"
-        },
-        {
-            "armenian": "մրցակցություն",
-            "english": "competition",
-            "russian": "конкуренция",
-            "definition": "The activity of competing against others"
-        },
-        {
-            "armenian": "նորարարություն",
-            "english": "innovation",
-            "russian": "инновация",
-            "definition": "The action of making changes in something established"
-        },
-        {
-            "armenian": "կայունություն",
-            "english": "sustainability",
-            "russian": "устойчивость",
-            "definition": "The ability to maintain at a certain rate or level"
-        },
-        {
-            "armenian": "բազմազանություն",
-            "english": "diversity",
-            "russian": "разнообразие",
-            "definition": "The state of being diverse; variety"
-        }
-    ]
+ "A1": [
+  {
+   "am": "մնալ",
+   "ru": [
+    "Оставаться",
+    "остаться",
+    "Пребывать",
+    "быть",
+    "пробыть"
+   ],
+   "en": [
+    "stay",
+    "remain"
+   ],
+   "pronunciation": "mnal"
+  },
+  {
+   "am": "արագ",
+   "ru": [
+    "Скоро",
+    "спешно",
+    "Быстро",
+    "бегать",
+    "Скорый"
+   ],
+   "en": [
+    "guick",
+    "fast"
+   ],
+   "pronunciation": "arag"
+  },
+  {
+   "am": "կրոն",
+   "ru": [
+    "Религия"
+   ],
+   "en": [
+    "religion"
+   ],
+   "pronunciation": "kron"
+  },
+  {
+   "am": "ձմեռ",
+   "ru": [
+    "Зима",
+    "Холод",
+    "стужа",
+    "дед-мороз"
+   ],
+   "en": [
+    "winter"
+   ],
+   "pronunciation": "z° mer‘"
+  },
+  {
+   "am": "դեպք",
+   "ru": [
+    "Случай",
+    "событие",
+    "Повод",
+    "случае",
+    "этом"
+   ],
+   "en": [
+    "case"
+   ],
+   "pronunciation": "der‘"
+  },
+  {
+   "am": "թերթ",
+   "ru": [
+    "Лист",
+    "бумаги",
+    "Газета",
+    "издавать",
+    "газету"
+   ],
+   "en": [
+    "butterfly"
+   ],
+   "pronunciation": "t'ert®"
+  },
+  {
+   "am": "կեղտ",
+   "ru": [
+    "Грязь",
+    "нечистота",
+    "Мусор",
+    "Мерзость",
+    "гнусность"
+   ],
+   "en": [
+    "dirt",
+    "stain"
+   ],
+   "pronunciation": "keght"
+  },
+  {
+   "am": "արկղ",
+   "ru": [
+    "Ящик",
+    "ларь",
+    "Касса"
+   ],
+   "en": [
+    "box"
+   ],
+   "pronunciation": "arkgh"
+  },
+  {
+   "am": "ատել",
+   "ru": [
+    "Ненавидеть",
+    "возненавидеть",
+    "сильно"
+   ],
+   "en": [
+    "hate"
+   ],
+   "pronunciation": "atel"
+  },
+  {
+   "am": "անցք",
+   "ru": [
+    "Происшествие",
+    "событие",
+    "случай"
+   ],
+   "en": [
+    "breach"
+   ],
+   "pronunciation": "ants*q"
+  },
+  {
+   "am": "նվեր",
+   "ru": [
+    "Подарок",
+    "дар",
+    "подношение",
+    "приношение",
+    "преподношение"
+   ],
+   "en": [
+    "gift",
+    "present"
+   ],
+   "pronunciation": "nver"
+  },
+  {
+   "am": "հաստ",
+   "ru": [
+    "Толстый",
+    "Густой",
+    "голос",
+    "все",
+    "одно"
+   ],
+   "en": [
+    "thick"
+   ],
+   "pronunciation": "hast"
+  },
+  {
+   "am": "լայն",
+   "ru": [
+    "Широкий",
+    "Широко",
+    "широкое",
+    "потребление",
+    "найти"
+   ],
+   "en": [
+    "wide",
+    "good"
+   ],
+   "pronunciation": "layn"
+  },
+  {
+   "am": "բարի",
+   "ru": [
+    "Добрый",
+    "сердечный",
+    "человек",
+    "добрая",
+    "весть"
+   ],
+   "en": [
+    "be",
+    "angry"
+   ],
+   "pronunciation": "barkanal"
+  },
+  {
+   "am": "գինի",
+   "ru": [
+    "Вино",
+    "ударило",
+    "голову",
+    "предаваться",
+    "пьянству"
+   ],
+   "en": [
+    "wine"
+   ],
+   "pronunciation": "gini"
+  },
+  {
+   "am": "բարդ",
+   "ru": [
+    "Сложный",
+    "сложное",
+    "слово",
+    "предложение",
+    "тройное"
+   ],
+   "en": [
+    "comlicate"
+   ],
+   "pronunciation": "bardats‘nel"
+  },
+  {
+   "am": "գոնե",
+   "ru": [
+    "Хоть",
+    "хотя",
+    "бы",
+    "по",
+    "крайней"
+   ],
+   "en": [
+    "if",
+    "only",
+    "at",
+    "least"
+   ],
+   "pronunciation": "gone"
+  },
+  {
+   "am": "պարզ",
+   "ru": [
+    "Ясный",
+    "Светлый",
+    "Чистый",
+    "прозрачный",
+    "Простой"
+   ],
+   "en": [
+    "clear",
+    "simple"
+   ],
+   "pronunciation": "parz"
+  },
+  {
+   "am": "բանտ",
+   "ru": [
+    "Тюрьма",
+    "Диктаторский",
+    "режим",
+    "полицейская",
+    "диктатура"
+   ],
+   "en": [
+    "jail",
+    "prison",
+    "word",
+    "dictionary",
+    "basketball"
+   ],
+   "pronunciation": "bant"
+  },
+  {
+   "am": "պետք",
+   "ru": [
+    "Нужда",
+    "надобность",
+    "необходимость",
+    "Потребность",
+    "Нужный"
+   ],
+   "en": [
+    "must"
+   ],
+   "pronunciation": "petq \nplanavorel"
+  },
+  {
+   "am": "գդալ",
+   "ru": [
+    "Ложка",
+    "ложку",
+    "сующий",
+    "всюду",
+    "свой"
+   ],
+   "en": [
+    "beautiful"
+   ],
+   "pronunciation": "geghets‘ik"
+  },
+  {
+   "am": "գնալ",
+   "ru": [
+    "Идти",
+    "пойти",
+    "Отправляться",
+    "отправиться",
+    "отбывать"
+   ],
+   "en": [
+    "fo",
+    "go"
+   ],
+   "pronunciation": "gnahatel"
+  },
+  {
+   "am": "քնել",
+   "ru": [
+    "Спать",
+    "уснуть",
+    "заснуть",
+    "мёртвым",
+    "последним"
+   ],
+   "en": [
+    "sleep"
+   ],
+   "pronunciation": "qnel"
+  },
+  {
+   "am": "աղաց",
+   "ru": [
+    "Мельница"
+   ],
+   "en": [
+    "mill"
+   ],
+   "pronunciation": "aghal"
+  },
+  {
+   "am": "ձայն",
+   "ru": [
+    "Звук",
+    "Голос",
+    "Мнение",
+    "суждение",
+    "высказывание"
+   ],
+   "en": [
+    "voice"
+   ],
+   "pronunciation": "zZaynagrel"
+  },
+  {
+   "am": "զենք",
+   "ru": [
+    "Оружие",
+    "Вооружение",
+    "взяться",
+    "за",
+    "прибегнуть"
+   ],
+   "en": [
+    "soldier"
+   ],
+   "pronunciation": "zinvor"
+  },
+  {
+   "am": "ժպիտ",
+   "ru": [
+    "Улыбка"
+   ],
+   "en": [
+    "smile"
+   ],
+   "pronunciation": "zhpit"
+  },
+  {
+   "am": "եփել",
+   "ru": [
+    "Варить",
+    "сварить",
+    "Печь",
+    "испечь"
+   ],
+   "en": [
+    "cook"
+   ],
+   "pronunciation": "yep‘el"
+  },
+  {
+   "am": "բայց",
+   "ru": [
+    "Но",
+    "зато",
+    "однако",
+    "же",
+    "да"
+   ],
+   "en": [
+    "thing",
+    "object"
+   ],
+   "pronunciation": "ban"
+  },
+  {
+   "am": "վարդ",
+   "ru": [
+    "Роза",
+    "розан",
+    "носовой",
+    "платок",
+    "красные"
+   ],
+   "en": [
+    "drive"
+   ],
+   "pronunciation": "varel"
+  },
+  {
+   "am": "որդի",
+   "ru": [
+    "Сын",
+    "Дитя",
+    "сынок",
+    "Наследник",
+    "из"
+   ],
+   "en": [
+    "son",
+    "some"
+   ],
+   "pronunciation": "vordi"
+  },
+  {
+   "am": "ագահ",
+   "ru": [
+    "Жадный",
+    "ненасытный",
+    "алчный",
+    "прожорливый",
+    "обжорливый"
+   ],
+   "en": [
+    "greedy"
+   ],
+   "pronunciation": "agah"
+  },
+  {
+   "am": "միշտ",
+   "ru": [
+    "Всегда",
+    "постоянно",
+    "всё",
+    "время"
+   ],
+   "en": [
+    "always",
+    "forever",
+    "corridor"
+   ],
+   "pronunciation": "misht"
+  },
+  {
+   "am": "խմել",
+   "ru": [
+    "Пить",
+    "выпить",
+    "Употреблять",
+    "спиртные",
+    "напитки"
+   ],
+   "en": [
+    "drink",
+    "beverages"
+   ],
+   "pronunciation": "xmel"
+  },
+  {
+   "am": "եռալ",
+   "ru": [
+    "Кипеть",
+    "вскипать",
+    "вскипеть",
+    "вода",
+    "кипит"
+   ],
+   "en": [
+    "boil"
+   ],
+   "pronunciation": "yer‘al"
+  },
+  {
+   "am": "կլոր",
+   "ru": [
+    "Круглый",
+    "год",
+    "круглая",
+    "цифра",
+    "за"
+   ],
+   "en": [
+    "round",
+    "circular"
+   ],
+   "pronunciation": "klor"
+  },
+  {
+   "am": "նման",
+   "ru": [
+    "Похожий",
+    "схожий",
+    "сходный",
+    "аналогичный",
+    "подобный"
+   ],
+   "en": [
+    "alike",
+    "similar"
+   ],
+   "pronunciation": "nman"
+  },
+  {
+   "am": "շտապ",
+   "ru": [
+    "Срочный",
+    "скорый",
+    "экстренный",
+    "спешный",
+    "Быстрый"
+   ],
+   "en": [
+    "hurry",
+    "up",
+    "surroundings"
+   ],
+   "pronunciation": "shtapel"
+  },
+  {
+   "am": "հենց",
+   "ru": [
+    "Только",
+    "лишь",
+    "Как",
+    "раз",
+    "Именно"
+   ],
+   "en": [
+    "easy",
+    "telephone"
+   ],
+   "pronunciation": "hesht"
+  },
+  {
+   "am": "հետո",
+   "ru": [
+    "Потом",
+    "после",
+    "затем",
+    "впоследствии",
+    "дальше"
+   ],
+   "en": [
+    "after"
+   ],
+   "pronunciation": "heto"
+  },
+  {
+   "am": "միակ",
+   "ru": [
+    "Единственный",
+    "один-единственный"
+   ],
+   "en": [
+    "only",
+    "unique"
+   ],
+   "pronunciation": "miak"
+  },
+  {
+   "am": "դեղձ",
+   "ru": [
+    "Персик",
+    "персиковое",
+    "варенье"
+   ],
+   "en": [
+    "against"
+   ],
+   "pronunciation": "dem"
+  },
+  {
+   "am": "իրար",
+   "ru": [
+    "Друг",
+    "друга",
+    "другу",
+    "сговориться",
+    "стакнуться"
+   ],
+   "en": [
+    "one",
+    "another",
+    "each",
+    "other",
+    "himself"
+   ],
+   "pronunciation": "irar"
+  },
+  {
+   "am": "անել",
+   "ru": [
+    "Безвыходный",
+    "безвыходное",
+    "положение"
+   ],
+   "en": [
+    "do",
+    "make"
+   ],
+   "pronunciation": "anéndhat"
+  },
+  {
+   "am": "փոշի",
+   "ru": [
+    "Пыль",
+    "Порошок",
+    "Пыльца",
+    "пылинка",
+    "Мука"
+   ],
+   "en": [
+    "belly"
+   ],
+   "pronunciation": "por"
+  },
+  {
+   "am": "կղզի",
+   "ru": [
+    "Остров"
+   ],
+   "en": [
+    "island"
+   ],
+   "pronunciation": "kghzi"
+  },
+  {
+   "am": "զանգ",
+   "ru": [
+    "Колокол",
+    "Звонок",
+    "Звон",
+    "звонить",
+    "позвонить"
+   ],
+   "en": [
+    "bell"
+   ],
+   "pronunciation": "zang"
+  },
+  {
+   "am": "ստել",
+   "ru": [
+    "Врать",
+    "соврать",
+    "лгать",
+    "солгать"
+   ],
+   "en": [
+    "tell",
+    "lie"
+   ],
+   "pronunciation": "stel"
+  },
+  {
+   "am": "լուր",
+   "ru": [
+    "Будничный",
+    "день"
+   ],
+   "en": [
+    "serious"
+   ],
+   "pronunciation": "խոյ"
+  },
+  {
+   "am": "թվալ",
+   "ru": [
+    "Казаться",
+    "показаться",
+    "мне",
+    "кажется",
+    "что"
+   ],
+   "en": [
+    "fo",
+    "seem"
+   ],
+   "pronunciation": "t‘val"
+  },
+  {
+   "am": "տոմս",
+   "ru": [
+    "Билет",
+    "Записка"
+   ],
+   "en": [
+    "ticket"
+   ],
+   "pronunciation": "toms"
+  },
+  {
+   "am": "առաջ",
+   "ru": [
+    "Перед",
+    "кем-л",
+    "чём-л",
+    "напротив",
+    "впереди"
+   ],
+   "en": [
+    "fo",
+    "suggest"
+   ],
+   "pronunciation": "ar‘ajarkel"
+  },
+  {
+   "am": "սրահ",
+   "ru": [
+    "Зал",
+    "Салон",
+    "гостиная",
+    "зала",
+    "Холл"
+   ],
+   "en": [
+    "hall"
+   ],
+   "pronunciation": "srah"
+  },
+  {
+   "am": "սխալ",
+   "ru": [
+    "Ошибка",
+    "погрешность",
+    "Промах",
+    "оплошность",
+    "Ошибочный"
+   ],
+   "en": [
+    "begin",
+    "start"
+   ],
+   "pronunciation": "sksel"
+  },
+  {
+   "am": "լսել",
+   "ru": [
+    "Слышать",
+    "услышать",
+    "слыхать",
+    "услыхать",
+    "Слушать"
+   ],
+   "en": [
+    "hear"
+   ],
+   "pronunciation": "Isel"
+  },
+  {
+   "am": "առիթ",
+   "ru": [
+    "Повод",
+    "предлог",
+    "разногласиям",
+    "дать",
+    "подать"
+   ],
+   "en": [
+    "occasion"
+   ],
+   "pronunciation": "ar‘it*"
+  },
+  {
+   "am": "զգալ",
+   "ru": [
+    "Чувствовать",
+    "почувствовать",
+    "испытывать",
+    "испытать",
+    "ощущать"
+   ],
+   "en": [
+    "sense",
+    "feeling"
+   ],
+   "pronunciation": "zgats*munq"
+  },
+  {
+   "am": "քեռի",
+   "ru": [
+    "Дядя"
+   ],
+   "en": [
+    "uncle"
+   ],
+   "pronunciation": "qer‘i"
+  },
+  {
+   "am": "ծխել",
+   "ru": [
+    "Курить",
+    "покурить",
+    "сжигать",
+    "Благоухать",
+    "Бранить"
+   ],
+   "en": [
+    "birth-place"
+   ],
+   "pronunciation": "tsnndavayr"
+  },
+  {
+   "am": "կողմ",
+   "ru": [
+    "Сторона",
+    "Край",
+    "земля",
+    "высказываться",
+    "высказаться"
+   ],
+   "en": [
+    "side"
+   ],
+   "pronunciation": "koghm"
+  },
+  {
+   "am": "կծու",
+   "ru": [
+    "Горький",
+    "острый",
+    "пряный",
+    "Едкий",
+    "колкий"
+   ],
+   "en": [
+    "sharp",
+    "piquant",
+    "spicy"
+   ],
+   "pronunciation": "ktsu"
+  },
+  {
+   "am": "թանկ",
+   "ru": [
+    "Дорогой",
+    "дорогостоящий",
+    "товар",
+    "Драгоценный",
+    "Дорого"
+   ],
+   "en": [
+    "expensive"
+   ],
+   "pronunciation": "t‘ank"
+  },
+  {
+   "am": "չորս",
+   "ru": [
+    "Четыре",
+    "Четвёрка",
+    "вокруг",
+    "кругом",
+    "окружать"
+   ],
+   "en": [
+    "vanish",
+    "disappear"
+   ],
+   "pronunciation": "ch‘ qanal"
+  },
+  {
+   "am": "մարտ",
+   "ru": [
+    "Март"
+   ],
+   "en": [
+    "clean"
+   ],
+   "pronunciation": "magqrel"
+  },
+  {
+   "am": "կծել",
+   "ru": [
+    "Кусать",
+    "укусить",
+    "кусаться",
+    "откусывать",
+    "откусить"
+   ],
+   "en": [
+    "bite",
+    "sting"
+   ],
+   "pronunciation": "ktsel"
+  },
+  {
+   "am": "աստղ",
+   "ru": [
+    "Звезда",
+    "родиться",
+    "под",
+    "счастливой",
+    "звездой"
+   ],
+   "en": [
+    "star",
+    "observatory",
+    "god"
+   ],
+   "pronunciation": "astghaditaran"
+  },
+  {
+   "am": "խառը",
+   "ru": [
+    "Смешанный",
+    "смешанное",
+    "население",
+    "Запутанный",
+    "неясный"
+   ],
+   "en": [
+    "mixed",
+    "blend"
+   ],
+   "pronunciation": "xar‘é"
+  },
+  {
+   "am": "խիստ",
+   "ru": [
+    "Строгий",
+    "выговор",
+    "Суровый",
+    "Резкий",
+    "Строго"
+   ],
+   "en": [
+    "strict",
+    "severe"
+   ],
+   "pronunciation": "xist"
+  },
+  {
+   "am": "տգեղ",
+   "ru": [
+    "Некрасивый",
+    "Некрасиво"
+   ],
+   "en": [
+    "ugly"
+   ],
+   "pronunciation": "tgegh"
+  },
+  {
+   "am": "գնել",
+   "ru": [
+    "Покупать",
+    "купить",
+    "Приобретать",
+    "приобрести",
+    "Подкупать"
+   ],
+   "en": [
+    "buy",
+    "buyer"
+   ],
+   "pronunciation": "gnel"
+  },
+  {
+   "am": "աղալ",
+   "ru": [
+    "Молоть",
+    "смолоть",
+    "кофе",
+    "Жевать"
+   ],
+   "en": [
+    "noise"
+   ],
+   "pronunciation": "aghmuk"
+  },
+  {
+   "am": "հեշտ",
+   "ru": [
+    "Лёгкий",
+    "нетрудный",
+    "Легко",
+    "нетрудно",
+    "сказать"
+   ],
+   "en": [
+    "easy",
+    "telephone"
+   ],
+   "pronunciation": "hesht"
+  },
+  {
+   "am": "ատամ",
+   "ru": [
+    "Зуб",
+    "зубец",
+    "Заострённые",
+    "части",
+    "крепостной"
+   ],
+   "en": [
+    "tooth"
+   ],
+   "pronunciation": "atam \natamnabuy \nzh"
+  },
+  {
+   "am": "խաղալ",
+   "ru": [
+    "Играть",
+    "Плясать",
+    "танцевать",
+    "на",
+    "сцене"
+   ],
+   "en": [
+    "play"
+   ],
+   "pronunciation": "xaghal"
+  },
+  {
+   "am": "խղճալ",
+   "ru": [
+    "Жалеть",
+    "испытывать",
+    "жалость",
+    "кому",
+    "пожалеть"
+   ],
+   "en": [
+    "pity"
+   ],
+   "pronunciation": "xghchal"
+  },
+  {
+   "am": "պարտք",
+   "ru": [
+    "Долг",
+    "Обязанность",
+    "брать",
+    "взять",
+    "занимать"
+   ],
+   "en": [
+    "debt"
+   ],
+   "pronunciation": "partq \npetut*yun"
+  },
+  {
+   "am": "գնդակ",
+   "ru": [
+    "Пуля",
+    "Снаряд",
+    "Шар",
+    "Мяч",
+    "стрелять"
+   ],
+   "en": [
+    "ball"
+   ],
+   "pronunciation": "endak"
+  },
+  {
+   "am": "ժպտալ",
+   "ru": [
+    "Улыбаться",
+    "улыбнуться"
+   ],
+   "en": [
+    "smile"
+   ],
+   "pronunciation": "zhptal"
+  },
+  {
+   "am": "խնձոր",
+   "ru": [
+    "Яблоко",
+    "как",
+    "две",
+    "капли",
+    "воды"
+   ],
+   "en": [
+    "apple"
+   ],
+   "pronunciation": "xnz‘or"
+  },
+  {
+   "am": "կրթել",
+   "ru": [
+    "Воспитывать",
+    "воспитать",
+    "Давать",
+    "дать",
+    "образование"
+   ],
+   "en": [
+    "educate",
+    "education"
+   ],
+   "pronunciation": "krt‘el"
+  },
+  {
+   "am": "երկար",
+   "ru": [
+    "Длинный",
+    "имеющий",
+    "большую",
+    "длину",
+    "Долгий"
+   ],
+   "en": [
+    "long"
+   ],
+   "pronunciation": "yerkar"
+  },
+  {
+   "am": "պարոն",
+   "ru": [
+    "Господин",
+    "Барин",
+    "Сударь",
+    "госпожа",
+    "барыня"
+   ],
+   "en": [
+    "mister",
+    "sir",
+    "obligatory"
+   ],
+   "pronunciation": "paron"
+  },
+  {
+   "am": "միայն",
+   "ru": [
+    "Только",
+    "лишь",
+    "Всего",
+    "Однако"
+   ],
+   "en": [
+    "only"
+   ],
+   "pronunciation": "miayn"
+  },
+  {
+   "am": "հազիվ",
+   "ru": [
+    "Только",
+    "что",
+    "Еле",
+    "еле-еле",
+    "едва"
+   ],
+   "en": [
+    "hardly",
+    "scarcely"
+   ],
+   "pronunciation": "haziv"
+  },
+  {
+   "am": "մթնել",
+   "ru": [
+    "Темнеть",
+    "потемнеть",
+    "стемнеть",
+    "небо",
+    "овчинку"
+   ],
+   "en": [
+    "get",
+    "dark"
+   ],
+   "pronunciation": "mt‘nel"
+  },
+  {
+   "am": "կտրել",
+   "ru": [
+    "Резать",
+    "отрезать",
+    "Делить",
+    "разделить",
+    "Чеканить"
+   ],
+   "en": [
+    "cut"
+   ],
+   "pronunciation": "ktrel"
+  },
+  {
+   "am": "հանել",
+   "ru": [
+    "Вынимать",
+    "вынуть",
+    "вытаскивать",
+    "вытащить",
+    "извлекать"
+   ],
+   "en": [
+    "meet"
+   ],
+   "pronunciation": "handipel"
+  },
+  {
+   "am": "լուրջ",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "abandon",
+    "leave"
+   ],
+   "pronunciation": "Iqel"
+  },
+  {
+   "am": "դիվան",
+   "ru": [
+    "Диван"
+   ],
+   "en": [
+    "put",
+    "school"
+   ],
+   "pronunciation": "dnel"
+  },
+  {
+   "am": "ագռավ",
+   "ru": [
+    "Ворона",
+    "Пики",
+    "каркать",
+    "как",
+    "вороной"
+   ],
+   "en": [
+    "crow",
+    "raven"
+   ],
+   "pronunciation": "agrav"
+  },
+  {
+   "am": "տխուր",
+   "ru": [
+    "Грустный",
+    "печальный",
+    "тоскливый",
+    "мрачный",
+    "Унылый"
+   ],
+   "en": [
+    "sad",
+    "cheerless"
+   ],
+   "pronunciation": "txur"
+  },
+  {
+   "am": "նետել",
+   "ru": [
+    "Бросать",
+    "бросить",
+    "метать",
+    "метнуть",
+    "кидать"
+   ],
+   "en": [
+    "throw"
+   ],
+   "pronunciation": "netel"
+  },
+  {
+   "am": "աքլոր",
+   "ru": [
+    "Петух",
+    "задира",
+    "забияка",
+    "драчун"
+   ],
+   "en": [
+    "cock"
+   ],
+   "pronunciation": "aqlor"
+  },
+  {
+   "am": "խոսել",
+   "ru": [
+    "Говорить",
+    "поговорить",
+    "разговаривать",
+    "Владеть"
+   ],
+   "en": [
+    "speak",
+    "talk"
+   ],
+   "pronunciation": "xosel"
+  },
+  {
+   "am": "հեռու",
+   "ru": [
+    "Далёкий",
+    "дальний",
+    "Даль",
+    "горизонт",
+    "простор"
+   ],
+   "en": [
+    "distant",
+    "far",
+    "away"
+   ],
+   "pronunciation": "her‘u"
+  },
+  {
+   "am": "պահել",
+   "ru": [
+    "Хранить",
+    "сохранять",
+    "соблюдать",
+    "соблюсти",
+    "Содержать"
+   ],
+   "en": [
+    "keep"
+   ],
+   "pronunciation": "pahel"
+  },
+  {
+   "am": "դժվար",
+   "ru": [
+    "Трудный",
+    "тяжёлый",
+    "затруднительный",
+    "обременительный",
+    "мучительный"
+   ],
+   "en": [
+    "sofa"
+   ],
+   "pronunciation": "divan"
+  },
+  {
+   "am": "լողալ",
+   "ru": [
+    "Плавать",
+    "Плыть",
+    "поплыть",
+    "купаться",
+    "золоте"
+   ],
+   "en": [
+    "swim"
+   ],
+   "pronunciation": "loghal"
+  },
+  {
+   "am": "բաժին",
+   "ru": [
+    "Часть",
+    "Отдел",
+    "народного",
+    "образования",
+    "Раздел"
+   ],
+   "en": [
+    "share",
+    "part",
+    "owner",
+    "cherry",
+    "balcony"
+   ],
+   "pronunciation": "bazhin"
+  },
+  {
+   "am": "մրսել",
+   "ru": [
+    "Зябнуть",
+    "озябнуть",
+    "Простуживаться",
+    "простужаться",
+    "простудиться"
+   ],
+   "en": [
+    "catch",
+    "cold"
+   ],
+   "pronunciation": "mrsel"
+  },
+  {
+   "am": "ստվեր",
+   "ru": [
+    "Тень",
+    "бросать",
+    "кидать",
+    "на",
+    "кого-л"
+   ],
+   "en": [
+    "shade"
+   ],
+   "pronunciation": "stver"
+  },
+  {
+   "am": "զգեստ",
+   "ru": [
+    "Одежда",
+    "платье",
+    "Одеяние",
+    "костюме",
+    "Адама"
+   ],
+   "en": [
+    "dress",
+    "clothes"
+   ],
+   "pronunciation": "zgest"
+  },
+  {
+   "am": "ապակի",
+   "ru": [
+    "Стекло",
+    "вставить",
+    "Листовое",
+    "Ламповое",
+    "богемское"
+   ],
+   "en": [
+    "glass"
+   ],
+   "pronunciation": "apaki"
+  },
+  {
+   "am": "հազալ",
+   "ru": [
+    "Кашлять"
+   ],
+   "en": [
+    "cough",
+    "thousand"
+   ],
+   "pronunciation": "hazal"
+  },
+  {
+   "am": "կենաց",
+   "ru": [
+    "Тост",
+    "здравица",
+    "Животворный",
+    "животворящий",
+    "провозгласить"
+   ],
+   "en": [
+    "toast"
+   ],
+   "pronunciation": "kenats‘"
+  },
+  {
+   "am": "անմեղ",
+   "ru": [
+    "Невинный",
+    "невиновный",
+    "безвинный",
+    "неповинный",
+    "безгрешный"
+   ],
+   "en": [
+    "innocent"
+   ],
+   "pronunciation": "anmegh"
+  },
+  {
+   "am": "դարակ",
+   "ru": [
+    "Полка",
+    "этажерка",
+    "Выдвижной",
+    "ящик",
+    "стола"
+   ],
+   "en": [
+    "age"
+   ],
+   "pronunciation": "darashrjan"
+  },
+  {
+   "am": "բացել",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "fo",
+    "open"
+   ],
+   "pronunciation": "bats‘el"
+  },
+  {
+   "am": "համեղ",
+   "ru": [
+    "Вкусный",
+    "лакомый",
+    "аппетитный",
+    "Смачный",
+    "сочный"
+   ],
+   "en": [
+    "tasty",
+    "delicious"
+   ],
+   "pronunciation": "hamegh"
+  },
+  {
+   "am": "բարակ",
+   "ru": [
+    "Борзая",
+    "Гончая",
+    "охота",
+    "борзыми"
+   ],
+   "en": [
+    "thin"
+   ],
+   "pronunciation": "barak"
+  },
+  {
+   "am": "թույլ",
+   "ru": [
+    "Слабый",
+    "Слабо",
+    "оказаться",
+    "слабым",
+    "разрешить"
+   ],
+   "en": [
+    "allow"
+   ],
+   "pronunciation": "t‘uylatrel"
+  },
+  {
+   "am": "խաբել",
+   "ru": [
+    "Обманывать",
+    "обмануть",
+    "надувать",
+    "надуть",
+    "обжуливать"
+   ],
+   "en": [
+    "lie",
+    "deceive"
+   ],
+   "pronunciation": "xagh"
+  },
+  {
+   "am": "շողալ",
+   "ru": [
+    "Сиять",
+    "просиять",
+    "засветиться",
+    "сверкать",
+    "засверкать"
+   ],
+   "en": [
+    "shine"
+   ],
+   "pronunciation": "shoghal"
+  },
+  {
+   "am": "գավառ",
+   "ru": [
+    "Уезд",
+    "провинция",
+    "Захолустье",
+    "глушь",
+    "глухомань"
+   ],
+   "en": [
+    "bear"
+   ],
+   "pronunciation": "gavar*"
+  },
+  {
+   "am": "անվախ",
+   "ru": [
+    "Бесстрашный",
+    "безбоязненный",
+    "неустрашимый",
+    "Бесстрашно",
+    "безбоязненно"
+   ],
+   "en": [
+    "endless",
+    "harmless"
+   ],
+   "pronunciation": "anver"
+  },
+  {
+   "am": "բնազդ",
+   "ru": [
+    "Инстинкт",
+    "бессознательное",
+    "безотчётное",
+    "непреодолимое",
+    "влечение"
+   ],
+   "en": [
+    "natural"
+   ],
+   "pronunciation": "bnakan"
+  },
+  {
+   "am": "մուտք",
+   "ru": [
+    "Вход",
+    "въезд",
+    "Приход",
+    "поступление",
+    "заприходовать"
+   ],
+   "en": [
+    "entrance"
+   ],
+   "pronunciation": "mutq"
+  },
+  {
+   "am": "ճաշել",
+   "ru": [
+    "Обедать",
+    "пообедать",
+    "столоваться"
+   ],
+   "en": [
+    "have",
+    "dinner"
+   ],
+   "pronunciation": "chashel"
+  },
+  {
+   "am": "սրբել",
+   "ru": [
+    "Вытирать",
+    "вытереть",
+    "Чистить",
+    "почистить",
+    "вычищать"
+   ],
+   "en": [
+    "clean"
+   ],
+   "pronunciation": "srbel"
+  },
+  {
+   "am": "ծնվել",
+   "ru": [
+    "Рождаться",
+    "родиться",
+    "Происходить",
+    "произойти",
+    "появляться"
+   ],
+   "en": [
+    "birth"
+   ],
+   "pronunciation": "tsnvel"
+  },
+  {
+   "am": "բարձր",
+   "ru": [
+    "Высокий",
+    "высокое",
+    "здание",
+    "высокая",
+    "местность"
+   ],
+   "en": [
+    "high"
+   ],
+   "pronunciation": "barz‘r"
+  },
+  {
+   "am": "նամակ",
+   "ru": [
+    "Письмо",
+    "Послание",
+    "открытка",
+    "открытое"
+   ],
+   "en": [
+    "letter"
+   ],
+   "pronunciation": "namak"
+  },
+  {
+   "am": "կատու",
+   "ru": [
+    "Кошка",
+    "кот",
+    "между",
+    "ними",
+    "пробежала"
+   ],
+   "en": [
+    "cat"
+   ],
+   "pronunciation": "katu"
+  },
+  {
+   "am": "արմատ",
+   "ru": [
+    "Корень",
+    "корни",
+    "дерева",
+    "зуба",
+    "зла"
+   ],
+   "en": [
+    "root",
+    "elbow",
+    "blood"
+   ],
+   "pronunciation": "armat"
+  },
+  {
+   "am": "իրենք",
+   "ru": [
+    "Сами"
+   ],
+   "en": [
+    "themselves"
+   ],
+   "pronunciation": "ireng"
+  },
+  {
+   "am": "միջատ",
+   "ru": [
+    "Насекомое"
+   ],
+   "en": [
+    "insect"
+   ],
+   "pronunciation": "mijat"
+  },
+  {
+   "am": "լինել",
+   "ru": [
+    "Бывать",
+    "быть",
+    "Случаться",
+    "случиться",
+    "Находиться"
+   ],
+   "en": [
+    "be"
+   ],
+   "pronunciation": "linel"
+  },
+  {
+   "am": "ուզել",
+   "ru": [
+    "Желать",
+    "пожелать",
+    "хотеть",
+    "захотеть",
+    "искать"
+   ],
+   "en": [
+    "fo",
+    "want"
+   ],
+   "pronunciation": "uzel"
+  },
+  {
+   "am": "կախել",
+   "ru": [
+    "Вешать",
+    "повесить",
+    "Подвешивать",
+    "подвесить"
+   ],
+   "en": [
+    "hang",
+    "up"
+   ],
+   "pronunciation": "kaxel"
+  },
+  {
+   "am": "ապրել",
+   "ru": [
+    "Жить",
+    "пожить",
+    "проживать",
+    "прожить",
+    "существовать"
+   ],
+   "en": [
+    "illegal"
+   ],
+   "pronunciation": "apo‘rini"
+  },
+  {
+   "am": "կապել",
+   "ru": [
+    "Завязывать",
+    "завязать",
+    "Связывать",
+    "связать",
+    "Привязывать"
+   ],
+   "en": [
+    "tie",
+    "monkey",
+    "bundle"
+   ],
+   "pronunciation": "kapik"
+  },
+  {
+   "am": "ծախել",
+   "ru": [
+    "Продавать",
+    "продать",
+    "Сбывать",
+    "сбыть",
+    "рук"
+   ],
+   "en": [
+    "sale"
+   ],
+   "pronunciation": "tsaxel"
+  },
+  {
+   "am": "գազան",
+   "ru": [
+    "Зверь",
+    "зверюга",
+    "животное",
+    "варвар",
+    "жестокий"
+   ],
+   "en": [
+    "beast"
+   ],
+   "pronunciation": "gazan"
+  },
+  {
+   "am": "զատիկ",
+   "ru": [
+    "Божья",
+    "коровка"
+   ],
+   "en": [
+    "easter"
+   ],
+   "pronunciation": "zatik"
+  },
+  {
+   "am": "ուժեղ",
+   "ru": [
+    "Сильный",
+    "Сильно",
+    "победить",
+    "одержать",
+    "победу"
+   ],
+   "en": [
+    "strong"
+   ],
+   "pronunciation": "uzhegh"
+  },
+  {
+   "am": "սիրել",
+   "ru": [
+    "Любить",
+    "полюбить"
+   ],
+   "en": [
+    "love"
+   ],
+   "pronunciation": "sirel"
+  },
+  {
+   "am": "դուրս",
+   "ru": [
+    "Вне",
+    "за",
+    "дома",
+    "городом",
+    "Кроме"
+   ],
+   "en": [
+    "out"
+   ],
+   "pronunciation": "durs"
+  },
+  {
+   "am": "մտնել",
+   "ru": [
+    "Входить",
+    "войти",
+    "заходить",
+    "зайти",
+    "въезжать"
+   ],
+   "en": [
+    "fo",
+    "enter"
+   ],
+   "pronunciation": "mtnel"
+  },
+  {
+   "am": "հիշել",
+   "ru": [
+    "Помнить",
+    "Вспоминать",
+    "вспомнить",
+    "упоминать",
+    "упомнить"
+   ],
+   "en": [
+    "remember",
+    "memory"
+   ],
+   "pronunciation": "hishel"
+  },
+  {
+   "am": "գնացք",
+   "ru": [
+    "Поезд",
+    "состав",
+    "Походка",
+    "Шествие",
+    "процессия"
+   ],
+   "en": [
+    "train"
+   ],
+   "pronunciation": "gnats‘*q"
+  },
+  {
+   "am": "կանոն",
+   "ru": [
+    "Правило",
+    "канон"
+   ],
+   "en": [
+    "regular"
+   ],
+   "pronunciation": "kanon"
+  },
+  {
+   "am": "ուտել",
+   "ru": [
+    "Есть",
+    "съедать",
+    "съесть",
+    "кушать",
+    "покушать"
+   ],
+   "en": [
+    "eat",
+    "where"
+   ],
+   "pronunciation": "utel"
+  },
+  {
+   "am": "որսալ",
+   "ru": [
+    "Ловить",
+    "вылавливать",
+    "выловить",
+    "излавливать",
+    "изловить"
+   ],
+   "en": [
+    "hunt",
+    "where",
+    "how",
+    "many",
+    "much"
+   ],
+   "pronunciation": "vosal"
+  },
+  {
+   "am": "տարիք",
+   "ru": [
+    "Возраст",
+    "вступать",
+    "вступить",
+    "входить",
+    "войти"
+   ],
+   "en": [
+    "age"
+   ],
+   "pronunciation": "tariq"
+  },
+  {
+   "am": "նուրբ",
+   "ru": [
+    "Тонкий",
+    "Мелкий",
+    "Нежный",
+    "изящный",
+    "Изощрённый"
+   ],
+   "en": [
+    "subtle"
+   ],
+   "pronunciation": "nurb"
+  },
+  {
+   "am": "կամաց",
+   "ru": [
+    "Тихонько",
+    "осторожно",
+    "спокойно",
+    "Тихо",
+    "негромко"
+   ],
+   "en": [
+    "bridge"
+   ],
+   "pronunciation": "kamurj"
+  },
+  {
+   "am": "պարել",
+   "ru": [
+    "Танцевать",
+    "станцевать",
+    "Плясать",
+    "поплясать",
+    "отплясывать"
+   ],
+   "en": [
+    "dance"
+   ],
+   "pronunciation": "parel"
+  },
+  {
+   "am": "կապոց",
+   "ru": [
+    "Связка",
+    "Узел",
+    "Пучок",
+    "пук"
+   ],
+   "en": [
+    "blue",
+    "government",
+    "building"
+   ],
+   "pronunciation": "kapuyt"
+  },
+  {
+   "am": "սովոր",
+   "ru": [
+    "Привычный",
+    "обычный",
+    "Привыкший"
+   ],
+   "en": [
+    "used",
+    "to"
+   ],
+   "pronunciation": "sovor"
+  },
+  {
+   "am": "անտիկ",
+   "ru": [
+    "Античный"
+   ],
+   "en": [
+    "antique"
+   ],
+   "pronunciation": "antik"
+  },
+  {
+   "am": "արխիվ",
+   "ru": [
+    "Архив",
+    "сдать",
+    "кого",
+    "что"
+   ],
+   "en": [
+    "archives"
+   ],
+   "pronunciation": "arxiv"
+  },
+  {
+   "am": "ականջ",
+   "ru": [
+    "Ухо",
+    "воспаление",
+    "уха",
+    "болит",
+    "Наушник"
+   ],
+   "en": [
+    "ear"
+   ],
+   "pronunciation": "akanj"
+  },
+  {
+   "am": "կացին",
+   "ru": [
+    "Топор"
+   ],
+   "en": [
+    "axe"
+   ],
+   "pronunciation": "kats‘in"
+  },
+  {
+   "am": "մկրատ",
+   "ru": [
+    "Ножницы"
+   ],
+   "en": [
+    "other"
+   ],
+   "pronunciation": "mkrat"
+  },
+  {
+   "am": "քաղաք",
+   "ru": [
+    "Город",
+    "град",
+    "Крепость",
+    "уездный",
+    "губернский"
+   ],
+   "en": [
+    "city"
+   ],
+   "pronunciation": "զճջիճզ"
+  },
+  {
+   "am": "ռադիո",
+   "ru": [
+    "Радио"
+   ],
+   "en": [
+    "radio"
+   ],
+   "pronunciation": "r‘adio"
+  },
+  {
+   "am": "նստել",
+   "ru": [
+    "Сидеть",
+    "садиться",
+    "сесть",
+    "Восседать",
+    "воссесть"
+   ],
+   "en": [
+    "play",
+    "music"
+   ],
+   "pronunciation": "nstel"
+  },
+  {
+   "am": "ուրախ",
+   "ru": [
+    "Весёлый",
+    "радостный",
+    "Весело",
+    "радостно",
+    "весёлая"
+   ],
+   "en": [
+    "glad",
+    "happy"
+   ],
+   "pronunciation": "urax"
+  },
+  {
+   "am": "կոպեկ",
+   "ru": [
+    "Копейка",
+    "по",
+    "копейке"
+   ],
+   "en": [
+    "rude",
+    "rough",
+    "cow"
+   ],
+   "pronunciation": "kopit"
+  },
+  {
+   "am": "կրկես",
+   "ru": [
+    "Цирк"
+   ],
+   "en": [
+    "circus"
+   ],
+   "pronunciation": "krkes"
+  },
+  {
+   "am": "խմբակ",
+   "ru": [
+    "Кружок",
+    "Группка"
+   ],
+   "en": [
+    "group",
+    "circle"
+   ],
+   "pronunciation": "xmbak"
+  },
+  {
+   "am": "բլուր",
+   "ru": [
+    "Холм",
+    "сопка",
+    "пригорок",
+    "бугор"
+   ],
+   "en": [
+    "instinct"
+   ],
+   "pronunciation": "bnazd"
+  },
+  {
+   "am": "երեկո",
+   "ru": [
+    "Вечер",
+    "добрый",
+    "наступил"
+   ],
+   "en": [
+    "evening"
+   ],
+   "pronunciation": "yereko"
+  },
+  {
+   "am": "բժիշկ",
+   "ru": [
+    "Врач",
+    "доктор",
+    "медик",
+    "Исцелитель"
+   ],
+   "en": [
+    "doctor"
+   ],
+   "pronunciation": "bzhishk"
+  },
+  {
+   "am": "շնորհակալություն",
+   "ru": [
+    "Благодарность",
+    "благодарю",
+    "спасибо",
+    "выражать",
+    "выразить"
+   ],
+   "en": [
+    "thanks"
+   ]
+  }
+ ],
+ "A2": [
+  {
+   "am": "դանակ",
+   "ru": [
+    "Нож",
+    "ножик",
+    "Лезвие",
+    "режущая",
+    "часть"
+   ],
+   "en": [
+    "knife"
+   ],
+   "pronunciation": "danak"
+  },
+  {
+   "am": "անհետ",
+   "ru": [
+    "Бесследный",
+    "бесследное",
+    "исчезновение",
+    "Бесследно",
+    "исчезнуть"
+   ],
+   "en": [
+    "traceless"
+   ],
+   "pronunciation": "anhet"
+  },
+  {
+   "am": "սալաթ",
+   "ru": [
+    "Салат"
+   ],
+   "en": [
+    "salad"
+   ],
+   "pronunciation": "sakayn"
+  },
+  {
+   "am": "հյուր",
+   "ru": [
+    "Гость",
+    "идти",
+    "гости"
+   ],
+   "en": [
+    "guest"
+   ],
+   "pronunciation": "hyuranots‘"
+  },
+  {
+   "am": "ցուրտ",
+   "ru": [
+    "Холодный",
+    "Холод",
+    "простынуть",
+    "простыть",
+    "простудиться"
+   ],
+   "en": [
+    "cold"
+   ],
+   "pronunciation": "ts‘urt"
+  },
+  {
+   "am": "անհատ",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "individual",
+    "uncomfortable",
+    "absurd"
+   ],
+   "pronunciation": "anhat"
+  },
+  {
+   "am": "շաբաթ",
+   "ru": [
+    "Суббота",
+    "Неделя",
+    "раз",
+    "неделю",
+    "понедельно"
+   ],
+   "en": [
+    "week"
+   ],
+   "pronunciation": "shabat*"
+  },
+  {
+   "am": "կարագ",
+   "ru": [
+    "Сливочное",
+    "масло"
+   ],
+   "en": [
+    "butter"
+   ],
+   "pronunciation": "karag"
+  },
+  {
+   "am": "ուղիղ",
+   "ru": [
+    "Прямой",
+    "Правильный",
+    "Прямая",
+    "Прямо",
+    "угол"
+   ],
+   "en": [
+    "straight"
+   ],
+   "pronunciation": "ughigh"
+  },
+  {
+   "am": "կոպիտ",
+   "ru": [
+    "Грубый",
+    "Грубо",
+    "Некультурный",
+    "невоспитанный",
+    "счёт"
+   ],
+   "en": [
+    "rude",
+    "rough",
+    "cow"
+   ],
+   "pronunciation": "kopit"
+  },
+  {
+   "am": "կյանք",
+   "ru": [
+    "Жизнь",
+    "особая",
+    "форма",
+    "движения",
+    "материи"
+   ],
+   "en": [
+    "life",
+    "wrinkled"
+   ],
+   "pronunciation": "kyanq"
+  },
+  {
+   "am": "խումբ",
+   "ru": [
+    "Группа",
+    "Гурьба",
+    "Компания",
+    "Команда",
+    "Отряд"
+   ],
+   "en": [
+    "avoid"
+   ],
+   "pronunciation": "xusap‘el"
+  },
+  {
+   "am": "մատիտ",
+   "ru": [
+    "Карандаш"
+   ],
+   "en": [
+    "man",
+    "person",
+    "body",
+    "march"
+   ],
+   "pronunciation": "mard"
+  },
+  {
+   "am": "անտառ",
+   "ru": [
+    "Лес",
+    "девственный",
+    "хвойный",
+    "лиственный"
+   ],
+   "en": [
+    "indifferent"
+   ],
+   "pronunciation": "antarber"
+  },
+  {
+   "am": "իզուր",
+   "ru": [
+    "Напрасно",
+    "зря",
+    "даром",
+    "тщетно"
+   ],
+   "en": [
+    "in",
+    "vain",
+    "uselessly"
+   ],
+   "pronunciation": "izur"
+  },
+  {
+   "am": "գիշեր",
+   "ru": [
+    "Ночь",
+    "Беспросветная",
+    "тяжёлая",
+    "жизнь",
+    "Старость"
+   ],
+   "en": [
+    "night"
+   ],
+   "pronunciation": "gisher"
+  },
+  {
+   "am": "կարող",
+   "ru": [
+    "Умелый",
+    "способный",
+    "Могучий",
+    "сильный",
+    "Имущий"
+   ],
+   "en": [
+    "can"
+   ],
+   "pronunciation": "karogh"
+  },
+  {
+   "am": "շնչել",
+   "ru": [
+    "Дышать",
+    "Вдыхать",
+    "вдохнуть",
+    "Дохнуть",
+    "Веять"
+   ],
+   "en": [
+    "breathe",
+    "respire"
+   ],
+   "pronunciation": "shnch‘el"
+  },
+  {
+   "am": "արծիվ",
+   "ru": [
+    "Орёл",
+    "Герб",
+    "Созвездие",
+    "Орла",
+    "Храбрец"
+   ],
+   "en": [
+    "eagle",
+    "adventure"
+   ],
+   "pronunciation": "artsiv"
+  },
+  {
+   "am": "կրկին",
+   "ru": [
+    "Опять",
+    "снова",
+    "вновь",
+    "вторично",
+    "ещё"
+   ],
+   "en": [
+    "again",
+    "double"
+   ],
+   "pronunciation": "krkin"
+  },
+  {
+   "am": "հերիք",
+   "ru": [
+    "Довольно",
+    "достаточно",
+    "хватит",
+    "полно",
+    "будет"
+   ],
+   "en": [
+    "hero"
+   ],
+   "pronunciation": "heros"
+  },
+  {
+   "am": "ձյուն",
+   "ru": [
+    "Снег",
+    "Белый",
+    "накликать",
+    "беду",
+    "поседел"
+   ],
+   "en": [
+    "snow"
+   ],
+   "pronunciation": "zyun"
+  },
+  {
+   "am": "ավլել",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "fo",
+    "sweep"
+   ],
+   "pronunciation": "avlel"
+  },
+  {
+   "am": "արձան",
+   "ru": [
+    "Статуя",
+    "мраморная",
+    "Памятник",
+    "Монумент",
+    "Надгробный"
+   ],
+   "en": [
+    "statue",
+    "figure"
+   ],
+   "pronunciation": "arz°an"
+  },
+  {
+   "am": "նիհար",
+   "ru": [
+    "Худой",
+    "тощий",
+    "отощалый",
+    "исхудалый",
+    "костлявый"
+   ],
+   "en": [
+    "thin",
+    "lean"
+   ],
+   "pronunciation": "nihar"
+  },
+  {
+   "am": "փաթեթ",
+   "ru": [
+    "Свёрток",
+    "Кроющий",
+    "лист",
+    "початка"
+   ],
+   "en": [
+    "bundle",
+    "packet"
+   ],
+   "pronunciation": "p-at‘et*"
+  },
+  {
+   "am": "կլիմա",
+   "ru": [
+    "Климат"
+   ],
+   "en": [
+    "climate"
+   ],
+   "pronunciation": "klima"
+  },
+  {
+   "am": "կարել",
+   "ru": [
+    "Карел"
+   ],
+   "en": [
+    "sew",
+    "stitch"
+   ],
+   "pronunciation": "karel"
+  },
+  {
+   "am": "բաժակ",
+   "ru": [
+    "Стакан",
+    "бокал",
+    "чашка",
+    "Чашечка",
+    "провозгласить"
+   ],
+   "en": [
+    "glass"
+   ],
+   "pronunciation": "bazhak"
+  },
+  {
+   "am": "ուրիշ",
+   "ru": [
+    "Другой",
+    "Иной",
+    "Кто-то",
+    "другими",
+    "словами"
+   ],
+   "en": [
+    "other",
+    "another"
+   ],
+   "pronunciation": "urish"
+  },
+  {
+   "am": "աշուն",
+   "ru": [
+    "Осень"
+   ],
+   "en": [
+    "qutumn",
+    "eye"
+   ],
+   "pronunciation": "ashun"
+  },
+  {
+   "am": "ապագա",
+   "ru": [
+    "Будущее",
+    "будущность",
+    "грядущее",
+    "светлое",
+    "него"
+   ],
+   "en": [
+    "glass"
+   ],
+   "pronunciation": "apaki"
+  },
+  {
+   "am": "գոռալ",
+   "ru": [
+    "Кричать",
+    "закричать",
+    "крикнуть",
+    "орать",
+    "заорать"
+   ],
+   "en": [
+    "belt"
+   ],
+   "pronunciation": "goti"
+  },
+  {
+   "am": "կանաչ",
+   "ru": [
+    "Зелёный",
+    "Зелень",
+    "трава",
+    "растительность",
+    "недозрелый"
+   ],
+   "en": [
+    "lady",
+    "feminine"
+   ],
+   "pronunciation": "kanats‘1"
+  },
+  {
+   "am": "գտնել",
+   "ru": [
+    "Находить",
+    "найти",
+    "обнаружить",
+    "отыскать",
+    "Открывать"
+   ],
+   "en": [
+    "library"
+   ],
+   "pronunciation": "gradaran"
+  },
+  {
+   "am": "ազնիվ",
+   "ru": [
+    "Честный",
+    "порядочный",
+    "человек",
+    "Высококачественный",
+    "отборный"
+   ],
+   "en": [
+    "chair",
+    "album",
+    "wave"
+   ],
+   "pronunciation": "at‘or*"
+  },
+  {
+   "am": "երկաթ",
+   "ru": [
+    "Железо",
+    "Оковы",
+    "цепь",
+    "Пули",
+    "ядра"
+   ],
+   "en": [
+    "iron"
+   ],
+   "pronunciation": "yerkat*"
+  },
+  {
+   "am": "ծարավ",
+   "ru": [
+    "Жажда",
+    "Жаждущий",
+    "крови",
+    "на",
+    "кривой"
+   ],
+   "en": [
+    "thirsty"
+   ],
+   "pronunciation": "tsarav"
+  },
+  {
+   "am": "փողոց",
+   "ru": [
+    "Улица",
+    "Рынок",
+    "базар",
+    "выбросить",
+    "на"
+   ],
+   "en": [
+    "dust"
+   ],
+   "pronunciation": "p‘oshi"
+  },
+  {
+   "am": "սունկ",
+   "ru": [
+    "Гриб",
+    "расти",
+    "вырастать",
+    "как",
+    "грибы"
+   ],
+   "en": [
+    "coffee"
+   ],
+   "pronunciation": "sunk"
+  },
+  {
+   "am": "վազել",
+   "ru": [
+    "Бегать",
+    "бежать",
+    "течь",
+    "слюнки",
+    "потекли"
+   ],
+   "en": [
+    "fo",
+    "run"
+   ],
+   "pronunciation": "vazel"
+  },
+  {
+   "am": "ծիրան",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "apricot",
+    "tobacco"
+   ],
+   "pronunciation": "tsiran"
+  },
+  {
+   "am": "օրենք",
+   "ru": [
+    "Закон",
+    "игнорировать",
+    "растоптать",
+    "прибегнуть",
+    "закону"
+   ],
+   "en": [
+    "day",
+    "by",
+    "example"
+   ],
+   "pronunciation": "o‘rets‘o‘r"
+  },
+  {
+   "am": "համար",
+   "ru": [
+    "Для",
+    "Чтобы",
+    "Ради",
+    "за",
+    "По"
+   ],
+   "en": [
+    "or",
+    "number"
+   ],
+   "pronunciation": "hamar"
+  },
+  {
+   "am": "ակնոց",
+   "ru": [
+    "Очки",
+    "надеть",
+    "носить",
+    "смотреть",
+    "сквозь"
+   ],
+   "en": [
+    "eye-glasses"
+   ],
+   "pronunciation": "aknots"
+  },
+  {
+   "am": "բերել",
+   "ru": [
+    "Приносить",
+    "принести",
+    "привозить",
+    "привезти",
+    "приводить"
+   ],
+   "en": [
+    "crop",
+    "harvest"
+   ],
+   "pronunciation": "berq"
+  },
+  {
+   "am": "գազար",
+   "ru": [
+    "Морковь",
+    "морковка"
+   ],
+   "en": [
+    "come"
+   ],
+   "pronunciation": "gal"
+  },
+  {
+   "am": "թիթեռ",
+   "ru": [
+    "Бабочка",
+    "мотылёк"
+   ],
+   "en": [
+    "butterfly"
+   ],
+   "pronunciation": "t‘it‘er®"
+  },
+  {
+   "am": "կիթառ",
+   "ru": [
+    "Гитара"
+   ],
+   "en": [
+    "guitar",
+    "woman",
+    "wife",
+    "cinema"
+   ],
+   "pronunciation": "kit‘ ar‘"
+  },
+  {
+   "am": "արծաթ",
+   "ru": [
+    "Серебро",
+    "Изделия",
+    "из",
+    "серебра",
+    "Деньги"
+   ],
+   "en": [
+    "silver"
+   ],
+   "pronunciation": "artsat*"
+  },
+  {
+   "am": "փակել",
+   "ru": [
+    "Запирать",
+    "запереть",
+    "Затворять",
+    "затворить",
+    "Закрывать"
+   ],
+   "en": [
+    "close",
+    "lock"
+   ],
+   "pronunciation": "p‘akel"
+  },
+  {
+   "am": "բրինձ",
+   "ru": [
+    "Рис",
+    "делаться",
+    "зернистым",
+    "крупчатым"
+   ],
+   "en": [
+    "rice"
+   ],
+   "pronunciation": "brinz*"
+  },
+  {
+   "am": "սեղան",
+   "ru": [
+    "Стол",
+    "Званый",
+    "обед",
+    "Алтарь",
+    "Жертвенник"
+   ],
+   "en": [
+    "table"
+   ],
+   "pronunciation": "seghan"
+  },
+  {
+   "am": "առնել",
+   "ru": [
+    "Брать",
+    "взять",
+    "руки",
+    "книгу",
+    "Покупать"
+   ],
+   "en": [
+    "to",
+    "buy",
+    "take",
+    "healthy"
+   ],
+   "pronunciation": "ar'nel"
+  },
+  {
+   "am": "լացել",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "weep",
+    "language"
+   ],
+   "pronunciation": "lats‘el"
+  },
+  {
+   "am": "չափել",
+   "ru": [
+    "Мерить",
+    "измерять",
+    "измерить",
+    "смерять",
+    "смерить"
+   ],
+   "en": [
+    "fo",
+    "measure"
+   ],
+   "pronunciation": "ch‘ap‘el"
+  },
+  {
+   "am": "անվնաս",
+   "ru": [
+    "Безвредный",
+    "неопасный",
+    "невредный",
+    "безвредное",
+    "лекарство"
+   ],
+   "en": [
+    "safe"
+   ],
+   "pronunciation": "anvtang"
+  },
+  {
+   "am": "մաքուր",
+   "ru": [
+    "Чистый",
+    "Чисто",
+    "избегать",
+    "ругани"
+   ],
+   "en": [
+    "clean",
+    "neat",
+    "tidy"
+   ],
+   "pronunciation": "maqur"
+  },
+  {
+   "am": "հուլիս",
+   "ru": [
+    "Июль"
+   ],
+   "en": [
+    "july",
+    "humour"
+   ],
+   "pronunciation": "hulis"
+  },
+  {
+   "am": "աստված",
+   "ru": [
+    "Бог",
+    "Божество",
+    "Предмет",
+    "поклонения",
+    "любви"
+   ],
+   "en": [
+    "bible",
+    "asphalt"
+   ],
+   "pronunciation": "astvaz‘ashunch‘"
+  },
+  {
+   "am": "զրույց",
+   "ru": [
+    "Беседа",
+    "Сказ",
+    "сказание",
+    "беседовать",
+    "переменить"
+   ],
+   "en": [
+    "talk"
+   ],
+   "pronunciation": "zruts‘el"
+  },
+  {
+   "am": "փափուկ",
+   "ru": [
+    "Мягкий",
+    "Нежный",
+    "Изнеженный",
+    "Щекотливый",
+    "убаюкивать"
+   ],
+   "en": [
+    "soft",
+    "delicate",
+    "february",
+    "elephant"
+   ],
+   "pronunciation": "p‘ap‘uk"
+  },
+  {
+   "am": "նվագել",
+   "ru": [
+    "Играть"
+   ],
+   "en": [
+    "play",
+    "music"
+   ],
+   "pronunciation": "nvagel"
+  },
+  {
+   "am": "հիվանդ",
+   "ru": [
+    "Больной",
+    "нездоровый",
+    "страдающий",
+    "чем",
+    "Пациент"
+   ],
+   "en": [
+    "ill",
+    "sick"
+   ],
+   "pronunciation": "hivand"
+  },
+  {
+   "am": "կանչել",
+   "ru": [
+    "Звать",
+    "позвать",
+    "призывать",
+    "призвать",
+    "подозвать"
+   ],
+   "en": [
+    "leathern"
+   ],
+   "pronunciation": "kanch‘el"
+  },
+  {
+   "am": "կրկնել",
+   "ru": [
+    "Повторять",
+    "повторить",
+    "вторить",
+    "Удваивать",
+    "удвоить"
+   ],
+   "en": [
+    "to",
+    "repeat"
+   ],
+   "pronunciation": "krknel"
+  },
+  {
+   "am": "նկատել",
+   "ru": [
+    "Замечать",
+    "заметить",
+    "наблюдать",
+    "наблюсти",
+    "примечать"
+   ],
+   "en": [
+    "notice"
+   ],
+   "pronunciation": "nkatel"
+  },
+  {
+   "am": "ծնունդ",
+   "ru": [
+    "Рождение",
+    "Роды",
+    "Дитя",
+    "Происхождение",
+    "появление"
+   ],
+   "en": [
+    "birth"
+   ],
+   "pronunciation": "tsnund"
+  },
+  {
+   "am": "կոկորդ",
+   "ru": [
+    "Горло",
+    "гортань",
+    "глотка",
+    "промочить",
+    "драть"
+   ],
+   "en": [
+    "throat",
+    "gullet"
+   ],
+   "pronunciation": "kokord"
+  },
+  {
+   "am": "խառնել",
+   "ru": [
+    "Мешать",
+    "смешивать",
+    "смешать",
+    "перемешивать",
+    "перемешать"
+   ],
+   "en": [
+    "clever"
+   ],
+   "pronunciation": "xeloq"
+  },
+  {
+   "am": "լվանալ",
+   "ru": [
+    "Мыть",
+    "помыть",
+    "вымыть",
+    "Унывать",
+    "умыть"
+   ],
+   "en": [
+    "wash"
+   ],
+   "pronunciation": "Ivanal"
+  },
+  {
+   "am": "ուրեմն",
+   "ru": [
+    "Следовательно",
+    "значит",
+    "стало",
+    "быть",
+    "поэтому"
+   ],
+   "en": [
+    "therefore",
+    "then",
+    "afterwards"
+   ],
+   "pronunciation": "uremn"
+  },
+  {
+   "am": "արդուկ",
+   "ru": [
+    "Утюг"
+   ],
+   "en": [
+    "iron"
+   ],
+   "pronunciation": "arduk"
+  },
+  {
+   "am": "հարգել",
+   "ru": [
+    "Уважать",
+    "уважить",
+    "чтить",
+    "почитать",
+    "почтить"
+   ],
+   "en": [
+    "respect",
+    "estimate",
+    "neighbouring"
+   ],
+   "pronunciation": "hargel"
+  },
+  {
+   "am": "հասնել",
+   "ru": [
+    "Доходить",
+    "дойти",
+    "Доезжать",
+    "доехать",
+    "Достигать"
+   ],
+   "en": [
+    "arrive",
+    "reach"
+   ],
+   "pronunciation": "hasnel"
+  },
+  {
+   "am": "գործիք",
+   "ru": [
+    "Инструмент",
+    "прибор",
+    "Музыкальный",
+    "Орудие",
+    "оружие"
+   ],
+   "en": [
+    "find"
+   ],
+   "pronunciation": "gtnel"
+  },
+  {
+   "am": "բարբառ",
+   "ru": [
+    "Диалект",
+    "наречие",
+    "местные",
+    "диалекты",
+    "Язык"
+   ],
+   "en": [
+    "dialect",
+    "complicated"
+   ],
+   "pronunciation": "barbar‘"
+  },
+  {
+   "am": "սեղմել",
+   "ru": [
+    "Сжимать",
+    "сжать",
+    "Жать",
+    "Пожимать",
+    "пожать"
+   ],
+   "en": [
+    "tighten",
+    "room"
+   ],
+   "pronunciation": "seghmel"
+  },
+  {
+   "am": "արվեստ",
+   "ru": [
+    "Искусство"
+   ],
+   "en": [
+    "art"
+   ],
+   "pronunciation": "arvest"
+  },
+  {
+   "am": "հայելի",
+   "ru": [
+    "Зеркало"
+   ],
+   "en": [
+    "mirror",
+    "looking",
+    "glass"
+   ],
+   "pronunciation": "hayeli"
+  },
+  {
+   "am": "թատրոն",
+   "ru": [
+    "Театр"
+   ],
+   "en": [
+    "theatre"
+   ],
+   "pronunciation": "t‘atron"
+  },
+  {
+   "am": "հալվել",
+   "ru": [
+    "Таять",
+    "растаять",
+    "снег",
+    "тает",
+    "Плавиться"
+   ],
+   "en": [
+    "melt"
+   ],
+   "pronunciation": "halvel"
+  },
+  {
+   "am": "գարուն",
+   "ru": [
+    "Весна",
+    "Счастье",
+    "Молодость",
+    "юность",
+    "Молодой"
+   ],
+   "en": [
+    "spring",
+    "spoon"
+   ],
+   "pronunciation": "garun"
+  },
+  {
+   "am": "արգելք",
+   "ru": [
+    "Препятствие",
+    "преграда",
+    "помеха",
+    "Запрёт",
+    "запрещение"
+   ],
+   "en": [
+    "obstacle",
+    "impediment"
+   ],
+   "pronunciation": "argelq"
+  },
+  {
+   "am": "տեսնել",
+   "ru": [
+    "Видеть",
+    "увидеть",
+    "встречаться",
+    "встретиться",
+    "встречать"
+   ],
+   "en": [
+    "fo",
+    "see",
+    "madam",
+    "mistress"
+   ],
+   "pronunciation": "tikin"
+  },
+  {
+   "am": "անորոշ",
+   "ru": [
+    "Неопределённый",
+    "неясный",
+    "нечёткий",
+    "неопределённое",
+    "время"
+   ],
+   "en": [
+    "indefinite",
+    "absolutely",
+    "uncommon"
+   ],
+   "pronunciation": "anorosh"
+  },
+  {
+   "am": "բացակա",
+   "ru": [
+    "Отсутствующий",
+    "он",
+    "отсутствует"
+   ],
+   "en": [
+    "exclaim"
+   ],
+   "pronunciation": "bats‘akanch‘el"
+  },
+  {
+   "am": "աղավնի",
+   "ru": [
+    "Голубь",
+    "Голубка",
+    "невинный",
+    "мира",
+    "ноев"
+   ],
+   "en": [
+    "milled",
+    "product"
+   ],
+   "pronunciation": "aghats"
+  },
+  {
+   "am": "մաքրել",
+   "ru": [
+    "Чистить",
+    "очищать",
+    "очистить"
+   ],
+   "en": [
+    "clean"
+   ],
+   "pronunciation": "magqrel"
+  },
+  {
+   "am": "կոտրել",
+   "ru": [
+    "Бить",
+    "разбивать",
+    "разбить",
+    "ломать",
+    "поломать"
+   ],
+   "en": [
+    "break",
+    "smash"
+   ],
+   "pronunciation": "kotrel"
+  },
+  {
+   "am": "դահլիճ",
+   "ru": [
+    "Зал",
+    "заседаний",
+    "Люди",
+    "зале",
+    "Зала"
+   ],
+   "en": [
+    "hall"
+   ],
+   "pronunciation": "dahlich"
+  },
+  {
+   "am": "թխվածք",
+   "ru": [
+    "Печенье",
+    "Стряпня"
+   ],
+   "en": [
+    "biscuit",
+    "enemy"
+   ],
+   "pronunciation": "t*xvatsq"
+  },
+  {
+   "am": "մտերիմ",
+   "ru": [
+    "Интимный",
+    "задушевный"
+   ],
+   "en": [
+    "intimate"
+   ],
+   "pronunciation": "mterim"
+  },
+  {
+   "am": "արագիլ",
+   "ru": [
+    "Аист"
+   ],
+   "en": [
+    "stork"
+   ],
+   "pronunciation": "aragil"
+  },
+  {
+   "am": "պայթել",
+   "ru": [
+    "Разрываться",
+    "разорваться",
+    "взрываться",
+    "взорваться",
+    "Лопнуть"
+   ],
+   "en": [
+    "burst",
+    "up",
+    "explode"
+   ],
+   "pronunciation": "payt‘el"
+  },
+  {
+   "am": "նկարել",
+   "ru": [
+    "Рисовать",
+    "нарисовать",
+    "изображать",
+    "изобразить",
+    "писать"
+   ],
+   "en": [
+    "draw",
+    "paint"
+   ],
+   "pronunciation": "nkarel"
+  },
+  {
+   "am": "բժշկել",
+   "ru": [
+    "Лечить",
+    "вылечивать",
+    "вылечить",
+    "излечивать",
+    "излечить"
+   ],
+   "en": [
+    "fo",
+    "cure"
+   ],
+   "pronunciation": "bzhshkel"
+  },
+  {
+   "am": "ներկել",
+   "ru": [
+    "Красить",
+    "покрасить",
+    "окрашивать",
+    "окрасить",
+    "Подкрашивать"
+   ],
+   "en": [
+    "paint"
+   ],
+   "pronunciation": "nerkel"
+  },
+  {
+   "am": "սիրուն",
+   "ru": [
+    "Ради",
+    "во",
+    "имя",
+    "Бога"
+   ],
+   "en": [
+    "mistake"
+   ],
+   "pronunciation": "sxal"
+  },
+  {
+   "am": "դանդաղ",
+   "ru": [
+    "Медленный",
+    "неспешный",
+    "Медленно",
+    "неспешно"
+   ],
+   "en": [
+    "slow",
+    "slowly"
+   ],
+   "pronunciation": "dandagh"
+  },
+  {
+   "am": "անապատ",
+   "ru": [
+    "Пустыня",
+    "Скит",
+    "пустынь",
+    "Пустынный",
+    "бесплодный"
+   ],
+   "en": [
+    "desert"
+   ],
+   "pronunciation": "anapat"
+  },
+  {
+   "am": "երկինք",
+   "ru": [
+    "Небо",
+    "небосвод",
+    "небеса",
+    "место",
+    "где"
+   ],
+   "en": [
+    "sky",
+    "earth",
+    "earthquake"
+   ],
+   "pronunciation": "yerking"
+  },
+  {
+   "am": "Ջութակ",
+   "ru": [
+    "Скрипка"
+   ],
+   "en": [
+    "violin"
+   ],
+   "pronunciation": "jut‘ak"
+  },
+  {
+   "am": "նվիրել",
+   "ru": [
+    "Дарить",
+    "подарить",
+    "подносить",
+    "поднести",
+    "преподносить"
+   ],
+   "en": [
+    "make",
+    "present",
+    "same"
+   ],
+   "pronunciation": "nvirel"
+  },
+  {
+   "am": "առարկա",
+   "ru": [
+    "Предмет",
+    "предметы",
+    "широкого",
+    "потребления",
+    "преподавания"
+   ],
+   "en": [
+    "object"
+   ],
+   "pronunciation": "ar‘arka"
+  },
+  {
+   "am": "հունիս",
+   "ru": [
+    "Июнь"
+   ],
+   "en": [
+    "june",
+    "january"
+   ],
+   "pronunciation": "hunis"
+  },
+  {
+   "am": "դառնալ",
+   "ru": [
+    "Превращаться",
+    "превратиться",
+    "делаться",
+    "сделаться",
+    "становиться"
+   ],
+   "en": [
+    "become"
+   ],
+   "pronunciation": "dar‘nal"
+  },
+  {
+   "am": "վճարել",
+   "ru": [
+    "Платить",
+    "заплатить",
+    "уплачивать",
+    "уплатить",
+    "оплачивать"
+   ],
+   "en": [
+    "pay"
+   ],
+   "pronunciation": "vstahel"
+  },
+  {
+   "am": "առօրյա",
+   "ru": [
+    "Обыденный",
+    "будничный",
+    "будничные",
+    "заботы",
+    "Повседневный"
+   ],
+   "en": [
+    "say",
+    "tell"
+   ],
+   "pronunciation": "asel"
+  },
+  {
+   "am": "բազմոց",
+   "ru": [
+    "Диван",
+    "кушетка",
+    "софа",
+    "диванчик"
+   ],
+   "en": [
+    "sofa",
+    "crowd"
+   ],
+   "pronunciation": "bazmots*"
+  },
+  {
+   "am": "պատժել",
+   "ru": [
+    "Наказывать",
+    "наказать",
+    "карать",
+    "покарать"
+   ],
+   "en": [
+    "punish",
+    "honour",
+    "respect"
+   ],
+   "pronunciation": "patzhel"
+  },
+  {
+   "am": "պատճառ",
+   "ru": [
+    "Причина",
+    "Повод",
+    "предлог",
+    "Цель",
+    "ссылаться"
+   ],
+   "en": [
+    "cause",
+    "reason",
+    "balcony"
+   ],
+   "pronunciation": "patchar‘"
+  },
+  {
+   "am": "ապրանք",
+   "ru": [
+    "Товар",
+    "Имущество",
+    "Скот",
+    "скотина",
+    "загнать"
+   ],
+   "en": [
+    "live"
+   ],
+   "pronunciation": "aprel"
+  },
+  {
+   "am": "խնդրել",
+   "ru": [
+    "Просить",
+    "попросить",
+    "обращаться",
+    "просьбой",
+    "кому"
+   ],
+   "en": [
+    "ask",
+    "beg"
+   ],
+   "pronunciation": "xndrel"
+  },
+  {
+   "am": "թողնել",
+   "ru": [
+    "Оставлять",
+    "оставить",
+    "Пускать",
+    "пустить",
+    "Бросать"
+   ],
+   "en": [
+    "fly",
+    "bird"
+   ],
+   "pronunciation": "t‘r‘ch‘el"
+  },
+  {
+   "am": "ակումբ",
+   "ru": [
+    "Клуб",
+    "строителей"
+   ],
+   "en": [
+    "club"
+   ],
+   "pronunciation": "akumb"
+  },
+  {
+   "am": "ամբողջ",
+   "ru": [
+    "Весь",
+    "всё",
+    "время",
+    "во",
+    "рост"
+   ],
+   "en": [
+    "all",
+    "whole",
+    "month",
+    "every"
+   ],
+   "pronunciation": "amboghj"
+  },
+  {
+   "am": "մերժել",
+   "ru": [
+    "Отказывать",
+    "отказать",
+    "отклонять",
+    "отклонить",
+    "отвергать"
+   ],
+   "en": [
+    "reject"
+   ],
+   "pronunciation": "merzhel"
+  },
+  {
+   "am": "չնայած",
+   "ru": [
+    "Несмотря",
+    "невзирая",
+    "вопреки",
+    "на",
+    "то"
+   ],
+   "en": [
+    "in",
+    "spite",
+    "of"
+   ],
+   "pronunciation": "ch‘nayats"
+  },
+  {
+   "am": "պայքար",
+   "ru": [
+    "Борьба",
+    "Поединок",
+    "Спор",
+    "перепалка",
+    "перебранка"
+   ],
+   "en": [
+    "struggle"
+   ],
+   "pronunciation": "pay qar"
+  },
+  {
+   "am": "բամբակ",
+   "ru": [
+    "хлопок",
+    "хлопчатник",
+    "хлопковые",
+    "поля",
+    "Вата"
+   ],
+   "en": [
+    "cotton"
+   ],
+   "pronunciation": "bambak"
+  },
+  {
+   "am": "փայլել",
+   "ru": [
+    "Сверкать",
+    "сверкнуть",
+    "блистать",
+    "блестеть",
+    "блеснуть"
+   ],
+   "en": [
+    "shine",
+    "wood"
+   ],
+   "pronunciation": "p‘aylel"
+  },
+  {
+   "am": "իմանալ",
+   "ru": [
+    "Знать",
+    "узнавать",
+    "узнать",
+    "ни",
+    "под"
+   ],
+   "en": [
+    "know",
+    "what",
+    "how",
+    "why",
+    "much"
+   ],
+   "pronunciation": "imanal"
+  },
+  {
+   "am": "շշնջալ",
+   "ru": [
+    "Шептать",
+    "прошептать",
+    "шепнуть"
+   ],
+   "en": [
+    "whisper",
+    "murmer"
+   ],
+   "pronunciation": "shshnshal"
+  },
+  {
+   "am": "կարդալ",
+   "ru": [
+    "Читать",
+    "прочитать",
+    "прочесть",
+    "наизусть",
+    "на"
+   ],
+   "en": [
+    "read"
+   ],
+   "pronunciation": "kardal"
+  },
+  {
+   "am": "համեստ",
+   "ru": [
+    "Скромный"
+   ],
+   "en": [
+    "modest",
+    "decent"
+   ],
+   "pronunciation": "hamest"
+  },
+  {
+   "am": "շրջվել",
+   "ru": [
+    "Переворачиваться",
+    "перевёртываться",
+    "перевернуться",
+    "поворачиваться",
+    "повёртываться"
+   ],
+   "en": [
+    "turn",
+    "market",
+    "dog"
+   ],
+   "pronunciation": "shrjvel"
+  },
+  {
+   "am": "կեղտոտ",
+   "ru": [
+    "Грязный",
+    "нечистый",
+    "загрязнённый",
+    "Неопрятный",
+    "неряшливый"
+   ],
+   "en": [
+    "dirty"
+   ],
+   "pronunciation": "keghtot"
+  },
+  {
+   "am": "հաղթել",
+   "ru": [
+    "Побеждать",
+    "победить",
+    "Преодолевать",
+    "преодолеть",
+    "превозмогать"
+   ],
+   "en": [
+    "triumph",
+    "win"
+   ],
+   "pronunciation": "haght‘el"
+  },
+  {
+   "am": "ուրբաթ",
+   "ru": [
+    "Пятница",
+    "по",
+    "пятницам",
+    "страстная"
+   ],
+   "en": [
+    "therefore",
+    "then",
+    "afterwards"
+   ],
+   "pronunciation": "urbat‘"
+  },
+  {
+   "am": "տարբեր",
+   "ru": [
+    "Разный",
+    "различный",
+    "отличный",
+    "отдельный",
+    "Разнообразный"
+   ],
+   "en": [
+    "different",
+    "various"
+   ],
+   "pronunciation": "tarber"
+  },
+  {
+   "am": "վերջին",
+   "ru": [
+    "оследний",
+    "Конечный",
+    "последнее",
+    "слово",
+    "до"
+   ],
+   "en": [
+    "take",
+    "accident"
+   ],
+   "pronunciation": "verts‘nel"
+  },
+  {
+   "am": "եղբայր",
+   "ru": [
+    "Брат",
+    "соотечественник",
+    "Родственник",
+    "собрат",
+    "единомышленник"
+   ],
+   "en": [
+    "brother"
+   ],
+   "pronunciation": "yeghbayr"
+  },
+  {
+   "am": "իհարկե",
+   "ru": [
+    "Конечно",
+    "разумеется"
+   ],
+   "en": [
+    "of",
+    "course",
+    "certainly"
+   ],
+   "pronunciation": "iharke"
+  },
+  {
+   "am": "բնորոշ",
+   "ru": [
+    "Характерный",
+    "специфический",
+    "специфичный",
+    "характерная",
+    "особенность"
+   ],
+   "en": [
+    "characteristic"
+   ],
+   "pronunciation": "bnorosh"
+  },
+  {
+   "am": "այստեղ",
+   "ru": [
+    "Здесь",
+    "тут",
+    "Сюда"
+   ],
+   "en": [
+    "today",
+    "widow"
+   ],
+   "pronunciation": "aysor"
+  },
+  {
+   "am": "առյուծ",
+   "ru": [
+    "Лев",
+    "Храбрый",
+    "отважный",
+    "бесстрашный",
+    "дерзкий"
+   ],
+   "en": [
+    "lion"
+   ],
+   "pronunciation": "ar°yuts"
+  },
+  {
+   "am": "ստիպել",
+   "ru": [
+    "Заставлять",
+    "заставить",
+    "принуждать",
+    "принудить",
+    "вынуждать"
+   ],
+   "en": [
+    "insist",
+    "force"
+   ],
+   "pronunciation": "stipel"
+  },
+  {
+   "am": "քայլել",
+   "ru": [
+    "Шагать",
+    "шагнуть",
+    "ходить",
+    "идти"
+   ],
+   "en": [
+    "walk"
+   ],
+   "pronunciation": "qaylel"
+  },
+  {
+   "am": "մտածել",
+   "ru": [
+    "Мыслить",
+    "думать",
+    "подумать",
+    "Рассуждать",
+    "Предполагать"
+   ],
+   "en": [
+    "think"
+   ],
+   "pronunciation": "mtatsel"
+  },
+  {
+   "am": "հագնել",
+   "ru": [
+    "Надевать",
+    "надеть",
+    "Носить",
+    "одежду",
+    "драгоценности"
+   ],
+   "en": [
+    "put",
+    "dress"
+   ],
+   "pronunciation": "hagnel"
+  },
+  {
+   "am": "հաստատ",
+   "ru": [
+    "Твёрдый",
+    "прочный",
+    "Непреклонный",
+    "непоколебимый",
+    "устойчивый"
+   ],
+   "en": [
+    "sure",
+    "firm",
+    "address"
+   ],
+   "pronunciation": "hastat"
+  },
+  {
+   "am": "զգույշ",
+   "ru": [
+    "Осторожный",
+    "осмотрительный",
+    "Осторожно",
+    "Осмотрительно",
+    "быть"
+   ],
+   "en": [
+    "olive"
+   ],
+   "pronunciation": "zeyt°un"
+  },
+  {
+   "am": "նախքան",
+   "ru": [
+    "До",
+    "перед",
+    "пред",
+    "тем",
+    "как"
+   ],
+   "en": [
+    "before"
+   ],
+   "pronunciation": "naxqan"
+  },
+  {
+   "am": "համերգ",
+   "ru": [
+    "Концерт",
+    "Гармония"
+   ],
+   "en": [
+    "concert"
+   ],
+   "pronunciation": "hamerq"
+  },
+  {
+   "am": "այնտեղ",
+   "ru": [
+    "Там",
+    "Туда"
+   ],
+   "en": [
+    "there"
+   ],
+   "pronunciation": "ayntegh"
+  },
+  {
+   "am": "սպիտակ",
+   "ru": [
+    "Белый",
+    "седой",
+    "белокожий",
+    "Белизна",
+    "контрреволюционный"
+   ],
+   "en": [
+    "white"
+   ],
+   "pronunciation": "spitak"
+  },
+  {
+   "am": "միամիտ",
+   "ru": [
+    "Наивный",
+    "простодушный",
+    "добродушный",
+    "будь",
+    "спокоен"
+   ],
+   "en": [
+    "naive",
+    "simple-minded"
+   ],
+   "pronunciation": "miamit"
+  },
+  {
+   "am": "սակայն",
+   "ru": [
+    "Но",
+    "однако",
+    "же"
+   ],
+   "en": [
+    "but",
+    "however",
+    "comb"
+   ],
+   "pronunciation": "sanr"
+  },
+  {
+   "am": "կեղծել",
+   "ru": [
+    "Притворяться",
+    "притвориться",
+    "фальшивить",
+    "Подделывать",
+    "подделать"
+   ],
+   "en": [
+    "falsify"
+   ],
+   "pronunciation": "keghtsel"
+  },
+  {
+   "am": "բնակիչ",
+   "ru": [
+    "Житель",
+    "жилец",
+    "обитатель"
+   ],
+   "en": [
+    "inhabitant"
+   ],
+   "pronunciation": "bnakich‘"
+  },
+  {
+   "am": "ձեռնոց",
+   "ru": [
+    "Перчатка",
+    "Варежка",
+    "бросать",
+    "бросить",
+    "перчатку"
+   ],
+   "en": [
+    "glove",
+    "hand"
+   ],
+   "pronunciation": "Zz er‘nots*"
+  },
+  {
+   "am": "փորձել",
+   "ru": [
+    "Пробовать",
+    "попробовать",
+    "испробовать",
+    "Испытывать",
+    "испытать"
+   ],
+   "en": [
+    "small",
+    "little"
+   ],
+   "pronunciation": "ք\"օզո"
+  },
+  {
+   "am": "արթուն",
+   "ru": [
+    "Бодрствующий",
+    "недремлющий",
+    "Бдительный",
+    "недреманным",
+    "оком"
+   ],
+   "en": [
+    "wake",
+    "up",
+    "get",
+    "worthy"
+   ],
+   "pronunciation": "art‘un"
+  },
+  {
+   "am": "հատուկ",
+   "ru": [
+    "Свойственный",
+    "присущий",
+    "Особенный",
+    "особый",
+    "специальный"
+   ],
+   "en": [
+    "special",
+    "particular"
+   ],
+   "pronunciation": "hatuk"
+  },
+  {
+   "am": "բուժել",
+   "ru": [
+    "Лечить",
+    "вылечивать",
+    "вылечить",
+    "излечивать",
+    "излечить"
+   ],
+   "en": [
+    "treat",
+    "for",
+    "with"
+   ],
+   "pronunciation": "buzhel"
+  },
+  {
+   "am": "բաղնիք",
+   "ru": [
+    "Баня",
+    "лёгким",
+    "паром"
+   ],
+   "en": [
+    "bath"
+   ],
+   "pronunciation": "baghniq"
+  },
+  {
+   "am": "փնտրել",
+   "ru": [
+    "Искать",
+    "поискать"
+   ],
+   "en": [
+    "look",
+    "or",
+    "search"
+   ],
+   "pronunciation": "p‘ntrel"
+  },
+  {
+   "am": "երրորդ",
+   "ru": [
+    "Третий",
+    "третье",
+    "лицо",
+    "блюдо",
+    "В-третьих"
+   ],
+   "en": [
+    "third"
+   ],
+   "pronunciation": "yerrord"
+  },
+  {
+   "am": "որոշել",
+   "ru": [
+    "Определять",
+    "определить",
+    "Решать",
+    "решить",
+    "постановлять"
+   ],
+   "en": [
+    "decide",
+    "because"
+   ],
+   "pronunciation": "voroshel"
+  },
+  {
+   "am": "ծախսել",
+   "ru": [
+    "Тратить",
+    "потратить",
+    "истратить",
+    "Расходовать",
+    "израсходовать"
+   ],
+   "en": [
+    "spend",
+    "waste"
+   ],
+   "pronunciation": "tsaxsel"
+  },
+  {
+   "am": "փախչել",
+   "ru": [
+    "Бежать",
+    "убегать",
+    "убежать",
+    "Уходить",
+    "уйти"
+   ],
+   "en": [
+    "fo",
+    "escape"
+   ],
+   "pronunciation": "p‘axch‘el"
+  },
+  {
+   "am": "կնունք",
+   "ru": [
+    "Крещение",
+    "Крестины",
+    "крестить",
+    "окрестить"
+   ],
+   "en": [
+    "christenin"
+   ],
+   "pronunciation": "knunq"
+  },
+  {
+   "am": "չքանալ",
+   "ru": [
+    "Исчезать",
+    "исчезнуть",
+    "пропадать",
+    "пропасть",
+    "сгинуть"
+   ],
+   "en": [
+    "vanish",
+    "disappear"
+   ],
+   "pronunciation": "ch‘ qanal"
+  },
+  {
+   "am": "տնտեսագիտություն",
+   "ru": [
+    "Экономика"
+   ],
+   "en": [
+    "economics"
+   ]
+  }
+ ],
+ "B1": [
+  {
+   "am": "կարմիր",
+   "ru": [
+    "Красный",
+    "Румяный",
+    "Алый",
+    "цвет",
+    "окраска"
+   ],
+   "en": [
+    "red"
+   ],
+   "pronunciation": "karmir"
+  },
+  {
+   "am": "նպատակ",
+   "ru": [
+    "Цель",
+    "Намерение",
+    "замысел",
+    "обстоятельство",
+    "цели"
+   ],
+   "en": [
+    "aim",
+    "purpose"
+   ],
+   "pronunciation": "npatak"
+  },
+  {
+   "am": "սպանել",
+   "ru": [
+    "Убивать",
+    "убить"
+   ],
+   "en": [
+    "kill",
+    "murder"
+   ],
+   "pronunciation": "spanel"
+  },
+  {
+   "am": "կաղամբ",
+   "ru": [
+    "Капуста"
+   ],
+   "en": [
+    "or"
+   ],
+   "pronunciation": "kam"
+  },
+  {
+   "am": "լուսին",
+   "ru": [
+    "Луна",
+    "месяц",
+    "Лунный",
+    "серп",
+    "луны"
+   ],
+   "en": [
+    "moon"
+   ],
+   "pronunciation": "lusin"
+  },
+  {
+   "am": "հարմար",
+   "ru": [
+    "Удобный",
+    "подходящий",
+    "Удобно",
+    "подходяще"
+   ],
+   "en": [
+    "convenient",
+    "comfortable",
+    "hundred",
+    "wedding"
+   ],
+   "pronunciation": "harmar"
+  },
+  {
+   "am": "ասֆալտ",
+   "ru": [
+    "Асфальт"
+   ],
+   "en": [
+    "elder"
+   ],
+   "pronunciation": "avag"
+  },
+  {
+   "am": "խնամել",
+   "ru": [
+    "Ухаживать",
+    "смотреть",
+    "за",
+    "кем",
+    "чем"
+   ],
+   "en": [
+    "nurse",
+    "take",
+    "care",
+    "of"
+   ],
+   "pronunciation": "xnamel"
+  },
+  {
+   "am": "ապահով",
+   "ru": [
+    "Безопасный",
+    "надёжно",
+    "защищенный",
+    "безопаснее",
+    "место"
+   ],
+   "en": [
+    "safe"
+   ],
+   "pronunciation": "apahov"
+  },
+  {
+   "am": "սպասել",
+   "ru": [
+    "Ждать",
+    "ожидать"
+   ],
+   "en": [
+    "wait",
+    "expect"
+   ],
+   "pronunciation": "spasel"
+  },
+  {
+   "am": "կարծել",
+   "ru": [
+    "Думать",
+    "подумать",
+    "считать",
+    "находить",
+    "Полагать"
+   ],
+   "en": [
+    "fo",
+    "suppose",
+    "guess"
+   ],
+   "pronunciation": "kartsiq"
+  },
+  {
+   "am": "պայծառ",
+   "ru": [
+    "Яркий",
+    "ослепительный",
+    "Светозарный",
+    "устар",
+    "книжн"
+   ],
+   "en": [
+    "bright",
+    "clear",
+    "brillant",
+    "condition"
+   ],
+   "pronunciation": "paytsar*"
+  },
+  {
+   "am": "պառկել",
+   "ru": [
+    "Лечь",
+    "лежать",
+    "полежать",
+    "Ложиться",
+    "прилечь"
+   ],
+   "en": [
+    "wall"
+   ],
+   "pronunciation": "pat"
+  },
+  {
+   "am": "դատարկ",
+   "ru": [
+    "Пустой",
+    "порожний",
+    "Полый",
+    "пустотелый",
+    "Пустынный"
+   ],
+   "en": [
+    "empty"
+   ],
+   "pronunciation": "datark"
+  },
+  {
+   "am": "շարժել",
+   "ru": [
+    "Двигать",
+    "двинуть",
+    "Шевелить",
+    "пошевеливать",
+    "пошевелить"
+   ],
+   "en": [
+    "fo",
+    "move"
+   ],
+   "pronunciation": "sharzhel"
+  },
+  {
+   "am": "միասին",
+   "ru": [
+    "Вместе",
+    "совместно",
+    "Сообща"
+   ],
+   "en": [
+    "together"
+   ],
+   "pronunciation": "miasin"
+  },
+  {
+   "am": "հավատալ",
+   "ru": [
+    "Верить",
+    "поверить",
+    "Веровать",
+    "Принимать",
+    "на"
+   ],
+   "en": [
+    "believe"
+   ],
+   "pronunciation": "havatal"
+  },
+  {
+   "am": "մրցույթ",
+   "ru": [
+    "Конкурс"
+   ],
+   "en": [
+    "competition",
+    "dark"
+   ],
+   "pronunciation": "mrts*uyt®"
+  },
+  {
+   "am": "իրիկուն",
+   "ru": [
+    "Вечер"
+   ],
+   "en": [
+    "evening"
+   ],
+   "pronunciation": "irikun"
+  },
+  {
+   "am": "թաքնվել",
+   "ru": [
+    "Крыться",
+    "укрываться",
+    "укрыться",
+    "прятаться",
+    "спрятаться"
+   ],
+   "en": [
+    "hide",
+    "take",
+    "shelter",
+    "though"
+   ],
+   "pronunciation": "t‘aqnvel"
+  },
+  {
+   "am": "անիմաստ",
+   "ru": [
+    "Бессмысленный",
+    "бестолковый",
+    "Бессмысленно",
+    "бестолково"
+   ],
+   "en": [
+    "senseless"
+   ],
+   "pronunciation": "animast"
+  },
+  {
+   "am": "ժամանակ",
+   "ru": [
+    "Время",
+    "Во",
+    "чего-л",
+    "за",
+    "чем-л"
+   ],
+   "en": [
+    "time",
+    "modern"
+   ],
+   "pronunciation": "zhamanak"
+  },
+  {
+   "am": "ըմպելիք",
+   "ru": [
+    "Напиток",
+    "питьё"
+   ],
+   "en": [
+    "beverage",
+    "drink"
+   ],
+   "pronunciation": "Empeliq"
+  },
+  {
+   "am": "զեյթուն",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "olive"
+   ],
+   "pronunciation": "zeyt°un"
+  },
+  {
+   "am": "մոտենալ",
+   "ru": [
+    "Близиться",
+    "приближаться",
+    "приблизиться",
+    "подходить",
+    "подойти"
+   ],
+   "en": [
+    "come",
+    "near",
+    "approach"
+   ],
+   "pronunciation": "motenal"
+  },
+  {
+   "am": "նորոգել",
+   "ru": [
+    "Обновлять",
+    "обновить",
+    "Возобновлять",
+    "возобновить",
+    "Ремонтировать"
+   ],
+   "en": [
+    "repair"
+   ],
+   "pronunciation": "norogel"
+  },
+  {
+   "am": "պատրաստ",
+   "ru": [
+    "Готовый",
+    "Наготове",
+    "готовностью",
+    "полной",
+    "готовности"
+   ],
+   "en": [
+    "ready"
+   ],
+   "pronunciation": "patrast"
+  },
+  {
+   "am": "փոթորիկ",
+   "ru": [
+    "Буря",
+    "ураган",
+    "сильное",
+    "душевное",
+    "волнение"
+   ],
+   "en": [
+    "storm",
+    "tempest"
+   ],
+   "pronunciation": "p‘ot‘orik"
+  },
+  {
+   "am": "աշխույժ",
+   "ru": [
+    "Живой",
+    "бодрый",
+    "бойкий",
+    "энергичный",
+    "Живо"
+   ],
+   "en": [
+    "lively",
+    "alive"
+   ],
+   "pronunciation": "ashxuy zh"
+  },
+  {
+   "am": "աշտարակ",
+   "ru": [
+    "Башня",
+    "кремлёвские",
+    "башни",
+    "Вышка",
+    "телевизионная"
+   ],
+   "en": [
+    "tower"
+   ],
+   "pronunciation": "ashtarak"
+  },
+  {
+   "am": "հրավերք",
+   "ru": [
+    "Званый",
+    "обед",
+    "приглашение",
+    "гости"
+   ],
+   "en": [
+    "invitation"
+   ],
+   "pronunciation": "hraverq"
+  },
+  {
+   "am": "թափառել",
+   "ru": [
+    "Бродить",
+    "скитаться",
+    "блуждать",
+    "блуждающий",
+    "нерв"
+   ],
+   "en": [
+    "stroll",
+    "towander"
+   ],
+   "pronunciation": "t‘ap‘ar‘el"
+  },
+  {
+   "am": "ապօրինի",
+   "ru": [
+    "Незаконный",
+    "беззаконный",
+    "Незаконнорождённый",
+    "Неродной",
+    "Незаконно"
+   ],
+   "en": [
+    "illegal"
+   ],
+   "pronunciation": "aj"
+  },
+  {
+   "am": "կենտրոն",
+   "ru": [
+    "Центр",
+    "точка",
+    "пересечения",
+    "каких-нибудь",
+    "осей"
+   ],
+   "en": [
+    "centre"
+   ],
+   "pronunciation": "kentron"
+  },
+  {
+   "am": "հակառակ",
+   "ru": [
+    "Противоположный",
+    "Обратный",
+    "противный",
+    "противоречащий",
+    "несоответствующий"
+   ],
+   "en": [
+    "contrary",
+    "opposite"
+   ],
+   "pronunciation": "hakar‘ak"
+  },
+  {
+   "am": "աշխատել",
+   "ru": [
+    "Работать",
+    "трудиться",
+    "честно",
+    "Зарабатывать",
+    "заработать"
+   ],
+   "en": [
+    "work",
+    "world"
+   ],
+   "pronunciation": "ashxatel"
+  },
+  {
+   "am": "բաժանել",
+   "ru": [
+    "Делить",
+    "поделить",
+    "разделять",
+    "разделить",
+    "отделять"
+   ],
+   "en": [
+    "separate"
+   ],
+   "pronunciation": "bazhanel"
+  },
+  {
+   "am": "շփոթվել",
+   "ru": [
+    "Смешиваться",
+    "смешаться",
+    "перепутываться",
+    "перепутаться",
+    "Смущаться"
+   ],
+   "en": [
+    "luxurios",
+    "magnificent"
+   ],
+   "pronunciation": "shqegh"
+  },
+  {
+   "am": "ավարտել",
+   "ru": [
+    "Кончать",
+    "кончить",
+    "оканчивать",
+    "окончить",
+    "закончить"
+   ],
+   "en": [
+    "finish",
+    "more"
+   ],
+   "pronunciation": "avartel"
+  },
+  {
+   "am": "ամսագիր",
+   "ru": [
+    "Ежемесячник",
+    "ежемесячный",
+    "журнал"
+   ],
+   "en": [
+    "date"
+   ],
+   "pronunciation": "amsat*iv"
+  },
+  {
+   "am": "հյուսիս",
+   "ru": [
+    "Север"
+   ],
+   "en": [
+    "north"
+   ],
+   "pronunciation": "hyusis"
+  },
+  {
+   "am": "մեծանալ",
+   "ru": [
+    "Расти",
+    "вырастать",
+    "вырасти",
+    "подрастать",
+    "подрасти"
+   ],
+   "en": [
+    "grow",
+    "old",
+    "increase"
+   ],
+   "pronunciation": "metsanal"
+  },
+  {
+   "am": "կարմրել",
+   "ru": [
+    "Краснеть",
+    "покраснеть",
+    "рдеть",
+    "зардеть",
+    "румяниться"
+   ],
+   "en": [
+    "redden"
+   ],
+   "pronunciation": "karmrel"
+  },
+  {
+   "am": "վախենալ",
+   "ru": [
+    "Бояться",
+    "пугаться",
+    "испугаться",
+    "напугаться",
+    "страшиться"
+   ],
+   "en": [
+    "be",
+    "afraid",
+    "of",
+    "tomorrow"
+   ],
+   "pronunciation": "vaxenal"
+  },
+  {
+   "am": "փոխանակ",
+   "ru": [
+    "Вместо",
+    "того",
+    "чтобы",
+    "взамен"
+   ],
+   "en": [
+    "instead",
+    "of"
+   ],
+   "pronunciation": "p‘oxanak"
+  },
+  {
+   "am": "բնակվել",
+   "ru": [
+    "Жить",
+    "проживать",
+    "обитать",
+    "Гнездиться"
+   ],
+   "en": [
+    "live"
+   ],
+   "pronunciation": "bnakvel"
+  },
+  {
+   "am": "հարցնել",
+   "ru": [
+    "Спрашивать",
+    "спросить",
+    "справляться",
+    "здоровье",
+    "не"
+   ],
+   "en": [
+    "ask"
+   ],
+   "pronunciation": "harts‘nel"
+  },
+  {
+   "am": "հարուստ",
+   "ru": [
+    "Богатый",
+    "богач",
+    "Богато",
+    "богатое",
+    "воображение"
+   ],
+   "en": [
+    "rich",
+    "bread"
+   ],
+   "pronunciation": "harust"
+  },
+  {
+   "am": "զրուցել",
+   "ru": [
+    "Беседовать"
+   ],
+   "en": [
+    "toilet"
+   ],
+   "pronunciation": "zugaran"
+  },
+  {
+   "am": "սովորել",
+   "ru": [
+    "Учить",
+    "выучить",
+    "Учиться",
+    "Выучиваться",
+    "выучиться"
+   ],
+   "en": [
+    "study",
+    "learn"
+   ],
+   "pronunciation": "sovorel"
+  },
+  {
+   "am": "գիտենալ",
+   "ru": [
+    "Знать",
+    "сознавать",
+    "понимать",
+    "быть",
+    "знакомым"
+   ],
+   "en": [
+    "know"
+   ],
+   "pronunciation": "gitenal"
+  },
+  {
+   "am": "հեծանիվ",
+   "ru": [
+    "Велосипед"
+   ],
+   "en": [
+    "bicycle",
+    "author"
+   ],
+   "pronunciation": "hetsaniv"
+  },
+  {
+   "am": "հագուստ",
+   "ru": [
+    "Одежда",
+    "платье",
+    "наряд",
+    "Гардероб"
+   ],
+   "en": [
+    "dress",
+    "clothes"
+   ],
+   "pronunciation": "hagust"
+  },
+  {
+   "am": "արբենալ",
+   "ru": [
+    "Опьяняться"
+   ],
+   "en": [
+    "get",
+    "drunk",
+    "drunkard",
+    "toper"
+   ],
+   "pronunciation": "arbenal"
+  },
+  {
+   "am": "լրջորեն",
+   "ru": [
+    "Серьёзно"
+   ],
+   "en": [
+    "seriously"
+   ],
+   "pronunciation": "Irjoren"
+  },
+  {
+   "am": "արժենալ",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "cost"
+   ],
+   "pronunciation": "arzhenal"
+  },
+  {
+   "am": "նմանվել",
+   "ru": [
+    "Походить",
+    "уподобляться",
+    "уподобиться"
+   ],
+   "en": [
+    "look",
+    "like",
+    "november"
+   ],
+   "pronunciation": "nmanvel"
+  },
+  {
+   "am": "իսկապես",
+   "ru": [
+    "Действительно",
+    "действительности",
+    "самом",
+    "деле"
+   ],
+   "en": [
+    "really",
+    "spanish"
+   ],
+   "pronunciation": "iskapes"
+  },
+  {
+   "am": "իտալացի",
+   "ru": [
+    "Итальянец"
+   ],
+   "en": [
+    "italian"
+   ],
+   "pronunciation": "italats‘1"
+  },
+  {
+   "am": "փաթաթել",
+   "ru": [
+    "Мотать",
+    "обматывать",
+    "обмотать",
+    "обвязывать",
+    "обвязать"
+   ],
+   "en": [
+    "wrap",
+    "up",
+    "pack"
+   ],
+   "pronunciation": "p‘at‘at‘el"
+  },
+  {
+   "am": "խաղալիք",
+   "ru": [
+    "Игрушка"
+   ],
+   "en": [
+    "toy"
+   ],
+   "pronunciation": "xaghaliq"
+  },
+  {
+   "am": "անկողին",
+   "ru": [
+    "Постель",
+    "брачное",
+    "ложе",
+    "постлать",
+    "довести"
+   ],
+   "en": [
+    "bed"
+   ],
+   "pronunciation": "ankoghin"
+  },
+  {
+   "am": "կարկուտ",
+   "ru": [
+    "Град",
+    "множество",
+    "обилие",
+    "поток",
+    "чего-либо"
+   ],
+   "en": [
+    "short",
+    "short-sighted"
+   ],
+   "pronunciation": "karkut"
+  },
+  {
+   "am": "ուշանալ",
+   "ru": [
+    "Опаздывать",
+    "опоздать",
+    "запаздывать",
+    "запоздать",
+    "Задерживаться"
+   ],
+   "en": [
+    "be",
+    "late"
+   ],
+   "pronunciation": "ushanal"
+  },
+  {
+   "am": "նախատել",
+   "ru": [
+    "Порицать",
+    "попрекать",
+    "попрекнуть",
+    "корить",
+    "укорять"
+   ],
+   "en": [
+    "insult"
+   ],
+   "pronunciation": "naxatel"
+  },
+  {
+   "am": "կամուրջ",
+   "ru": [
+    "Мост",
+    "перебросить"
+   ],
+   "en": [
+    "station"
+   ],
+   "pronunciation": "kayaran"
+  },
+  {
+   "am": "հավաքել",
+   "ru": [
+    "Собирать",
+    "собрать",
+    "Убирать",
+    "убрать",
+    "прибирать"
+   ],
+   "en": [
+    "gather",
+    "pick",
+    "collect"
+   ],
+   "pronunciation": "havagel"
+  },
+  {
+   "am": "արտաքին",
+   "ru": [
+    "Внешний",
+    "наружный",
+    "наружная",
+    "сторона",
+    "вид"
+   ],
+   "en": [
+    "external"
+   ],
+   "pronunciation": "artaqin"
+  },
+  {
+   "am": "կորցնել",
+   "ru": [
+    "Терять",
+    "потерять",
+    "растерять",
+    "утерять",
+    "утрачивать"
+   ],
+   "en": [
+    "lose"
+   ],
+   "pronunciation": "korts‘nel"
+  },
+  {
+   "am": "անշուշտ",
+   "ru": [
+    "Несомненно",
+    "без",
+    "сомнения",
+    "безусловно"
+   ],
+   "en": [
+    "certainly",
+    "unqualified"
+   ],
+   "pronunciation": "anshusht"
+  },
+  {
+   "am": "ստուգել",
+   "ru": [
+    "Проверять",
+    "проверить",
+    "Контролировать",
+    "Выверять",
+    "выверить"
+   ],
+   "en": [
+    "verify",
+    "control",
+    "check"
+   ],
+   "pronunciation": "stugel"
+  },
+  {
+   "am": "պատահար",
+   "ru": [
+    "Происшествие",
+    "Случай",
+    "случайность"
+   ],
+   "en": [
+    "happen",
+    "adolecent"
+   ],
+   "pronunciation": "patahel"
+  },
+  {
+   "am": "այցելել",
+   "ru": [
+    "Посещать",
+    "посетить",
+    "навещать",
+    "навестить",
+    "нанести"
+   ],
+   "en": [
+    "visit",
+    "unexpected",
+    "sudden"
+   ],
+   "pronunciation": "ayts‘elel"
+  },
+  {
+   "am": "շրջապատ",
+   "ru": [
+    "Окрестность",
+    "окрестности",
+    "Окружение",
+    "среда"
+   ],
+   "en": [
+    "surround"
+   ],
+   "pronunciation": "shrjapatel"
+  },
+  {
+   "am": "դերասան",
+   "ru": [
+    "Актёр",
+    "артист",
+    "лживый",
+    "фальшивый",
+    "человек"
+   ],
+   "en": [
+    "difficult"
+   ],
+   "pronunciation": "dzhvar"
+  },
+  {
+   "am": "մոռանալ",
+   "ru": [
+    "Забывать",
+    "забыть"
+   ],
+   "en": [
+    "forget"
+   ],
+   "pronunciation": "moranal"
+  },
+  {
+   "am": "գեղեցիկ",
+   "ru": [
+    "Красивый",
+    "прекрасный",
+    "Гармоничный",
+    "Сладкозвучный",
+    "благородный"
+   ],
+   "en": [
+    "river",
+    "ground",
+    "land"
+   ],
+   "pronunciation": "get"
+  },
+  {
+   "am": "շոշափել",
+   "ru": [
+    "Осязать",
+    "щупать",
+    "пощупать",
+    "ощупывать",
+    "ощупать"
+   ],
+   "en": [
+    "touch"
+   ],
+   "pronunciation": "shoshap‘el"
+  },
+  {
+   "am": "զբոսնել",
+   "ru": [
+    "Гулять",
+    "Погулять"
+   ],
+   "en": [
+    "take",
+    "walk"
+   ],
+   "pronunciation": "zbosnel"
+  },
+  {
+   "am": "ագրեսիվ",
+   "ru": [
+    "Агрессивный"
+   ],
+   "en": [
+    "aggressive",
+    "diamond"
+   ],
+   "pronunciation": "agresiv"
+  },
+  {
+   "am": "ախորժակ",
+   "ru": [
+    "Аппетит",
+    "есть",
+    "аппетитом",
+    "разыгрался",
+    "пропал"
+   ],
+   "en": [
+    "appetite"
+   ],
+   "pronunciation": "axorzhak"
+  },
+  {
+   "am": "հիանալի",
+   "ru": [
+    "Восхитительный",
+    "изумительный",
+    "дивный",
+    "чудный",
+    "чудесный"
+   ],
+   "en": [
+    "be",
+    "disappointed",
+    "now"
+   ],
+   "pronunciation": "hiast‘ap‘vel"
+  },
+  {
+   "am": "եկեղեցի",
+   "ru": [
+    "Церковь",
+    "храм",
+    "Церковная",
+    "община",
+    "Религиозная"
+   ],
+   "en": [
+    "church",
+    "weather"
+   ],
+   "pronunciation": "yekeghets‘i"
+  },
+  {
+   "am": "անփոփոխ",
+   "ru": [
+    "Неизменяемый",
+    "неизменный",
+    "постоянный",
+    "бессменный",
+    "Неизменно"
+   ],
+   "en": [
+    "invariable"
+   ],
+   "pronunciation": "anpopox"
+  },
+  {
+   "am": "կենդանի",
+   "ru": [
+    "Животное",
+    "Домашнее",
+    "Живой",
+    "Животный",
+    "подлинный"
+   ],
+   "en": [
+    "animal",
+    "living",
+    "biography"
+   ],
+   "pronunciation": "kendani"
+  },
+  {
+   "am": "անտեսել",
+   "ru": [
+    "Игнорировать",
+    "пренебрегать",
+    "пренебречь"
+   ],
+   "en": [
+    "ignore",
+    "disregard"
+   ],
+   "pronunciation": "antesel"
+  },
+  {
+   "am": "հանկարծ",
+   "ru": [
+    "Вдруг",
+    "внезапно",
+    "неожиданно",
+    "Нечаянно"
+   ],
+   "en": [
+    "pull",
+    "take",
+    "suddenly",
+    "republic",
+    "criminality"
+   ],
+   "pronunciation": "hanel"
+  },
+  {
+   "am": "անասուն",
+   "ru": [
+    "Скот",
+    "скотина",
+    "домашнее",
+    "животное",
+    "Бессловесное"
+   ],
+   "en": [
+    "animal",
+    "brute",
+    "unfinished"
+   ],
+   "pronunciation": "anasun"
+  },
+  {
+   "am": "ծիծաղել",
+   "ru": [
+    "Смеяться",
+    "посмеиваться",
+    "посмеяться",
+    "Высмеивать",
+    "высмеять"
+   ],
+   "en": [
+    "laugh",
+    "swallow"
+   ],
+   "pronunciation": "tsitsaghel"
+  },
+  {
+   "am": "ամաչկոտ",
+   "ru": [
+    "Стыдливый",
+    "застенчивый",
+    "стеснительный",
+    "конфузливый"
+   ],
+   "en": [
+    "shy",
+    "bashful",
+    "summer"
+   ],
+   "pronunciation": "amach‘kot"
+  },
+  {
+   "am": "ունենալ",
+   "ru": [
+    "Иметь",
+    "Располагать",
+    "Обладать"
+   ],
+   "en": [
+    "have"
+   ],
+   "pronunciation": "unenal"
+  },
+  {
+   "am": "անփույթ",
+   "ru": [
+    "Беззаботный",
+    "безразличный",
+    "Небрежный",
+    "неаккуратный",
+    "неряшливый"
+   ],
+   "en": [
+    "careless"
+   ],
+   "pronunciation": "anp*uyt*"
+  },
+  {
+   "am": "արցունք",
+   "ru": [
+    "Слеза",
+    "слёзы",
+    "плач",
+    "рыдания",
+    "капля"
+   ],
+   "en": [
+    "fear"
+   ],
+   "pronunciation": "arts°unq"
+  },
+  {
+   "am": "ամսաթիվ",
+   "ru": [
+    "Число",
+    "месяца"
+   ],
+   "en": [
+    "tight",
+    "firm",
+    "husband"
+   ],
+   "pronunciation": "amur"
+  },
+  {
+   "am": "օգտակար",
+   "ru": [
+    "Полезный",
+    "Полезное",
+    "чем",
+    "могу",
+    "быть"
+   ],
+   "en": [
+    "helpful"
+   ],
+   "pronunciation": "o‘ gtakar"
+  },
+  {
+   "am": "նստարան",
+   "ru": [
+    "Скамейка",
+    "скамья",
+    "лавка",
+    "Парта"
+   ],
+   "en": [
+    "sit",
+    "down"
+   ],
+   "pronunciation": "nstaran"
+  },
+  {
+   "am": "միմյանց",
+   "ru": [
+    "Друг",
+    "друга"
+   ],
+   "en": [
+    "each-other",
+    "one-another"
+   ],
+   "pronunciation": "mimyants‘"
+  },
+  {
+   "am": "բացվածք",
+   "ru": [
+    "Щель",
+    "расщелина",
+    "просвет",
+    "проём",
+    "отверстие"
+   ],
+   "en": [
+    "break",
+    "opening",
+    "moustache"
+   ],
+   "pronunciation": "bats‘vatsq"
+  },
+  {
+   "am": "արգելել",
+   "ru": [
+    "Запрещать",
+    "запретить",
+    "налагать",
+    "наложить",
+    "запрет"
+   ],
+   "en": [
+    "forbid",
+    "inhibit"
+   ],
+   "pronunciation": "argelel"
+  },
+  {
+   "am": "խոհանոց",
+   "ru": [
+    "Кухня"
+   ],
+   "en": [
+    "kitchen",
+    "cooker",
+    "dampy"
+   ],
+   "pronunciation": "xohanots‘"
+  },
+  {
+   "am": "զարթնել",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "wake",
+    "up",
+    "get"
+   ],
+   "pronunciation": "zarmanal"
+  },
+  {
+   "am": "գողանալ",
+   "ru": [
+    "Воровать",
+    "своровать",
+    "красть",
+    "украсть",
+    "похищать"
+   ],
+   "en": [
+    "steal",
+    "rob"
+   ],
+   "pronunciation": "goghanal"
+  },
+  {
+   "am": "կայարան",
+   "ru": [
+    "Станция",
+    "Вокзал"
+   ],
+   "en": [
+    "lightning",
+    "green"
+   ],
+   "pronunciation": "kaytsak"
+  },
+  {
+   "am": "երջանիկ",
+   "ru": [
+    "Счастливый",
+    "Приносящий",
+    "счастье",
+    "Счастливец",
+    "Счастливо"
+   ],
+   "en": [
+    "happy"
+   ],
+   "pronunciation": "yerjanik"
+  },
+  {
+   "am": "ուշադիր",
+   "ru": [
+    "Внимательный",
+    "Внимательно",
+    "быть",
+    "внимательным"
+   ],
+   "en": [
+    "attentive"
+   ],
+   "pronunciation": "ushadir"
+  },
+  {
+   "am": "բուժում",
+   "ru": [
+    "Лечение",
+    "Излечение",
+    "исцеление"
+   ],
+   "en": [
+    "treatment"
+   ],
+   "pronunciation": "buzhum"
+  },
+  {
+   "am": "հանգցնել",
+   "ru": [
+    "Тушить",
+    "потушить",
+    "гасить",
+    "погасить"
+   ],
+   "en": [
+    "have",
+    "rest",
+    "repose"
+   ],
+   "pronunciation": "hangstanal"
+  },
+  {
+   "am": "կարճատես",
+   "ru": [
+    "Близорукий",
+    "недальновидный",
+    "непредусмотрительный"
+   ],
+   "en": [
+    "red"
+   ],
+   "pronunciation": "karchates"
+  },
+  {
+   "am": "խանգարել",
+   "ru": [
+    "Мешать",
+    "помешать",
+    "препятствовать",
+    "воспрепятствовать",
+    "Нарушать"
+   ],
+   "en": [
+    "disturb",
+    "shop"
+   ],
+   "pronunciation": "xangarel"
+  },
+  {
+   "am": "աննպատակ",
+   "ru": [
+    "Бесцельный",
+    "бесцельная",
+    "жизнь",
+    "Бесцельно"
+   ],
+   "en": [
+    "aimless",
+    "immobile"
+   ],
+   "pronunciation": "annpatak"
+  },
+  {
+   "am": "ընդարձակ",
+   "ru": [
+    "Обширный",
+    "занимающий",
+    "большое",
+    "пространство",
+    "просторный"
+   ],
+   "en": [
+    "spacious",
+    "vast"
+   ],
+   "pronunciation": "éndarz‘ak"
+  },
+  {
+   "am": "պաղպաղակ",
+   "ru": [
+    "Мороженое"
+   ],
+   "en": [
+    "ice-cream"
+   ],
+   "pronunciation": "paghpaghak"
+  },
+  {
+   "am": "բազմանալ",
+   "ru": [
+    "Множиться",
+    "умножаться",
+    "умножиться",
+    "приумножаться",
+    "приумножиться"
+   ],
+   "en": [
+    "multiply",
+    "manifolding"
+   ],
+   "pronunciation": "bazmanal"
+  },
+  {
+   "am": "համարձակ",
+   "ru": [
+    "Смелый",
+    "Смело"
+   ],
+   "en": [
+    "daring",
+    "courageous"
+   ],
+   "pronunciation": "hamarz‘ak"
+  },
+  {
+   "am": "անընդհատ",
+   "ru": [
+    "Непрерывный",
+    "беспрерывный",
+    "безостановочный",
+    "непрерывные",
+    "дожди"
+   ],
+   "en": [
+    "continous"
+   ],
+   "pronunciation": "animast"
+  },
+  {
+   "am": "ազգանուն",
+   "ru": [
+    "Фамилия"
+   ],
+   "en": [
+    "nationality"
+   ],
+   "pronunciation": "azgut*yun"
+  },
+  {
+   "am": "ուսուցիչ",
+   "ru": [
+    "Учитель",
+    "преподаватель",
+    "педагог",
+    "старший",
+    "приходской"
+   ],
+   "en": [
+    "teacher"
+   ],
+   "pronunciation": "usuts‘ich‘"
+  },
+  {
+   "am": "խոստանալ",
+   "ru": [
+    "Обещать",
+    "пообещать",
+    "обещаться"
+   ],
+   "en": [
+    "promice"
+   ],
+   "pronunciation": "xostanal"
+  },
+  {
+   "am": "արձագանք",
+   "ru": [
+    "Эхо",
+    "Отзвук",
+    "отголосок",
+    "отклик",
+    "находить"
+   ],
+   "en": [
+    "echo",
+    "holiday"
+   ],
+   "pronunciation": "812 1Ք8ոզ"
+  },
+  {
+   "am": "չափազանց",
+   "ru": [
+    "Крайне",
+    "слишком",
+    "чрезмерно",
+    "чересчур",
+    "Чрезвычайно"
+   ],
+   "en": [
+    "adult"
+   ],
+   "pronunciation": "ch‘ap‘ahas"
+  },
+  {
+   "am": "տարբերել",
+   "ru": [
+    "Различать",
+    "различить",
+    "отличать",
+    "отличить"
+   ],
+   "en": [
+    "distinguish"
+   ],
+   "pronunciation": "tarberel"
+  },
+  {
+   "am": "պայքարել",
+   "ru": [
+    "Бороться",
+    "сражаться"
+   ],
+   "en": [
+    "struggle",
+    "cheese"
+   ],
+   "pronunciation": "pay qarel"
+  },
+  {
+   "am": "արդուկել",
+   "ru": [
+    "Утюжить",
+    "выутюжить",
+    "гладить",
+    "выгладить"
+   ],
+   "en": [
+    "iron"
+   ],
+   "pronunciation": "ardukel"
+  },
+  {
+   "am": "հասկանալ",
+   "ru": [
+    "Понимать",
+    "понять",
+    "постигать",
+    "постигнуть",
+    "постичь"
+   ],
+   "en": [
+    "understand"
+   ],
+   "pronunciation": "haskanal"
+  },
+  {
+   "am": "ափսոսանք",
+   "ru": [
+    "Жалость",
+    "сожаление"
+   ],
+   "en": [
+    "regret"
+   ],
+   "pronunciation": "ap*sosanq"
+  },
+  {
+   "am": "զարմանալ",
+   "ru": [
+    "Удивляться",
+    "удивиться",
+    "изумляться",
+    "изумиться"
+   ],
+   "en": [
+    "be",
+    "surprised",
+    "astonished"
+   ],
+   "pronunciation": "zarmanal"
+  },
+  {
+   "am": "կերակրել",
+   "ru": [
+    "Кормить",
+    "накормить",
+    "покормить",
+    "питать",
+    "давать"
+   ],
+   "en": [
+    "nourish",
+    "feed"
+   ],
+   "pronunciation": "kerakrel"
+  },
+  {
+   "am": "խմորեղեն",
+   "ru": [
+    "Мучное",
+    "мучные",
+    "изделия"
+   ],
+   "en": [
+    "cake"
+   ],
+   "pronunciation": "xmoreghen"
+  },
+  {
+   "am": "ցանկանալ",
+   "ru": [
+    "Желать",
+    "пожелать"
+   ],
+   "en": [
+    "desire",
+    "want"
+   ],
+   "pronunciation": "ts‘ankanal"
+  },
+  {
+   "am": "կասկածել",
+   "ru": [
+    "Сомневаться",
+    "Подозревать",
+    "заподозрить"
+   ],
+   "en": [
+    "doubt"
+   ],
+   "pronunciation": "kaskatsel"
+  },
+  {
+   "am": "ընդունակ",
+   "ru": [
+    "Способный",
+    "Одарённый"
+   ],
+   "en": [
+    "clever",
+    "able",
+    "capable"
+   ],
+   "pronunciation": "éndunak"
+  },
+  {
+   "am": "առաջնորդ",
+   "ru": [
+    "Вождь",
+    "предводитель",
+    "Глава",
+    "племени",
+    "общины"
+   ],
+   "en": [
+    "ceiling",
+    "more",
+    "advantage",
+    "morning"
+   ],
+   "pronunciation": "ar‘astagh"
+  },
+  {
+   "am": "խուսափել",
+   "ru": [
+    "Избегать",
+    "избежать",
+    "Увёртываться",
+    "увернуться",
+    "Уклоняться"
+   ],
+   "en": [
+    "beat",
+    "hit"
+   ],
+   "pronunciation": "xp‘el"
+  },
+  {
+   "am": "զարդարել",
+   "ru": [
+    "Наряжать",
+    "нарядить",
+    "украшать",
+    "украсить",
+    "убирать"
+   ],
+   "en": [
+    "wake",
+    "up",
+    "get"
+   ],
+   "pronunciation": "zart‘nel"
+  },
+  {
+   "am": "բաղկանալ",
+   "ru": [
+    "Состоять",
+    "слагаться"
+   ],
+   "en": [
+    "consist"
+   ],
+   "pronunciation": "baghkanal"
+  },
+  {
+   "am": "անհամբեր",
+   "ru": [
+    "Нетерпеливый",
+    "человек",
+    "Нетерпеливо",
+    "нетерпением",
+    "ждать"
+   ],
+   "en": [
+    "impatient",
+    "unknown"
+   ],
+   "pronunciation": "anhamber"
+  },
+  {
+   "am": "ընդունել",
+   "ru": [
+    "Принимать",
+    "принять",
+    "Признавать",
+    "Признать",
+    "свою"
+   ],
+   "en": [
+    "accept",
+    "admit"
+   ],
+   "pronunciation": "Endunel"
+  },
+  {
+   "am": "արտադրել",
+   "ru": [
+    "Производить",
+    "произвести",
+    "вырабатывать",
+    "выработать"
+   ],
+   "en": [
+    "produce"
+   ],
+   "pronunciation": "artadrel"
+  },
+  {
+   "am": "արտասվել",
+   "ru": [
+    "Плакать",
+    "лить",
+    "проливать",
+    "пролить",
+    "слёзы"
+   ],
+   "en": [
+    "cry",
+    "weep"
+   ],
+   "pronunciation": "artasvel"
+  },
+  {
+   "am": "իրավունք",
+   "ru": [
+    "Право",
+    "получить",
+    "распоряжаться",
+    "считать",
+    "себя"
+   ],
+   "en": [
+    "right",
+    "license"
+   ],
+   "pronunciation": "iravunq"
+  },
+  {
+   "am": "անգլերեն",
+   "ru": [
+    "Английский",
+    "язык",
+    "По-английски",
+    "на",
+    "английском"
+   ],
+   "en": [
+    "english",
+    "member"
+   ],
+   "pronunciation": "angleren"
+  },
+  {
+   "am": "ավտոբուս",
+   "ru": [
+    "Автобус"
+   ],
+   "en": [
+    "bus"
+   ],
+   "pronunciation": "avtobus"
+  },
+  {
+   "am": "երեկոյան",
+   "ru": [
+    "Вечером",
+    "вечеру",
+    "под",
+    "вечер"
+   ],
+   "en": [
+    "in",
+    "the",
+    "evening"
+   ],
+   "pronunciation": "yerekoyan"
+  },
+  {
+   "am": "բնակարան",
+   "ru": [
+    "Место",
+    "проживания",
+    "местожительство",
+    "квартира",
+    "Жилое"
+   ],
+   "en": [
+    "apartment"
+   ],
+   "pronunciation": "bnakaran"
+  },
+  {
+   "am": "անձնագիր",
+   "ru": [
+    "Паспорт"
+   ],
+   "en": [
+    "rain",
+    "unrecognizable"
+   ],
+   "pronunciation": "passport"
+  },
+  {
+   "am": "վերջանալ",
+   "ru": [
+    "Кончаться",
+    "кончиться",
+    "дело",
+    "концом",
+    "кончено"
+   ],
+   "en": [
+    "at",
+    "last"
+   ],
+   "pronunciation": "verjapes"
+  },
+  {
+   "am": "անտանելի",
+   "ru": [
+    "Невыносимый",
+    "несносный",
+    "нестерпимый"
+   ],
+   "en": [
+    "intolerable"
+   ],
+   "pronunciation": "forest"
+  },
+  {
+   "am": "ապահովել",
+   "ru": [
+    "Обезопасить",
+    "Обеспечивать",
+    "обеспечить",
+    "продуктами",
+    "семью"
+   ],
+   "en": [
+    "insure"
+   ],
+   "pronunciation": "apahovel"
+  },
+  {
+   "am": "բարձունք",
+   "ru": [
+    "Высота",
+    "вышина",
+    "высь",
+    "горные",
+    "выси"
+   ],
+   "en": [
+    "height",
+    "open",
+    "absent"
+   ],
+   "pronunciation": "barz‘unq"
+  },
+  {
+   "am": "պատկանել",
+   "ru": [
+    "Принадлежать"
+   ],
+   "en": [
+    "belong",
+    "to"
+   ],
+   "pronunciation": "patkanel"
+  },
+  {
+   "am": "պատվիրել",
+   "ru": [
+    "Заказывать",
+    "заказать",
+    "Поручать",
+    "поручить",
+    "Велеть"
+   ],
+   "en": [
+    "order"
+   ],
+   "pronunciation": "patvirel"
+  },
+  {
+   "am": "խորամանկ",
+   "ru": [
+    "Хитрый",
+    "Хитрец"
+   ],
+   "en": [
+    "cunning",
+    "sly",
+    "deep"
+   ],
+   "pronunciation": "xoramank"
+  },
+  {
+   "am": "գերազանց",
+   "ru": [
+    "Отличный",
+    "превосходный",
+    "отменный",
+    "отличная",
+    "отметка"
+   ],
+   "en": [
+    "excellent"
+   ],
+   "pronunciation": "gerazants‘"
+  },
+  {
+   "am": "կառուցել",
+   "ru": [
+    "Строить",
+    "построить",
+    "сооружать",
+    "соорудить",
+    "возводить"
+   ],
+   "en": [
+    "build"
+   ],
+   "pronunciation": "kar‘uts‘el"
+  },
+  {
+   "am": "հաղթանակ",
+   "ru": [
+    "Победа",
+    "Венец",
+    "венок",
+    "награда",
+    "победить"
+   ],
+   "en": [
+    "victory",
+    "triumph"
+   ],
+   "pronunciation": "haght‘ anak"
+  },
+  {
+   "am": "պայուսակ",
+   "ru": [
+    "Сумка",
+    "Ранец",
+    "Портфель"
+   ],
+   "en": [
+    "bag",
+    "suitcase"
+   ],
+   "pronunciation": "payusak"
+  },
+  {
+   "am": "նույնիսկ",
+   "ru": [
+    "Даже"
+   ],
+   "en": [
+    "even"
+   ],
+   "pronunciation": "nuynisk"
+  },
+  {
+   "am": "զարգանալ",
+   "ru": [
+    "Развиваться",
+    "развиться",
+    "Прогрессировать",
+    "болезнь",
+    "прогрессирует"
+   ],
+   "en": [
+    "develop"
+   ],
+   "pronunciation": "zarganal"
+  },
+  {
+   "am": "հանդիպել",
+   "ru": [
+    "Встречать",
+    "встретить",
+    "Встречаться",
+    "встретиться",
+    "Заглядывать"
+   ],
+   "en": [
+    "turn",
+    "off",
+    "switch"
+   ],
+   "pronunciation": "hangts‘nel"
+  },
+  {
+   "am": "թափանցել",
+   "ru": [
+    "Проникать",
+    "проникнуть",
+    "Просачиваться",
+    "просочиться",
+    "Просвечивать"
+   ],
+   "en": [
+    "penetrate"
+   ],
+   "pronunciation": "t‘ap‘ants‘el"
+  },
+  {
+   "am": "զամբյուղ",
+   "ru": [
+    "Корзина",
+    "корзинка"
+   ],
+   "en": [
+    "basket"
+   ],
+   "pronunciation": "zambyugh"
+  },
+  {
+   "am": "գնահատել",
+   "ru": [
+    "Оценивать",
+    "оценить",
+    "назначать",
+    "назначить",
+    "цену"
+   ],
+   "en": [
+    "estimate",
+    "value"
+   ],
+   "pronunciation": "gnahatel"
+  },
+  {
+   "am": "ապացույց",
+   "ru": [
+    "Доказательство",
+    "свидетельство",
+    "подтверждение",
+    "привести"
+   ],
+   "en": [
+    "prove"
+   ],
+   "pronunciation": "apats‘uts‘el"
+  },
+  {
+   "am": "գարեջուր",
+   "ru": [
+    "Пиво"
+   ],
+   "en": [
+    "bear"
+   ],
+   "pronunciation": "garejur"
+  }
+ ],
+ "B2": [
+  {
+   "am": "գերեզման",
+   "ru": [
+    "Могила",
+    "могильная",
+    "яма",
+    "Гробница",
+    "склеп"
+   ],
+   "en": [
+    "cemetery",
+    "mad"
+   ],
+   "pronunciation": "gerezman"
+  },
+  {
+   "am": "խմբագրել",
+   "ru": [
+    "Редактировать",
+    "отредактировать"
+   ],
+   "en": [
+    "edit"
+   ],
+   "pronunciation": "xmbagrel"
+  },
+  {
+   "am": "ճանապարհ",
+   "ru": [
+    "Дорога",
+    "путь",
+    "проложить",
+    "дорогу",
+    "пробивать"
+   ],
+   "en": [
+    "road"
+   ],
+   "pronunciation": "chanaparh"
+  },
+  {
+   "am": "քաղաքացի",
+   "ru": [
+    "Гражданин",
+    "Горожанин",
+    "городской",
+    "житель"
+   ],
+   "en": [
+    "citizen"
+   ],
+   "pronunciation": "qaghagats‘i"
+  },
+  {
+   "am": "ուղարկել",
+   "ru": [
+    "Посылать",
+    "послать",
+    "Отправлять",
+    "отправить"
+   ],
+   "en": [
+    "send"
+   ],
+   "pronunciation": "ugharkel"
+  },
+  {
+   "am": "գործարան",
+   "ru": [
+    "Завод",
+    "Фабрика",
+    "Орган",
+    "органы",
+    "пищеварения"
+   ],
+   "en": [
+    "instrument"
+   ],
+   "pronunciation": "gortsiq"
+  },
+  {
+   "am": "թելադրել",
+   "ru": [
+    "Диктовать",
+    "продиктовать"
+   ],
+   "en": [
+    "dictate",
+    "thread-needle"
+   ],
+   "pronunciation": "t‘eladrel"
+  },
+  {
+   "am": "գրադարան",
+   "ru": [
+    "Библиотека"
+   ],
+   "en": [
+    "almost",
+    "nearly"
+   ],
+   "pronunciation": "gret‘e"
+  },
+  {
+   "am": "անկասկած",
+   "ru": [
+    "Несомненно",
+    "без",
+    "сомнения",
+    "вне",
+    "не"
+   ],
+   "en": [
+    "without",
+    "doubt"
+   ],
+   "pronunciation": "ankaskats"
+  },
+  {
+   "am": "զայրանալ",
+   "ru": [
+    "Сердиться",
+    "рассердиться",
+    "гневаться",
+    "разгневаться",
+    "негодовать"
+   ],
+   "en": [
+    "fo",
+    "get",
+    "angry"
+   ],
+   "pronunciation": "zayranal"
+  },
+  {
+   "am": "ողջունել",
+   "ru": [
+    "Приветствовать",
+    "здороваться",
+    "кланяться",
+    "поклониться",
+    "Одобрять"
+   ],
+   "en": [
+    "greet",
+    "salute"
+   ],
+   "pronunciation": "voghjunel"
+  },
+  {
+   "am": "ձանձրալի",
+   "ru": [
+    "Скучный",
+    "нудный",
+    "надоедливый"
+   ],
+   "en": [
+    "dull"
+   ],
+   "pronunciation": "zZanz‘rali"
+  },
+  {
+   "am": "նախանձել",
+   "ru": [
+    "Завидовать"
+   ],
+   "en": [
+    "fo",
+    "envy"
+   ],
+   "pronunciation": "naxanz‘el"
+  },
+  {
+   "am": "վերջապես",
+   "ru": [
+    "Наконец",
+    "наконец-то",
+    "конце",
+    "концов"
+   ],
+   "en": [
+    "recently",
+    "lately"
+   ],
+   "pronunciation": "verjers"
+  },
+  {
+   "am": "ընդամենը",
+   "ru": [
+    "Итого",
+    "всего",
+    "Всего-навсего"
+   ],
+   "en": [
+    "in",
+    "all",
+    "only"
+   ],
+   "pronunciation": "Endamené"
+  },
+  {
+   "am": "հրավիրել",
+   "ru": [
+    "Приглашать",
+    "пригласить",
+    "звать",
+    "позвать",
+    "Созывать"
+   ],
+   "en": [
+    "invite"
+   ],
+   "pronunciation": "hravirel"
+  },
+  {
+   "am": "մշակույթ",
+   "ru": [
+    "Культура"
+   ],
+   "en": [
+    "culture"
+   ],
+   "pronunciation": "mshakuyt*"
+  },
+  {
+   "am": "զուգարան",
+   "ru": [
+    "Уборная",
+    "туалет"
+   ],
+   "en": [
+    "toilet"
+   ],
+   "pronunciation": "zugaran"
+  },
+  {
+   "am": "գիրք",
+   "ru": [
+    "Книга",
+    "Том",
+    "первый",
+    "второй",
+    "для"
+   ],
+   "en": [
+    "cap",
+    "hat",
+    "head-ache",
+    "head"
+   ]
+  },
+  {
+   "am": "նախընտրել",
+   "ru": [
+    "Предпочитать",
+    "предпочесть"
+   ],
+   "en": [
+    "prefer"
+   ],
+   "pronunciation": "naxéntrel"
+  },
+  {
+   "am": "բոլորովին",
+   "ru": [
+    "Совсем",
+    "совершенно",
+    "целиком",
+    "всецело",
+    "новый"
+   ],
+   "en": [
+    "quite"
+   ],
+   "pronunciation": "bolorovin"
+  },
+  {
+   "am": "կանխավճար",
+   "ru": [
+    "Аванс",
+    "Задаток"
+   ],
+   "en": [
+    "rule"
+   ],
+   "pronunciation": "kanxavchar"
+  },
+  {
+   "am": "ապացուցել",
+   "ru": [
+    "Доказывать",
+    "доказать"
+   ],
+   "en": [
+    "recover"
+   ],
+   "pronunciation": "apaqinvel"
+  },
+  {
+   "am": "սարսափելի",
+   "ru": [
+    "Ужасный",
+    "страшный"
+   ],
+   "en": [
+    "terrible",
+    "horrible"
+   ],
+   "pronunciation": "sarsap‘eli"
+  },
+  {
+   "am": "ընդհանուր",
+   "ru": [
+    "Общий",
+    "всеобщий",
+    "Обязательный",
+    "для",
+    "всех"
+   ],
+   "en": [
+    "general",
+    "common"
+   ],
+   "pronunciation": "éndhanur"
+  },
+  {
+   "am": "դարաշրջան",
+   "ru": [
+    "Эпоха",
+    "эра",
+    "век",
+    "возрождения",
+    "социализма"
+   ],
+   "en": [
+    "medicine",
+    "medicament"
+   ],
+   "pronunciation": "degh"
+  },
+  {
+   "am": "անուշահոտ",
+   "ru": [
+    "Душистый",
+    "благоуханный",
+    "благовонный"
+   ],
+   "en": [
+    "aromatic",
+    "inexperienced"
+   ],
+   "pronunciation": "anushahot"
+  },
+  {
+   "am": "անհավասար",
+   "ru": [
+    "Неравный",
+    "неравные",
+    "силы",
+    "Неровный",
+    "неровная"
+   ],
+   "en": [
+    "irregular"
+   ],
+   "pronunciation": "anhavasar"
+  },
+  {
+   "am": "բամբասանք",
+   "ru": [
+    "Сплетня",
+    "сплетничать",
+    "судачить",
+    "заядлый",
+    "сплетник"
+   ],
+   "en": [
+    "gossip"
+   ],
+   "pronunciation": "babbasanq"
+  },
+  {
+   "am": "մորաքույր",
+   "ru": [
+    "Тётя"
+   ],
+   "en": [
+    "aunt",
+    "beard"
+   ],
+   "pronunciation": "moraquyr"
+  },
+  {
+   "am": "պաշտպանել",
+   "ru": [
+    "Защищать",
+    "защитить",
+    "оборонять",
+    "оборонить",
+    "Заступаться"
+   ],
+   "en": [
+    "protect",
+    "defend",
+    "grandfather"
+   ],
+   "pronunciation": "pashtpanel"
+  },
+  {
+   "am": "ծափահարել",
+   "ru": [
+    "Рукоплескать",
+    "аплодировать",
+    "хлопать",
+    "ударять",
+    "бить"
+   ],
+   "en": [
+    "applaud"
+   ],
+   "pronunciation": "tsap‘aharel"
+  },
+  {
+   "am": "անցկացնել",
+   "ru": [
+    "Переводить",
+    "перевести",
+    "перевозить",
+    "перевезти",
+    "Продевать"
+   ],
+   "en": [
+    "spend",
+    "pass"
+   ],
+   "pronunciation": "ants‘ kats‘nel"
+  },
+  {
+   "am": "ապարանջան",
+   "ru": [
+    "Браслет"
+   ],
+   "en": [
+    "bracelet"
+   ],
+   "pronunciation": "aparanjan"
+  },
+  {
+   "am": "համբուրել",
+   "ru": [
+    "Целовать",
+    "поцеловать",
+    "лобзать",
+    "Подбадривать",
+    "подбодрить"
+   ],
+   "en": [
+    "kiss"
+   ],
+   "pronunciation": "hamburel"
+  },
+  {
+   "am": "առավոտյան",
+   "ru": [
+    "Утренний",
+    "Утром",
+    "утречком",
+    "поутру",
+    "утру"
+   ],
+   "en": [
+    "in",
+    "the",
+    "morning",
+    "generous"
+   ],
+   "pronunciation": "ՅՐ ՀՕ Ձո"
+  },
+  {
+   "am": "երկաթուղի",
+   "ru": [
+    "Железная",
+    "дорога",
+    "Железнодорожное",
+    "управление",
+    "железной"
+   ],
+   "en": [
+    "railway",
+    "railroad"
+   ],
+   "pronunciation": "yerkat‘ughi"
+  },
+  {
+   "am": "ծննդավայր",
+   "ru": [
+    "Родина",
+    "место",
+    "рождения"
+   ],
+   "en": [
+    "birth-place"
+   ],
+   "pronunciation": "tsnndavayr"
+  },
+  {
+   "am": "ավանդույթ",
+   "ru": [
+    "Традиция",
+    "стать",
+    "традицией"
+   ],
+   "en": [
+    "tradition"
+   ],
+   "pronunciation": "avanduyt*"
+  },
+  {
+   "am": "մաշկ",
+   "ru": [
+    "Кожа",
+    "Шкура",
+    "Кожура",
+    "Перепонка",
+    "между"
+   ],
+   "en": [
+    "speciality"
+   ]
+  },
+  {
+   "am": "զարմանալի",
+   "ru": [
+    "Удивительный",
+    "изумительный"
+   ],
+   "en": [
+    "astonishing",
+    "surprising"
+   ],
+   "pronunciation": "zarmanali"
+  },
+  {
+   "am": "կարկանդակ",
+   "ru": [
+    "Пирог",
+    "пирожок"
+   ],
+   "en": [
+    "hail"
+   ],
+   "pronunciation": "pastry"
+  },
+  {
+   "am": "ձայնագրել",
+   "ru": [
+    "Перекладывать",
+    "переложить",
+    "на",
+    "ноты",
+    "Записывать"
+   ],
+   "en": [
+    "rercord"
+   ],
+   "pronunciation": "zZaynagrel"
+  },
+  {
+   "am": "թատերախաղ",
+   "ru": [
+    "Представление",
+    "спектакль"
+   ],
+   "en": [
+    "show",
+    "performance"
+   ],
+   "pronunciation": "t‘ateraxagh"
+  },
+  {
+   "am": "երկրաշարժ",
+   "ru": [
+    "Землетрясение"
+   ],
+   "en": [
+    "second",
+    "monday",
+    "sausage"
+   ],
+   "pronunciation": "yerkrord"
+  },
+  {
+   "am": "անուշադիր",
+   "ru": [
+    "Невнимательный",
+    "Невнимательно",
+    "слушать"
+   ],
+   "en": [
+    "inattentive"
+   ],
+   "pronunciation": "anushadir"
+  },
+  {
+   "am": "համեմատել",
+   "ru": [
+    "Сравнивать",
+    "сравнить",
+    "сопоставлять",
+    "сопоставить",
+    "Сличать"
+   ],
+   "en": [
+    "compare"
+   ],
+   "pronunciation": "hamenatel"
+  },
+  {
+   "am": "անուղղակի",
+   "ru": [
+    "Непрямой",
+    "косвенный",
+    "косвенная",
+    "причина",
+    "Косвенно"
+   ],
+   "en": [
+    "indirect",
+    "irreparable",
+    "name"
+   ],
+   "pronunciation": "anughghaki"
+  },
+  {
+   "am": "վիրահատել",
+   "ru": [
+    "Оперировать",
+    "делать",
+    "сделать",
+    "операцию"
+   ],
+   "en": [
+    "operate"
+   ],
+   "pronunciation": "vcharel"
+  },
+  {
+   "am": "ապաքինվել",
+   "ru": [
+    "Лечиться",
+    "вылечиваться",
+    "вылечиться",
+    "исцеляться",
+    "исцелиться"
+   ],
+   "en": [
+    "goods",
+    "bales",
+    "wares"
+   ],
+   "pronunciation": "apranq"
+  },
+  {
+   "am": "թարգմանել",
+   "ru": [
+    "Переводить",
+    "перевести",
+    "Выражать",
+    "выразить"
+   ],
+   "en": [
+    "translate",
+    "interpret"
+   ],
+   "pronunciation": "t‘argmanel"
+  },
+  {
+   "am": "մեծահասակ",
+   "ru": [
+    "Взрослый",
+    "пожилой",
+    "Рослый",
+    "высокого",
+    "роста"
+   ],
+   "en": [
+    "old",
+    "aged"
+   ],
+   "pronunciation": "metsahasak"
+  },
+  {
+   "am": "կարողանալ",
+   "ru": [
+    "Уметь",
+    "суметь",
+    "мочь",
+    "смочь"
+   ],
+   "en": [
+    "be",
+    "able"
+   ],
+   "pronunciation": "karoghanal"
+  },
+  {
+   "am": "հավատարիմ",
+   "ru": [
+    "Верный",
+    "преданный",
+    "надёжный",
+    "приверженный"
+   ],
+   "en": [
+    "trusty"
+   ],
+   "pronunciation": "havatarim"
+  },
+  {
+   "am": "շնորհակալ",
+   "ru": [
+    "Благодарный",
+    "признательный",
+    "полезный",
+    "труд",
+    "благодарен"
+   ],
+   "en": [
+    "grateful",
+    "thankful"
+   ],
+   "pronunciation": "shnorhakal \nshnorhakalut‘ \nyun"
+  },
+  {
+   "am": "շենք",
+   "ru": [
+    "Здание",
+    "помещение",
+    "Вид",
+    "Умение",
+    "красивый"
+   ],
+   "en": [
+    "grateful",
+    "thankful"
+   ]
+  },
+  {
+   "am": "հինգշաբթի",
+   "ru": [
+    "Четверг"
+   ],
+   "en": [
+    "remember",
+    "memory"
+   ],
+   "pronunciation": "hishel"
+  },
+  {
+   "am": "սովորաբար",
+   "ru": [
+    "Обычно",
+    "обыкновенно",
+    "Вообще"
+   ],
+   "en": [
+    "usually"
+   ],
+   "pronunciation": "sovorabar"
+  },
+  {
+   "am": "հյուրանոց",
+   "ru": [
+    "Гостиница",
+    "отель"
+   ],
+   "en": [
+    "hotel"
+   ],
+   "pronunciation": "hyuranots‘"
+  },
+  {
+   "am": "համընկնել",
+   "ru": [
+    "Совпадать",
+    "совпасть",
+    "Соответствовать"
+   ],
+   "en": [
+    "coincide"
+   ],
+   "pronunciation": "haménknel"
+  },
+  {
+   "am": "անցանկալի",
+   "ru": [
+    "Нежелательный"
+   ],
+   "en": [
+    "undesirable"
+   ],
+   "pronunciation": "ants‘ankali"
+  },
+  {
+   "am": "նկարագրել",
+   "ru": [
+    "Описывать",
+    "описать",
+    "рисовать",
+    "нарисовать",
+    "обрисовывать"
+   ],
+   "en": [
+    "describe"
+   ],
+   "pronunciation": "nkaragrel"
+  },
+  {
+   "am": "քարտուղար",
+   "ru": [
+    "Секретарь",
+    "личный",
+    "учёный",
+    "государственный"
+   ],
+   "en": [
+    "secretary"
+   ],
+   "pronunciation": "qartughar"
+  },
+  {
+   "am": "ծանոթանալ",
+   "ru": [
+    "Знакомиться",
+    "познакомиться",
+    "ознакомляться",
+    "ознакомиться"
+   ],
+   "en": [
+    "be",
+    "acquainted",
+    "with",
+    "heavy"
+   ],
+   "pronunciation": "tsanot‘ anal"
+  },
+  {
+   "am": "բավարարել",
+   "ru": [
+    "Удовлетворять",
+    "удовлетворить",
+    "просьбу",
+    "отвечать",
+    "научным"
+   ],
+   "en": [
+    "satisfy"
+   ],
+   "pronunciation": "bavararel"
+  },
+  {
+   "am": "հետաքրքիր",
+   "ru": [
+    "Интересный",
+    "примечательный",
+    "замечательный",
+    "любопытный",
+    "занимательный"
+   ],
+   "en": [
+    "after"
+   ],
+   "pronunciation": "heto"
+  },
+  {
+   "am": "թարգմանիչ",
+   "ru": [
+    "Переводчик"
+   ],
+   "en": [
+    "translator",
+    "interpreter"
+   ],
+   "pronunciation": "t‘argmanich*"
+  },
+  {
+   "am": "պատրաստել",
+   "ru": [
+    "Готовив",
+    "приготовлять",
+    "приготовить",
+    "Изготовлять",
+    "изготовить"
+   ],
+   "en": [
+    "prepare",
+    "window"
+   ],
+   "pronunciation": "patrastel"
+  },
+  {
+   "am": "շրջապատել",
+   "ru": [
+    "Окружать",
+    "окружить",
+    "Окаймлять",
+    "окаймить",
+    "обрамлять"
+   ],
+   "en": [
+    "surround"
+   ],
+   "pronunciation": "shrjapatel"
+  },
+  {
+   "am": "նախաճաշել",
+   "ru": [
+    "Завтракать",
+    "позавтракать"
+   ],
+   "en": [
+    "have",
+    "breakfast"
+   ],
+   "pronunciation": "naxachashel"
+  },
+  {
+   "am": "բարդացնել",
+   "ru": [
+    "Осложнять",
+    "осложнить",
+    "усложнять",
+    "усложнить"
+   ],
+   "en": [
+    "greet"
+   ],
+   "pronunciation": "barevel"
+  },
+  {
+   "am": "պայմանագիր",
+   "ru": [
+    "Договор",
+    "контракт",
+    "Пакт",
+    "заключать",
+    "заключить"
+   ],
+   "en": [
+    "contract"
+   ],
+   "pronunciation": "paymanagir"
+  },
+  {
+   "am": "բնականաբար",
+   "ru": [
+    "Естественно",
+    "конечно",
+    "разумеется",
+    "несомненно",
+    "безусловно"
+   ],
+   "en": [
+    "naturally"
+   ],
+   "pronunciation": "bnakanabar"
+  },
+  {
+   "am": "սովորեցնել",
+   "ru": [
+    "Учить",
+    "научить",
+    "Приучать",
+    "приучить",
+    "Подучивать"
+   ],
+   "en": [
+    "teach"
+   ],
+   "pronunciation": "sovorets‘nel"
+  },
+  {
+   "am": "ամուսնանալ",
+   "ru": [
+    "Жениться",
+    "Выходить",
+    "замуж",
+    "Вступать",
+    "брак"
+   ],
+   "en": [
+    "fo",
+    "marry",
+    "garden"
+   ],
+   "pronunciation": "amusnanal"
+  },
+  {
+   "am": "համալսարան",
+   "ru": [
+    "Университет"
+   ],
+   "en": [
+    "university",
+    "sympathy"
+   ],
+   "pronunciation": "hamalsaran"
+  },
+  {
+   "am": "արտահայտել",
+   "ru": [
+    "Выражать",
+    "выразить",
+    "недовольство",
+    "Высказывать",
+    "высказать"
+   ],
+   "en": [
+    "express"
+   ],
+   "pronunciation": "artahaytel"
+  },
+  {
+   "am": "արդարացնել",
+   "ru": [
+    "Оправдывать",
+    "оправдать",
+    "себя"
+   ],
+   "en": [
+    "justify"
+   ],
+   "pronunciation": "ardarats‘nel"
+  },
+  {
+   "am": "հանգստանալ",
+   "ru": [
+    "Отдыхать",
+    "отдохнуть",
+    "Успокаиваться",
+    "успокоиться",
+    "Утихомириваться"
+   ],
+   "en": [
+    "calm",
+    "rest",
+    "tranquil"
+   ],
+   "pronunciation": "hangist"
+  },
+  {
+   "am": "բացականչել",
+   "ru": [
+    "Восклицать",
+    "воскликнуть",
+    "кричать",
+    "крикнуть",
+    "вскричать"
+   ],
+   "en": [
+    "exception"
+   ],
+   "pronunciation": "bats‘ar‘ut‘yun"
+  },
+  {
+   "am": "դասավանդել",
+   "ru": [
+    "Преподавать"
+   ],
+   "en": [
+    "teach"
+   ],
+   "pronunciation": "dasavandel"
+  },
+  {
+   "am": "արտահանում",
+   "ru": [
+    "Вывоз",
+    "экспортирование"
+   ],
+   "en": [
+    "export",
+    "abroad",
+    "extraordinary"
+   ],
+   "pronunciation": "artahanum"
+  },
+  {
+   "am": "համբերատար",
+   "ru": [
+    "Терпеливый",
+    "долготерпеливый",
+    "Снисходительный"
+   ],
+   "en": [
+    "tolerant",
+    "patient"
+   ],
+   "pronunciation": "hamberatar"
+  },
+  {
+   "am": "ձերբակալել",
+   "ru": [
+    "Арестовывать",
+    "арестовать",
+    "задерживать",
+    "задержать"
+   ],
+   "en": [
+    "arrest"
+   ],
+   "pronunciation": "z erbakalel"
+  },
+  {
+   "am": "ճարտարապետ",
+   "ru": [
+    "Архитектор",
+    "зодчий"
+   ],
+   "en": [
+    "architect"
+   ],
+   "pronunciation": "chartarapet"
+  },
+  {
+   "am": "հիվանդանալ",
+   "ru": [
+    "Болеть",
+    "быть",
+    "больным",
+    "страдать",
+    "чем"
+   ],
+   "en": [
+    "fall",
+    "ill"
+   ],
+   "pronunciation": "hivandanal"
+  },
+  {
+   "am": "ատաղձագործ",
+   "ru": [
+    "Плотник"
+   ],
+   "en": [
+    "carpenter"
+   ],
+   "pronunciation": "ataghz‘agorts"
+  },
+  {
+   "am": "աշխատավարձ",
+   "ru": [
+    "Заработная",
+    "плата",
+    "зарплата"
+   ],
+   "en": [
+    "earnings"
+   ],
+   "pronunciation": "ashxatavarz*"
+  },
+  {
+   "am": "անտրամադիր",
+   "ru": [
+    "плохом",
+    "расположении",
+    "духа",
+    "настроении",
+    "меня"
+   ],
+   "en": [
+    "inno",
+    "mood"
+   ],
+   "pronunciation": "antramadir"
+  },
+  {
+   "am": "արվեստագետ",
+   "ru": [
+    "Искусствовед",
+    "Художник",
+    "артист",
+    "деятель",
+    "искусства"
+   ],
+   "en": [
+    "artist"
+   ],
+   "pronunciation": "arvestaget"
+  },
+  {
+   "am": "զանգահարել",
+   "ru": [
+    "Звонить",
+    "позвонить"
+   ],
+   "en": [
+    "ring"
+   ],
+   "pronunciation": "zangaharel"
+  },
+  {
+   "am": "Էքսկուրսիա",
+   "ru": [
+    "Экскурсия"
+   ],
+   "en": [
+    "excursion"
+   ],
+   "pronunciation": "o>"
+  },
+  {
+   "am": "շարունակել",
+   "ru": [
+    "Продолжать",
+    "продолжить"
+   ],
+   "en": [
+    "continue",
+    "go",
+    "on",
+    "sugar"
+   ],
+   "pronunciation": "sharunakel"
+  },
+  {
+   "am": "զբոսաշրջիկ",
+   "ru": [
+    "Турист"
+   ],
+   "en": [
+    "tourist"
+   ],
+   "pronunciation": "zbosashrjik"
+  },
+  {
+   "am": "բաժանմունք",
+   "ru": [
+    "Отделение",
+    "филиал",
+    "секция"
+   ],
+   "en": [
+    "section",
+    "department"
+   ],
+   "pronunciation": "bazhanmunq"
+  },
+  {
+   "am": "նայել",
+   "ru": [
+    "Смотреть",
+    "посмотреть",
+    "глядеть",
+    "глянуть",
+    "Присматривать"
+   ],
+   "en": [
+    "boat",
+    "ship",
+    "orange",
+    "orange-coloured",
+    "narrow"
+   ]
+  },
+  {
+   "am": "երգել",
+   "ru": [
+    "Петь",
+    "спеть",
+    "Профессионально",
+    "заниматься",
+    "пением"
+   ],
+   "en": [
+    "sing"
+   ]
+  },
+  {
+   "am": "հիվանդանոց",
+   "ru": [
+    "Больница",
+    "лечебница",
+    "госпиталь",
+    "лазарет"
+   ],
+   "en": [
+    "hospital"
+   ],
+   "pronunciation": "hivandanots‘"
+  },
+  {
+   "am": "կանգառ",
+   "ru": [
+    "Остановка"
+   ],
+   "en": [
+    "stop"
+   ]
+  },
+  {
+   "am": "բարձրահասակ",
+   "ru": [
+    "Высокий",
+    "высокого",
+    "роста",
+    "рослый",
+    "высокорослый"
+   ],
+   "en": [
+    "tall"
+   ],
+   "pronunciation": "barz‘rahasak"
+  },
+  {
+   "am": "շնորհավորել",
+   "ru": [
+    "Поздравлять",
+    "поздравить",
+    "поздравляю",
+    "поздравляем",
+    "Новым"
+   ],
+   "en": [
+    "congratulate"
+   ],
+   "pronunciation": "shnorhavorel"
+  },
+  {
+   "am": "անտեղի",
+   "ru": [
+    "Неуместный",
+    "напрасный",
+    "напрасная",
+    "тревога",
+    "Неуместно"
+   ],
+   "en": [
+    "vain",
+    "useless"
+   ]
+  },
+  {
+   "am": "կազմակերպել",
+   "ru": [
+    "Организовывать",
+    "организовать"
+   ],
+   "en": [
+    "organize"
+   ],
+   "pronunciation": "kazmakerpel"
+  },
+  {
+   "am": "անհետաքրքիր",
+   "ru": [
+    "Неинтересный",
+    "безынтересный",
+    "Не",
+    "любопытный"
+   ],
+   "en": [
+    "disinteresting",
+    "impossible"
+   ],
+   "pronunciation": "anhetaqrqir"
+  },
+  {
+   "am": "բավականաչափ",
+   "ru": [
+    "Достаточный",
+    "изрядный",
+    "порядочный",
+    "Достаточно",
+    "изрядно"
+   ],
+   "en": [
+    "sufficient"
+   ],
+   "pronunciation": "bavakanach‘ap‘"
+  },
+  {
+   "am": "վարձել",
+   "ru": [
+    "Нанимать",
+    "нанять",
+    "Снимать",
+    "снять",
+    "комнату"
+   ],
+   "en": [
+    "driver",
+    "hairdressing",
+    "saloon",
+    "upwards",
+    "above"
+   ]
+  },
+  {
+   "am": "պատկերացնել",
+   "ru": [
+    "Представлять",
+    "представить",
+    "воображать",
+    "вообразить",
+    "Изображать"
+   ],
+   "en": [
+    "imagine"
+   ],
+   "pronunciation": "petkerats‘nel"
+  },
+  {
+   "am": "համաձայնվել",
+   "ru": [
+    "ե՛ս"
+   ],
+   "en": [
+    "agree",
+    "community"
+   ],
+   "pronunciation": "hamazaynvel"
+  },
+  {
+   "am": "անհասկանալի",
+   "ru": [
+    "Непонятный",
+    "непонятное",
+    "слово",
+    "Непостижимый",
+    "невразумительный"
+   ],
+   "en": [
+    "incredible"
+   ],
+   "pronunciation": "anhaskanali"
+  },
+  {
+   "am": "ընդհակառակն",
+   "ru": [
+    "Наоборот",
+    "напротив"
+   ],
+   "en": [
+    "quite",
+    "the",
+    "opposite",
+    "generally"
+   ],
+   "pronunciation": "éndhakar‘akn"
+  },
+  {
+   "am": "անհետաձգելի",
+   "ru": [
+    "Безотлагательный",
+    "неотложный",
+    "неотложные",
+    "дела"
+   ],
+   "en": [
+    "urgent"
+   ],
+   "pronunciation": "anhetaz‘ geli"
+  },
+  {
+   "am": "երկրորդ",
+   "ru": [
+    "Второй",
+    "Второстепенный",
+    "Другой",
+    "Второе",
+    "блюдо"
+   ],
+   "en": [
+    "second",
+    "monday",
+    "sausage"
+   ]
+  },
+  {
+   "am": "վստահել",
+   "ru": [
+    "Доверять",
+    "доверить",
+    "Доверяться",
+    "довериться",
+    "полагаться"
+   ],
+   "en": [
+    "trust",
+    "dangerous"
+   ]
+  },
+  {
+   "am": "ընտանիք",
+   "ru": [
+    "Семья",
+    "глава",
+    "семьи",
+    "друг",
+    "Семейство"
+   ],
+   "en": [
+    "choose"
+   ]
+  },
+  {
+   "am": "անքաղաքավարի",
+   "ru": [
+    "Невежливый",
+    "неучтивый",
+    "не",
+    "культурный",
+    "невежливое"
+   ],
+   "en": [
+    "impolite"
+   ],
+   "pronunciation": "anqaghaqavari"
+  },
+  {
+   "am": "անհանգստանալ",
+   "ru": [
+    "Беспокоиться",
+    "побеспокоиться",
+    "обеспокоиваться",
+    "обеспокоиться",
+    "тревожиться"
+   ],
+   "en": [
+    "worry",
+    "unsuccessful",
+    "incomprehensible"
+   ],
+   "pronunciation": "anhajogh"
+  },
+  {
+   "am": "առանձնահատուկ",
+   "ru": [
+    "Особенный",
+    "своеобразный",
+    "специфический",
+    "специфичный"
+   ],
+   "en": [
+    "before"
+   ],
+   "pronunciation": "araj"
+  },
+  {
+   "am": "սքանչելի",
+   "ru": [
+    "Дивный",
+    "чудесный",
+    "чудный",
+    "восхитительный",
+    "прелестный"
+   ],
+   "en": [
+    "marvellous"
+   ]
+  },
+  {
+   "am": "անմիջականորեն",
+   "ru": [
+    "Непосредственно",
+    "прямо"
+   ],
+   "en": [
+    "directly",
+    "immediately",
+    "unforgettable",
+    "unforgivable"
+   ],
+   "pronunciation": "anmijakanoren"
+  },
+  {
+   "am": "համագործակցել",
+   "ru": [
+    "Сотрудничать"
+   ],
+   "en": [
+    "collaborate"
+   ],
+   "pronunciation": "hamagortsakts‘el"
+  },
+  {
+   "am": "ճանապարհորդել",
+   "ru": [
+    "Путешествовать",
+    "странствовать"
+   ],
+   "en": [
+    "travel"
+   ],
+   "pronunciation": "chanaparhordel"
+  },
+  {
+   "am": "բեռնաթափել",
+   "ru": [
+    "Выгружать",
+    "выгрузить",
+    "разгружать",
+    "разгрузить"
+   ],
+   "en": [
+    "unload",
+    "mouth"
+   ]
+  },
+  {
+   "am": "պլանավորել",
+   "ru": [
+    "Планировать",
+    "запланировать",
+    "спланировать",
+    "распланировывать",
+    "распланировать"
+   ],
+   "en": [
+    "plan",
+    "avenue"
+   ]
+  },
+  {
+   "am": "ատամնաբույժ",
+   "ru": [
+    "Зубной",
+    "врач",
+    "стоматолог",
+    "дантист"
+   ],
+   "en": [
+    "dentist"
+   ]
+  },
+  {
+   "am": "յուրաքանչյուր",
+   "ru": [
+    "Каждый",
+    "Всякий"
+   ],
+   "en": [
+    "each"
+   ]
+  },
+  {
+   "am": "ջղային",
+   "ru": [
+    "Нервный",
+    "Нервозный",
+    "сердитый",
+    "раздражительный"
+   ],
+   "en": [
+    "nervous"
+   ],
+   "pronunciation": "jghayin"
+  },
+  {
+   "am": "ազգական",
+   "ru": [
+    "Родственник"
+   ],
+   "en": [
+    "sur",
+    "name",
+    "family"
+   ],
+   "pronunciation": "azganun"
+  },
+  {
+   "am": "դասական",
+   "ru": [
+    "Порядковый",
+    "порядковое",
+    "числительное"
+   ],
+   "en": [
+    "classic"
+   ],
+   "pronunciation": "dasakan"
+  },
+  {
+   "am": "իսկական",
+   "ru": [
+    "Истинный",
+    "настоящий",
+    "подлинный",
+    "Действительный",
+    "член"
+   ],
+   "en": [
+    "true"
+   ],
+   "pronunciation": "iskakan"
+  },
+  {
+   "am": "գիտական",
+   "ru": [
+    "Научный",
+    "учёная",
+    "степень"
+   ],
+   "en": [
+    "scientific",
+    "knowledge"
+   ],
+   "pronunciation": "gitakan"
+  },
+  {
+   "am": "բավական",
+   "ru": [
+    "Достаточный",
+    "изрядный",
+    "порядочный",
+    "он",
+    "получил"
+   ],
+   "en": [
+    "rather"
+   ],
+   "pronunciation": "bavakan"
+  },
+  {
+   "am": "գիտնական",
+   "ru": [
+    "Учёный"
+   ],
+   "en": [
+    "scientist"
+   ],
+   "pronunciation": "gitnakan"
+  },
+  {
+   "am": "կանոնավոր",
+   "ru": [
+    "Регулярный",
+    "систематический",
+    "систематичный",
+    "правильный",
+    "симметричный"
+   ],
+   "en": [
+    "call"
+   ],
+   "pronunciation": "kanonavor"
+  },
+  {
+   "am": "անօգնական",
+   "ru": [
+    "Беспомощный",
+    "Без",
+    "помощи",
+    "остаться"
+   ],
+   "en": [
+    "helpless"
+   ],
+   "pronunciation": "ano‘ gnakan"
+  },
+  {
+   "am": "բնություն",
+   "ru": [
+    "Природа",
+    "Сущность",
+    "характер",
+    "чего-либо",
+    "на"
+   ],
+   "en": [
+    "nature"
+   ],
+   "pronunciation": "bnut‘ yun"
+  },
+  {
+   "am": "լռություն",
+   "ru": [
+    "Тишина",
+    "Молчание",
+    "соблюдать",
+    "тишину",
+    "молча"
+   ],
+   "en": [
+    "silence"
+   ],
+   "pronunciation": "Ircut°yun"
+  },
+  {
+   "am": "առաջնային",
+   "ru": [
+    "Передовой",
+    "Первичный",
+    "материя",
+    "первична"
+   ],
+   "en": [
+    "leader"
+   ],
+   "pronunciation": "ar‘ajnord"
+  },
+  {
+   "am": "ազգություն",
+   "ru": [
+    "Национальность",
+    "армянин",
+    "по",
+    "национальности",
+    "Совет"
+   ],
+   "en": [
+    "noble",
+    "honest"
+   ],
+   "pronunciation": "azniv"
+  },
+  {
+   "am": "խորհրդավոր",
+   "ru": [
+    "Таинственный",
+    "Загадочный",
+    "Торжественный",
+    "Содержательный",
+    "содержательная"
+   ],
+   "en": [
+    "mysterious"
+   ],
+   "pronunciation": "xorhrdavor"
+  },
+  {
+   "am": "քննություն",
+   "ru": [
+    "Экзамен",
+    "испытание",
+    "проверка",
+    "Осмотр",
+    "освидетельствование"
+   ],
+   "en": [
+    "examination"
+   ],
+   "pronunciation": "qnnut*yun"
+  },
+  {
+   "am": "արհեստավոր",
+   "ru": [
+    "Ремесленник",
+    "мастеровой"
+   ],
+   "en": [
+    "artisan"
+   ],
+   "pronunciation": "arhestavor"
+  },
+  {
+   "am": "լրջություն",
+   "ru": [
+    "Голубизна"
+   ],
+   "en": [
+    "serloousness"
+   ],
+   "pronunciation": "Irjut*yun"
+  },
+  {
+   "am": "արհեստական",
+   "ru": [
+    "Искусственный",
+    "искусственные",
+    "цветы",
+    "Неестественный",
+    "деланный"
+   ],
+   "en": [
+    "artificial"
+   ],
+   "pronunciation": "arhestakan"
+  },
+  {
+   "am": "գիտություն",
+   "ru": [
+    "Наука",
+    "Знание",
+    "Академия",
+    "наук",
+    "храм"
+   ],
+   "en": [
+    "science"
+   ],
+   "pronunciation": "gitut‘yun"
+  },
+  {
+   "am": "կախարդական",
+   "ru": [
+    "Волшебный",
+    "колдовской",
+    "магический",
+    "чародейский",
+    "очаровательный"
+   ],
+   "en": [
+    "magic"
+   ],
+   "pronunciation": "kaxardakan"
+  },
+  {
+   "am": "բնական",
+   "ru": [
+    "Природный",
+    "естественный",
+    "обусловленный",
+    "законами",
+    "природы"
+   ],
+   "en": [
+    "naturally"
+   ]
+  },
+  {
+   "am": "ուղղություն",
+   "ru": [
+    "Направление",
+    "Курс",
+    "Прямота",
+    "Течение",
+    "взять"
+   ],
+   "en": [
+    "direction"
+   ],
+   "pronunciation": "ughghut‘ yun"
+  },
+  {
+   "am": "անհավանական",
+   "ru": [
+    "Невероятный",
+    "неправдоподобный",
+    "слух"
+   ],
+   "en": [
+    "incredible"
+   ],
+   "pronunciation": "anhavanakan"
+  },
+  {
+   "am": "ներողություն",
+   "ru": [
+    "Извинение",
+    "прощение",
+    "Извините",
+    "Простите",
+    "просить"
+   ],
+   "en": [
+    "excuse",
+    "pardon"
+   ],
+   "pronunciation": "neroghut‘ yun"
+  },
+  {
+   "am": "սովորություն",
+   "ru": [
+    "Привычка",
+    "обыкновение",
+    "Обычай",
+    "Традиция",
+    "Узус"
+   ],
+   "en": [
+    "habit",
+    "custom"
+   ],
+   "pronunciation": "sovorut*yun"
+  },
+  {
+   "am": "ծառայություն",
+   "ru": [
+    "Служба",
+    "Услуга",
+    "Заслуга",
+    "Прислуживание",
+    "Прислуга"
+   ],
+   "en": [
+    "service"
+   ],
+   "pronunciation": "tsar‘ayut* yun"
+  },
+  {
+   "am": "բացառություն",
+   "ru": [
+    "Исключение",
+    "изъятие",
+    "отклонение",
+    "за",
+    "исключением"
+   ],
+   "en": [
+    "explain",
+    "absolutely"
+   ],
+   "pronunciation": "bats‘atrel"
+  },
+  {
+   "am": "իրադրություն",
+   "ru": [
+    "Обстановка",
+    "ситуация",
+    "конъюнктура"
+   ],
+   "en": [
+    "situation",
+    "lawyer"
+   ],
+   "pronunciation": "iradrut‘yun"
+  },
+  {
+   "am": "մտադրություն",
+   "ru": [
+    "Намерение"
+   ],
+   "en": [
+    "intention"
+   ],
+   "pronunciation": "mtadrut* yun"
+  },
+  {
+   "am": "խոսակցություն",
+   "ru": [
+    "Разговор",
+    "Разговоры",
+    "толки",
+    "зашёл",
+    "ком"
+   ],
+   "en": [
+    "conversation",
+    "talk"
+   ],
+   "pronunciation": "xosakts‘ut* \nyun"
+  },
+  {
+   "am": "բնավորություն",
+   "ru": [
+    "Характер",
+    "склад",
+    "нрав",
+    "норов",
+    "крутой"
+   ],
+   "en": [
+    "character"
+   ],
+   "pronunciation": "bnavorut‘ yun"
+  },
+  {
+   "am": "հիվանդություն",
+   "ru": [
+    "Болезнь"
+   ],
+   "en": [
+    "sickness",
+    "illness"
+   ],
+   "pronunciation": "hivandut‘yun"
+  },
+  {
+   "am": "անարդարություն",
+   "ru": [
+    "Несправедливость",
+    "неправедность"
+   ],
+   "en": [
+    "injury",
+    "unhappy",
+    "unlucky"
+   ],
+   "pronunciation": "anardarut* yun"
+  },
+  {
+   "am": "իրադարձություն",
+   "ru": [
+    "Событие",
+    "происшествие"
+   ],
+   "en": [
+    "event"
+   ],
+   "pronunciation": "iradarz‘ut*yun"
+  },
+  {
+   "am": "նախադասություն",
+   "ru": [
+    "Предложение"
+   ],
+   "en": [
+    "sentence",
+    "breakfast"
+   ],
+   "pronunciation": "naxadasut‘yun"
+  },
+  {
+   "am": "հեռավորություն",
+   "ru": [
+    "Дальность",
+    "отдалённость",
+    "удалённость",
+    "Расстояние",
+    "дистанция"
+   ],
+   "en": [
+    "distance"
+   ],
+   "pronunciation": "her‘avorut*yun"
+  },
+  {
+   "am": "հարաբերություն",
+   "ru": [
+    "Связь",
+    "отношение",
+    "контакт",
+    "сношение",
+    "Соотношение"
+   ],
+   "en": [
+    "relation",
+    "suoth"
+   ],
+   "pronunciation": "haraberut‘yun"
+  },
+  {
+   "am": "հայտարարություն",
+   "ru": [
+    "Объявление",
+    "Заявление",
+    "декларация",
+    "Афиша"
+   ],
+   "en": [
+    "notice",
+    "advertisement"
+   ],
+   "pronunciation": "haytararut‘ \nyun"
+  },
+  {
+   "am": "պետություն",
+   "ru": [
+    "Государство"
+   ],
+   "en": [
+    "state"
+   ]
+  }
+ ]
 }
-
