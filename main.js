@@ -534,37 +534,25 @@ class ArmenianLearningApp {
         const cacheSettingsText = this.formatCacheSettings(cacheSettings);
         
         const body = encodeURIComponent(`## Problem Description
-
-Please explain the problem you encountered:
-
-<!-- Describe the issue here -->
-
+<!-- Please explain the problem you encountered (опишите проблему): -->
 
 ---
 
 ## Translation Issue (if applicable)
 
-If this is a translation issue, please provide:
-
+- **Armenian word (армянский слово):** 
 - **Correct translation (English):** 
-- **Correct translation (Russian):** 
-- **Pronunciation (if known):** 
-- **Armenian word:** 
-
+- **Верный перевод (Russian):** 
+- **Pronunciation (произношение):** 
 
 ---
 
-## Your Current Settings
+## Settings (don't edit this section)
 
 \`\`\`
 ${cacheSettingsText}
 \`\`\`
-
----
-
-## Additional Information
-
-<!-- Add any other relevant information here -->`);
+`);
         
         return `${repoUrl}/issues/new?title=${title}&body=${body}`;
     }
@@ -630,36 +618,13 @@ ${cacheSettingsText}
     }
 
     // Analytics Methods
-    getUserIdentifier() {
-        let userData = localStorage.getItem('armenianApp_userIdentifier');
-        if (!userData) {
-            const firstVisit = new Date().toISOString();
-            const userAgent = navigator.userAgent || '';
-            const os = this.extractOS(userAgent);
-            const browser = this.extractBrowser(userAgent);
-            userData = {
-                firstVisit: firstVisit,
-                os: os,
-                browser: browser
-            };
-            localStorage.setItem('armenianApp_userIdentifier', JSON.stringify(userData));
-        } else {
-            userData = JSON.parse(userData);
+    getUserID() {
+        let userID = localStorage.getItem('armenianApp_userID');
+        if (!userID) {
+            userID = new Date().toISOString();
+            localStorage.setItem('armenianApp_userID', userID);
         }
-        return userData;
-    }
-
-    extractOS(userAgent) {
-        const parts = userAgent.split(/[()]/);
-        if (parts.length > 1) {
-            return parts[1].split(';')[0].trim();
-        }
-        return userAgent.split(' ')[0] || 'Unknown';
-    }
-
-    extractBrowser(userAgent) {
-        const parts = userAgent.split(' ');
-        return parts[0] || 'Unknown';
+        return userID;
     }
 
     initializeAnalytics() {
@@ -668,42 +633,21 @@ ${cacheSettingsText}
             return;
         }
 
-        try {
-            const userData = this.getUserIdentifier();
-            const isFirstVisit = !localStorage.getItem('armenianApp_firstVisitTracked');
+        const userID = this.getUserID();
+        const isFirstVisit = !localStorage.getItem('armenianApp_firstVisitTracked');
 
-            posthog.identify(userData.firstVisit, {
-                first_visit: userData.firstVisit,
-                os: userData.os,
-                browser: userData.browser
-            });
+        posthog.identify(userID);
 
-            if (isFirstVisit) {
-                posthog.capture('app_opened', {
-                    first_visit: userData.firstVisit,
-                    os: userData.os,
-                    browser: userData.browser
-                });
-                localStorage.setItem('armenianApp_firstVisitTracked', 'true');
-                console.log('PostHog: First visit tracked', userData);
-            }
-        } catch (error) {
-            console.error('PostHog initialization error:', error);
+        if (isFirstVisit) {
+            posthog.capture('app_opened', {});
+            localStorage.setItem('armenianApp_firstVisitTracked', 'true');
         }
     }
 
     trackQuizComplete(level, score, total, percentage) {
         if (typeof posthog === 'undefined') {
-            console.warn('PostHog not available - quiz completion not tracked');
             return;
         }
-
-        try {
-            const userData = this.getUserIdentifier();
-        const levelStats = this.userStats[level] || { totalQuizzes: 0, totalCorrect: 0, totalQuestions: 0 };
-        const levelAccuracy = levelStats.totalQuestions > 0 
-            ? Math.round((levelStats.totalCorrect / levelStats.totalQuestions) * 100) 
-            : 0;
 
         const progressByLevel = {};
         Object.keys(this.userStats).forEach(lvl => {
@@ -717,22 +661,13 @@ ${cacheSettingsText}
             };
         });
 
-            posthog.capture('quiz_completed', {
-                level: level,
-                score: score,
-                total: total,
-                percentage: percentage,
-                level_accuracy: levelAccuracy,
-                level_total_quizzes: levelStats.totalQuizzes,
-                progress_by_level: progressByLevel,
-                total_learnt_words: this.learntWords.length,
-                quiz_language: this.quizLanguage,
-                cards_count: this.cardsCount
-            });
-            console.log('PostHog: Quiz completed event sent', { level, score, total, percentage });
-        } catch (error) {
-            console.error('PostHog tracking error:', error);
-        }
+        posthog.capture('quiz_completed', {
+            level: level,
+            progress_by_level: progressByLevel,
+            learnt_words: this.learntWords.length,
+            language: this.quizLanguage,
+            cards_count: this.cardsCount
+        });
     }
 }
 
