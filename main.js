@@ -66,6 +66,7 @@ class ArmenianLearningApp {
         this.showLevelSelection();
         this.displayUserStats();
         this.setupIssueLink();
+        this.initializeAnalytics();
     }
 
     loadQuizLanguage() {
@@ -480,6 +481,9 @@ class ArmenianLearningApp {
         
         // Update user statistics
         this.updateUserStats(this.currentLevel, this.quizScore, this.quizWords.length);
+        
+        // Track quiz completion event
+        this.trackQuizComplete(this.currentLevel, this.quizScore, this.quizWords.length, percentage);
     }
 
     resetProgress() {
@@ -623,6 +627,112 @@ ${cacheSettingsText}
         }
         
         return text;
+    }
+
+    // Analytics Methods
+    getUserIdentifier() {
+        let userData = localStorage.getItem('armenianApp_userIdentifier');
+        if (!userData) {
+            const firstVisit = new Date().toISOString();
+            const userAgent = navigator.userAgent || '';
+            const os = this.extractOS(userAgent);
+            const browser = this.extractBrowser(userAgent);
+            userData = {
+                firstVisit: firstVisit,
+                os: os,
+                browser: browser
+            };
+            localStorage.setItem('armenianApp_userIdentifier', JSON.stringify(userData));
+        } else {
+            userData = JSON.parse(userData);
+        }
+        return userData;
+    }
+
+    extractOS(userAgent) {
+        const parts = userAgent.split(/[()]/);
+        if (parts.length > 1) {
+            return parts[1].split(';')[0].trim();
+        }
+        return userAgent.split(' ')[0] || 'Unknown';
+    }
+
+    extractBrowser(userAgent) {
+        const parts = userAgent.split(' ');
+        return parts[0] || 'Unknown';
+    }
+
+    initializeAnalytics() {
+        if (typeof posthog === 'undefined') {
+            console.warn('PostHog not loaded - analytics disabled');
+            return;
+        }
+
+        try {
+            const userData = this.getUserIdentifier();
+            const isFirstVisit = !localStorage.getItem('armenianApp_firstVisitTracked');
+
+            posthog.identify(userData.firstVisit, {
+                first_visit: userData.firstVisit,
+                os: userData.os,
+                browser: userData.browser
+            });
+
+            if (isFirstVisit) {
+                posthog.capture('app_opened', {
+                    first_visit: userData.firstVisit,
+                    os: userData.os,
+                    browser: userData.browser
+                });
+                localStorage.setItem('armenianApp_firstVisitTracked', 'true');
+                console.log('PostHog: First visit tracked', userData);
+            }
+        } catch (error) {
+            console.error('PostHog initialization error:', error);
+        }
+    }
+
+    trackQuizComplete(level, score, total, percentage) {
+        if (typeof posthog === 'undefined') {
+            console.warn('PostHog not available - quiz completion not tracked');
+            return;
+        }
+
+        try {
+            const userData = this.getUserIdentifier();
+        const levelStats = this.userStats[level] || { totalQuizzes: 0, totalCorrect: 0, totalQuestions: 0 };
+        const levelAccuracy = levelStats.totalQuestions > 0 
+            ? Math.round((levelStats.totalCorrect / levelStats.totalQuestions) * 100) 
+            : 0;
+
+        const progressByLevel = {};
+        Object.keys(this.userStats).forEach(lvl => {
+            const stats = this.userStats[lvl];
+            const accuracy = stats.totalQuestions > 0 
+                ? Math.round((stats.totalCorrect / stats.totalQuestions) * 100) 
+                : 0;
+            progressByLevel[lvl] = {
+                quizzes: stats.totalQuizzes,
+                accuracy: accuracy
+            };
+        });
+
+            posthog.capture('quiz_completed', {
+                level: level,
+                score: score,
+                total: total,
+                percentage: percentage,
+                level_accuracy: levelAccuracy,
+                level_total_quizzes: levelStats.totalQuizzes,
+                progress_by_level: progressByLevel,
+                total_learnt_words: this.learntWords.length,
+                quiz_language: this.quizLanguage,
+                cards_count: this.cardsCount
+            });
+            console.log('PostHog: Quiz completed event sent', { level, score, total, percentage });
+        } catch (error) {
+            console.error('PostHog tracking error:', error);
+        }
     }
 }
 
