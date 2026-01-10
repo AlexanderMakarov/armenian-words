@@ -31,10 +31,15 @@ jobs:
         with:
           enablement: true
 
+      - name: Prepare deployment files
+        run: |
+          mkdir -p dist
+          cp index.html main.js styles.css vocabulary.json dist/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
