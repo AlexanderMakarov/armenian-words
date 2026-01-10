@@ -239,8 +239,16 @@ header p {
     font-size: 3rem;
     font-weight: bold;
     color: #2d3748;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-family: 'Arial Unicode MS', Arial, sans-serif;
+}
+
+.pronunciation {
+    font-size: 1.1rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-style: italic;
+    font-weight: 500;
 }
 
 .translation {
@@ -347,6 +355,24 @@ header p {
 .btn.secondary:hover {
     background: #cbd5e0;
     transform: translateY(-2px);
+}
+
+.btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn.disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.word-navigation {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 /* Completion Screens */

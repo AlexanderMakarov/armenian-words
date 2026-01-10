@@ -144,6 +144,13 @@ class ArmenianLearningApp {
             });
         }
 
+        const previousWordBtn = document.getElementById('previous-word');
+        if (previousWordBtn) {
+            previousWordBtn.addEventListener('click', () => {
+                this.previousWord();
+            });
+        }
+
         const startQuizBtn = document.getElementById('start-quiz');
         if (startQuizBtn) {
             startQuizBtn.addEventListener('click', () => {
@@ -321,6 +328,16 @@ class ArmenianLearningApp {
         const word = this.learningWords[this.currentWordIndex];
         document.getElementById('armenian-word').textContent = word.am;
         
+        const pronunciationElement = document.getElementById('pronunciation');
+        if (pronunciationElement) {
+            if (word.spell) {
+                pronunciationElement.textContent = word.spell;
+                pronunciationElement.style.display = 'block';
+            } else {
+                pronunciationElement.style.display = 'none';
+            }
+        }
+        
         // Show ALL translations in learning mode (based on saved language preference)
         const translationData = this.quizLanguage === 'english' ? word.en : word.ru;
         let translationText;
@@ -332,12 +349,47 @@ class ArmenianLearningApp {
         
         const languageLabel = this.quizLanguage === 'english' ? 'English' : 'Russian';
         document.getElementById('translation').textContent = `${translationText} (${languageLabel})`;
+        
+        this.updateNavigationButtons();
     }
 
     nextWord() {
         this.currentWordIndex++;
         this.displayCurrentWord();
         this.updateLearningProgress();
+    }
+
+    previousWord() {
+        if (this.currentWordIndex > 0) {
+            this.currentWordIndex--;
+            this.displayCurrentWord();
+            this.updateLearningProgress();
+        }
+    }
+
+    updateNavigationButtons() {
+        const previousBtn = document.getElementById('previous-word');
+        const nextBtn = document.getElementById('next-word');
+        
+        if (previousBtn) {
+            if (this.currentWordIndex === 0) {
+                previousBtn.disabled = true;
+                previousBtn.classList.add('disabled');
+            } else {
+                previousBtn.disabled = false;
+                previousBtn.classList.remove('disabled');
+            }
+        }
+        
+        if (nextBtn) {
+            if (this.currentWordIndex >= this.learningWords.length) {
+                nextBtn.disabled = true;
+                nextBtn.classList.add('disabled');
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('disabled');
+            }
+        }
     }
 
     updateLearningProgress() {
@@ -350,6 +402,7 @@ class ArmenianLearningApp {
         if (learningCount) {
             learningCount.textContent = `${current} / ${this.learningWords.length}`;
         }
+        this.updateNavigationButtons();
     }
 
     showLearningComplete() {

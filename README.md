@@ -1,4 +1,4 @@
-# 🇦🇲 Armenian Language Learning App
+🇦🇲 Armenian Language Learning App
 
 A web-based static application for learning Armenian vocabulary with interactive learning and quiz modes.
 
@@ -64,37 +64,15 @@ To run the app locally:
 
 1. Clone the repository
 2. Build the vocabulary (if needed):
-   ```bash
+  ```bash
    make build
-   ```
+  ```
 3. Start the local server:
-   ```bash
+  ```bash
    make serve
-   ```
+  ```
    Or manually:
-   ```bash
-   python3 -m http.server 8000
-   # or
-   npx serve .
-   ```
 4. Open `http://localhost:8000` in your browser
-
-## File Structure
-
-```
-├── index.html          # Main HTML file
-├── styles.css          # CSS styles
-├── main.js            # Application logic
-├── vocabulary.json    # Armenian vocabulary database (JSON format for better browser caching)
-├── Makefile           # Build and development commands
-├── README.md          # This file
-├── scripts/           # Vocabulary building scripts
-│   ├── build_vocabulary.py
-│   └── requirements.txt
-└── .github/
-    └── workflows/
-        └── deploy.yml # GitHub Pages deployment workflow
-```
 
 ## Caching Configuration
 
@@ -113,3 +91,12 @@ This approach works well with GitHub Pages since it relies on browser default ca
 ## License
 
 This project is open source and available under the MIT License.
+
+# Roadmap/TODO
+
+- [x] Add pronunciation to cards
+- [x] Add "Previous Word" button to cards
+- [ ] Switch to TypeScript
+- [ ] Show words in quiz which where shown in cards
+- [ ] Make quiz by translations, not by words + Ability to run quizes without cards
+- [ ] Add vocabulary builder
