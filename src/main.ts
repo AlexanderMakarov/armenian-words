@@ -86,7 +86,7 @@ class ArmenianLearningApp {
 
     async loadVocabulary(): Promise<void> {
         try {
-            const response = await fetch('/static/vocabulary.json');
+            const response = await fetch('static/vocabulary.json');
             if (!response.ok) {
                 throw new Error(
                     `Failed to load vocabulary: ${response.status} ${response.statusText}`
