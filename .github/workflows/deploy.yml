@@ -26,15 +26,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build application
+        run: bun run build
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
         with:
           enablement: true
-
-      - name: Prepare deployment files
-        run: |
-          mkdir -p dist
-          cp index.html main.js styles.css vocabulary.json dist/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

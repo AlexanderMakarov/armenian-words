@@ -14,7 +14,10 @@ This is a static web application for learning Armenian vocabulary. It features:
 
 ### Technology Stack
 
-- **Frontend**: Pure HTML, CSS, JavaScript (no build process)
+- **Frontend**: HTML, CSS (Sass), TypeScript (compiled to JavaScript)
+- **Build Process**: TypeScript compilation, Sass compilation
+- **Runtime**: Bun (for development and build)
+- **Linting**: Biome (TypeScript, HTML, CSS)
 - **Backend**: None (static files only)
 - **Data Storage**: 
   - `vocabulary.json` - Vocabulary database (loaded via fetch)
@@ -26,85 +29,62 @@ This is a static web application for learning Armenian vocabulary. It features:
 
 ```
 armenian-words/
-├── index.html          # Main HTML structure
-├── main.js             # Application logic (ArmenianLearningApp class)
-├── styles.css          # All styling
-├── vocabulary.json     # Vocabulary database (generated, ~200+ words)
-├── Makefile            # Build and serve commands
-├── README.md           # User-facing documentation
-├── AGENTS.md           # This file
+├── src/                    # Source files
+│   ├── index.html          # Main HTML structure
+│   ├── main.ts             # Application logic (TypeScript source)
+│   └── styles.scss         # Styling (Sass source)
+├── static/                 # Development build output (gitignored, generated)
+│   ├── styles.css          # Compiled from src/styles.scss
+│   ├── main.js             # Compiled from src/main.ts
+│   └── vocabulary.json     # Static data file
+├── dist/                   # Production build output (generated, not in git)
+│   ├── index.html          # Compiled HTML
+│   └── static/             # Compiled assets
+│       ├── styles.css      # Compiled CSS
+│       ├── main.js         # Compiled JavaScript
+│       └── vocabulary.json # Static data file
+├── package.json            # Build scripts and dependencies
+├── tsconfig.json           # TypeScript configuration
+├── biome.json              # Biome linter configuration
+├── dev.ts                  # Development server script
+├── build.ts                 # Production build script
+├── README.md               # User-facing documentation
+├── AGENTS.md               # This file
 └── scripts/
     ├── build_vocabulary.py  # Python script to generate vocabulary.json
     ├── requirements.txt     # Python dependencies
     └── README.md            # Vocabulary builder documentation
 ```
 
-## Key Files and Their Purposes
-
-### `index.html`
-
-- Contains all HTML structure
-- Three main screens: level selection, learning mode, quiz mode
-- PostHog analytics initialization script
-- No inline JavaScript (all logic in `main.js`)
-
-### `main.js`
-
-- **ArmenianLearningApp class**: Main application controller
-- **Vocabulary loading**: Fetches `vocabulary.json` on initialization
-- **State management**: Handles current level, quiz language, progress
-- **Screen management**: Shows/hides screens based on user flow
-- **localStorage operations**: Saves/loads user preferences and progress
-- **Analytics tracking**: PostHog event tracking for quiz completion
-
-### `styles.css`
-
-- All styling in one file
-- Responsive design (mobile and desktop)
-- Modern CSS with Grid and Flexbox
-- Gradient background, card-based UI
-
-### `vocabulary.json`
-
-- Generated file with a number of manual fixes
-- Structure: `{ "A1": [...], "A2": [...], "B1": [...], "B2": [...] }`
-- Each entry: `{ "am": "բարև", "ru": ["привет"], "en": ["hello"], "spell": "barev" }`
-- Translations are arrays (multiple translations per word)
-- Pronunciation stored in `spell` field (optional)
-
 ## Coding Conventions
 
-### JavaScript
+### TypeScript
 
 - **ES6+ features**: Classes, arrow functions, async/await
-- **No frameworks**: Pure vanilla JavaScript
+- **Type safety**: Full type annotations, interfaces for data structures
+- **No frameworks**: Pure vanilla TypeScript
 - **Class-based architecture**: Main app logic in `ArmenianLearningApp` class
 - **Error handling**: Try-catch blocks for async operations
-- **DOM manipulation**: Direct DOM API (no jQuery)
+- **DOM manipulation**: Direct DOM API with proper type assertions
 - **Event handling**: `addEventListener` (no inline handlers)
+- **Type definitions**: Interfaces for Word, Vocabulary, UserStats, LevelStats, QuizWord
 
-### CSS
+### CSS/Sass
 
+- **Sass/SCSS**: Source files use Sass format
 - **Modern CSS**: Grid, Flexbox, CSS variables (if needed)
 - **Mobile-first**: Responsive design
 - **BEM-like naming**: `.word-card`, `.option-btn`, etc.
-- **No CSS frameworks**: Pure CSS only
+- **No CSS frameworks**: Pure Sass/CSS only
 
 ### HTML
 
 - **Semantic HTML**: Use appropriate tags (`<header>`, `<footer>`, etc.)
 - **Accessibility**: Proper ARIA labels if needed
-- **No inline styles**: All styles in `styles.css`
-- **No inline scripts**: All JavaScript in `main.js`
+- **No inline styles**: All styles in `styles.scss`
+- **No inline scripts**: All JavaScript in `main.ts`
 
 ## Important Constraints
-
-### User Rules (MUST FOLLOW)
-
-1. **Do not remove existing comments** - Preserve all comments in the code
-2. **Do not add comments explaining your changes** - Don't add comments like "// Added by AI" or "// Fixed bug"
-3. **Do not add lines containing only spaces or tabs** - No blank lines with whitespace
-4. **Do not add empty lines into existing code** - Maintain existing code density
 
 ### Code Quality
 
@@ -112,6 +92,8 @@ armenian-words/
 - **Error handling**: Fail fast with details in console
 - **Performance**: Vocabulary loading is async - handle loading states
 - **Browser compatibility**: Support modern browsers (ES6+)
+- **Type safety**: All TypeScript code must compile without errors
+- **Linting**: Biome linter must pass before committing
 
 ### Data Format
 
@@ -122,20 +104,31 @@ armenian-words/
 
 ### Making Changes
 
-1. **Frontend changes** (HTML/CSS/JS):
-- Edit files directly
-- Test locally: `make serve` (runs on [http://localhost:8000](http://localhost:8000))
+1. **Frontend changes** (HTML/CSS/TS):
+- Edit source files in `src/` folder
+- Run `bun run build` to compile TypeScript and Sass
+- Test locally: `bun run serve` (builds and serves on [http://localhost:8000](http://localhost:8000))
 - **MANDATORY**: Test functionality in browser before declaring complete
-- No build step required
+- Run `bun run lint` to check code quality
+
+### Build Commands
+
+- `bun run build` - Production build: Compile TypeScript, compile Sass, copy assets, copy files to `dist/`, run linter
+- `bun run dev` - Development server: Watches `src/`, compiles to `static/`, serves on port 8000
+- `bun run lint` - Run Biome linter on source files
+- `bun run lint:fix` - Run Biome linter with auto-fix
+- `bun run vocabulary-build` - Build vocabulary.json using Python
+- `bun run vocabulary-build-no-cache` - Build vocabulary.json without cache
 
 ## Key Implementation Details
 
 ### Vocabulary Loading
 
-- `vocabulary.json` is loaded via `fetch()` on app initialization
+- `vocabulary.json` is loaded via `fetch('/static/vocabulary.json')` on app initialization
 - If loading fails, shows error message to user
-- Vocabulary is stored in global `vocabulary` variable
+- Vocabulary is stored in global `vocabulary` variable (typed as `Vocabulary | null`)
 - Access via `getWordsByLevel(level)` helper function
+- File location: `static/vocabulary.json` (served from `/static/vocabulary.json`)
 
 ### Screen Management
 
@@ -178,6 +171,9 @@ armenian-words/
 
 Before submitting changes, verify:
 
+- TypeScript compiles without errors (`bun run build`)
+- Sass compiles to CSS without errors
+- Biome linter passes without errors (`bun run lint`)
 - App loads vocabulary.json successfully
 - Level selection works (A1, A2, B1, B2)
 - Could start learning mode with 2 words
@@ -193,7 +189,9 @@ Before submitting changes, verify:
 
 - **Automatic**: GitHub Actions deploys to GitHub Pages on push to `main` branch
 - **Manual**: Push changes to `main` branch
-- **No build step**: Files are served as-is
+- **Build step required**: TypeScript and Sass compilation
+- **Build process**: GitHub Actions installs Bun, runs `bun install`, runs `bun run build`
+- **Deployment source**: Files from `dist/` folder are deployed
 - **Caching**: Browsers cache `vocabulary.json` automatically
 
 ## Best Practices
@@ -204,5 +202,5 @@ Before submitting changes, verify:
 4. **Accessibility**: Use semantic HTML, proper labels
 5. **Maintainability**: Code is straightforward, easy to understand
 6. **Testing**: Always test in real browser, not just in head
-
-Remember: This is a simple, static web app. Keep changes straightforward and maintainable.
+7. **Type safety**: Use TypeScript types and interfaces consistently
+8. **Build process**: Always build before testing (`bun run build`)

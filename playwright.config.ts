@@ -1,0 +1,38 @@
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: 'http://localhost:8000',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    launchOptions: {
+      args: [
+        '--disable-gpu',
+        '--disable-accelerated-video-decode',
+        '--disable-software-rasterizer',
+        '--disable-dev-shm-usage',
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ],
+    },
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+  ],
+  webServer: {
+    command: 'bun run dev',
+    url: 'http://localhost:8000',
+    reuseExistingServer: !process.env.CI,
+  },
+});

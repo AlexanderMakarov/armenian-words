@@ -1,5 +1,6 @@
 {
     "workbench.colorTheme": "Default Dark Modern",
     "workbench.startupEditor": "none",
-    "chat.commandCenter.enabled": false
+    "chat.commandCenter.enabled": false,
+    "files.autoSave": "onFocusChange"
 }

@@ -22,7 +22,8 @@ A web-based static application for learning Armenian vocabulary with interactive
 
 ## Technical Details
 
-- Pure HTML, CSS, and JavaScript (no build process required)
+- **Frontend**: HTML, TypeScript (compiled to JavaScript), Sass (compiled to CSS)
+- **Build Tool**: Bun (for TypeScript compilation, Sass compilation, and development server)
 - Uses browser localStorage for persistent settings and progress
 - Responsive design with modern CSS Grid and Flexbox
 - Vocabulary database with 200+ Armenian words across difficulty levels
@@ -40,39 +41,73 @@ Once deployed, the app will be available at: `https://[username].github.io/[repo
 
 ### Prerequisites
 
-- Python 3 (for building vocabulary and running local server)
-- Required Python packages (for building vocabulary):
+- **Bun** (runtime and build tool) - [Install Bun](https://bun.sh)
+- **Python 3** (for building vocabulary):
   ```bash
   pip install -r scripts/requirements.txt
   ```
 
-### Building the Vocabulary
+### Project Structure
 
-The vocabulary database (`vocabulary.json`) is built from multiple dictionary sources. Use the Makefile for convenient commands:
+```
+src/              # Source files
+├── index.html    # Main HTML
+├── main.ts       # TypeScript source
+├── styles.scss   # Sass source
+└── assets/       # Static assets (images, fonts)
+    ├── images/
+    └── fonts/
+
+static/           # Development build output (gitignored)
+dist/             # Production build output (gitignored)
+```
+
+### Build Commands
 
 ```bash
-# Build vocabulary using caches (faster, default)
-make vocabulary-build
+# Development server (watches for changes, auto-compiles)
+bun run dev
 
-# Build vocabulary without caches (rebuild everything)
-make vocabulary-build-no-cache
+# Production build
+bun run build
+
+# Build vocabulary database
+bun run vocabulary-build
+
+# Build vocabulary without cache
+bun run vocabulary-build-no-cache
+
+# Lint code
+bun run lint
+
+# Fix linting issues
+bun run lint:fix
 ```
 
 ### Running Locally
 
-To run the app locally:
-
 1. Clone the repository
-2. Build the vocabulary (if needed):
+2. Install dependencies:
   ```bash
-   make build
+   bun install
   ```
-3. Start the local server:
+3. Build vocabulary (if needed):
   ```bash
-   make serve
+   bun run vocabulary-build
   ```
-   Or manually:
-4. Open `http://localhost:8000` in your browser
+4. Start the development server:
+  ```bash
+   bun run dev
+  ```
+   This will:
+  - Compile TypeScript to JavaScript
+  - Compile Sass to CSS
+  - Copy assets from `src/assets/` to `static/assets/`
+  - Start a dev server at `http://localhost:8000`
+  - Watch for file changes and auto-recompile
+5. Open `http://localhost:8000` in your browser
+
+For production builds, run `bun run build` which creates optimized files in the `dist/` directory.
 
 ## Caching Configuration
 
@@ -96,7 +131,7 @@ This project is open source and available under the MIT License.
 
 - [x] Add pronunciation to cards
 - [x] Add "Previous Word" button to cards
-- [ ] Switch to TypeScript
+- [x] Switch to TypeScript
 - [ ] Show words in quiz which where shown in cards
 - [ ] Make quiz by translations, not by words + Ability to run quizes without cards
-- [ ] Add vocabulary builder
+- [ ] Add vocabulary page

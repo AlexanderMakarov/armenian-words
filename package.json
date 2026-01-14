@@ -1,0 +1,20 @@
+{
+    "name": "armenian-words",
+    "version": "1.0.0",
+    "description": "Armenian Language Learning App",
+    "type": "module",
+    "scripts": {
+        "build": "bun build.ts && bun run lint",
+        "dev": "bun dev.ts",
+        "test": "bunx playwright test",
+        "lint": "biome check --write src/",
+        "lint:fix": "biome check --write src/",
+        "vocabulary-build": "python3 scripts/build_vocabulary.py",
+        "vocabulary-build-no-cache": "python3 scripts/build_vocabulary.py --no-cache"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^2.3.11",
+        "sass": "^1.97.2",
+        "typescript": "^5.7.2"
+    }
+}
