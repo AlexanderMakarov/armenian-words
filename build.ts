@@ -23,13 +23,8 @@ await build({
     minify: false,
 });
 
-// Build HTML (Bun will process it and update asset paths)
-await build({
-    entrypoints: ['src/index.html'],
-    outdir: 'dist',
-    target: 'browser',
-    minify: false,
-});
+// Copy HTML file (no processing needed, paths are already correct)
+copyFileSync('src/index.html', 'dist/index.html');
 
 // Copy vocabulary.json to static folder
 copyFileSync('vocabulary.json', 'dist/static/vocabulary.json');
