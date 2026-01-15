@@ -53,11 +53,7 @@ Once deployed, the app will be available at: `https://[username].github.io/[repo
 src/              # Source files
 ├── index.html    # Main HTML
 ├── main.ts       # TypeScript source
-├── styles.scss   # Sass source
-└── assets/       # Static assets (images, fonts)
-    ├── images/
-    └── fonts/
-
+└── styles.scss   # Sass source
 static/           # Development build output (gitignored)
 dist/             # Production build output (gitignored)
 ```
