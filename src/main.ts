@@ -41,7 +41,7 @@ function getWordsByLevel(level: string): Word[] {
 }
 
 // Function to get random words from a specific level
-function getRandomWords(level: string, count = 10): Word[] {
+function _getRandomWords(level: string, count = 10): Word[] {
     const words = getWordsByLevel(level);
     const shuffled = [...words].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, Math.min(count, words.length));
@@ -224,6 +224,35 @@ class ArmenianLearningApp {
                 this.showLevelSelection();
             });
         }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const learningMode = document.getElementById('learning-mode');
+            const learningComplete = document.getElementById(
+                'learning-complete'
+            ) as HTMLElement | null;
+
+            // Handle arrow keys in learning mode
+            if (learningMode?.classList.contains('active')) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    this.nextWord();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    this.previousWord();
+                }
+            }
+
+            // Handle Enter key when learning is complete
+            if (
+                learningComplete &&
+                learningComplete.style.display !== 'none' &&
+                e.key === 'Enter'
+            ) {
+                e.preventDefault();
+                this.startQuiz();
+            }
+        });
     }
 
     // Local Storage Management
@@ -740,7 +769,7 @@ ${cacheSettingsText}
         if (stats) {
             try {
                 settings.userStats = JSON.parse(stats);
-            } catch (e) {
+            } catch (_e) {
                 settings.userStats = 'Error parsing stats';
             }
         }
@@ -810,7 +839,7 @@ ${cacheSettingsText}
         }
     }
 
-    trackQuizComplete(level: string, score: number, total: number, percentage: number): void {
+    trackQuizComplete(level: string, _score: number, _total: number, _percentage: number): void {
         if (typeof posthog === 'undefined') {
             return;
         }
