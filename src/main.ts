@@ -41,7 +41,7 @@ function getWordsByLevel(level: string): Word[] {
 }
 
 // Function to get random words from a specific level
-function getRandomWords(level: string, count = 10): Word[] {
+function _getRandomWords(level: string, count = 10): Word[] {
     const words = getWordsByLevel(level);
     const shuffled = [...words].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, Math.min(count, words.length));
@@ -769,7 +769,7 @@ ${cacheSettingsText}
         if (stats) {
             try {
                 settings.userStats = JSON.parse(stats);
-            } catch (e) {
+            } catch (_e) {
                 settings.userStats = 'Error parsing stats';
             }
         }
@@ -839,7 +839,7 @@ ${cacheSettingsText}
         }
     }
 
-    trackQuizComplete(level: string, score: number, total: number, percentage: number): void {
+    trackQuizComplete(level: string, _score: number, _total: number, _percentage: number): void {
         if (typeof posthog === 'undefined') {
             return;
         }
