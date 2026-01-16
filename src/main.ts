@@ -539,7 +539,7 @@ class ArmenianLearningApp {
     }
 
     generateQuizOptions(correctWord: Word): Word[] {
-        const allWords = getAllWords();
+        const allWords = this.learningWords;
         const options: Word[] = [correctWord];
 
         // Add random incorrect options
