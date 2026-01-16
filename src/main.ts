@@ -48,7 +48,7 @@ function _getRandomWords(level: string, count = 10): Word[] {
 }
 
 // Function to get all words from all levels (for quiz options)
-function getAllWords(): Word[] {
+function _getAllWords(): Word[] {
     if (!vocabulary) return [];
     const allWords: Word[] = [];
     Object.values(vocabulary).forEach((levelWords) => {
