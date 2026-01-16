@@ -224,6 +224,35 @@ class ArmenianLearningApp {
                 this.showLevelSelection();
             });
         }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const learningMode = document.getElementById('learning-mode');
+            const learningComplete = document.getElementById(
+                'learning-complete'
+            ) as HTMLElement | null;
+
+            // Handle arrow keys in learning mode
+            if (learningMode?.classList.contains('active')) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    this.nextWord();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    this.previousWord();
+                }
+            }
+
+            // Handle Enter key when learning is complete
+            if (
+                learningComplete &&
+                learningComplete.style.display !== 'none' &&
+                e.key === 'Enter'
+            ) {
+                e.preventDefault();
+                this.startQuiz();
+            }
+        });
     }
 
     // Local Storage Management
