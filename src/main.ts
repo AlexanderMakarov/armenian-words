@@ -48,7 +48,7 @@ function _getRandomWords(level: string, count = 10): Word[] {
 }
 
 // Function to get all words from all levels (for quiz options)
-function getAllWords(): Word[] {
+function _getAllWords(): Word[] {
     if (!vocabulary) return [];
     const allWords: Word[] = [];
     Object.values(vocabulary).forEach((levelWords) => {
@@ -539,7 +539,7 @@ class ArmenianLearningApp {
     }
 
     generateQuizOptions(correctWord: Word): Word[] {
-        const allWords = getAllWords();
+        const allWords = this.learningWords;
         const options: Word[] = [correctWord];
 
         // Add random incorrect options
