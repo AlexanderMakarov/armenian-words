@@ -56,7 +56,7 @@ src/              # Source files
 └── styles.scss   # Sass source
 static/           # Development build output (gitignored)
 dist/             # Production build output (gitignored)
-```
+```         
 
 ### Build Commands
 
@@ -128,6 +128,6 @@ This project is open source and available under the MIT License.
 - [x] Add pronunciation to cards
 - [x] Add "Previous Word" button to cards
 - [x] Switch to TypeScript
-- [ ] Show words in quiz which where shown in cards
+- [x] Show words in quiz which where shown in cards
 - [ ] Make quiz by translations, not by words + Ability to run quizes without cards
 - [ ] Add vocabulary page

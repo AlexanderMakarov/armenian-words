@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Armenian Language Learning App",
     "type": "module",
+    "packageManager": "bun@latest",
     "scripts": {
         "build": "bun build.ts && bun run lint",
         "dev": "bun dev.ts",

@@ -86,6 +86,11 @@ armenian-words/
 
 ## Important Constraints
 
+### Package Manager
+
+- **ALWAYS use `bun` instead of `npm`**: This project uses Bun as the package manager and runtime
+- **NEVER use `npm` commands**: Use `bun install`, `bun run`, `bun add`, `bunx` instead of `npm install`, `npm run`, `npm install --save`, `npx`
+
 ### Code Quality
 
 - **No console.log in production**: Remove or comment out debug statements
