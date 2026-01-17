@@ -1,5 +1,7 @@
 node_modules/
 dist/
+build/
+.svelte-kit/
 *.log
 .DS_Store
 .vscode/
@@ -13,7 +15,6 @@ test-results/
 playwright-report/
 playwright/.cache/
 screenshot.png
-static/
 
 # Auto Claude generated files
 .auto-claude/

@@ -1,95 +1,95 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page, type ConsoleMessage, type Request, type Response } from '@playwright/test';
 
-test('loads the app and shows level selection', async ({ page }) => {
+test('loads the app and shows level selection', async ({ page }: { page: Page }) => {
   const consoleMessages: string[] = [];
   const errors: string[] = [];
-  
-  page.on('console', msg => {
+
+  page.on('console', (msg: ConsoleMessage) => {
     const text = msg.text();
     consoleMessages.push(`[${msg.type()}] ${text}`);
     if (msg.type() === 'error') {
       errors.push(text);
     }
   });
-  
-  page.on('pageerror', error => {
+
+  page.on('pageerror', (error: Error) => {
     errors.push(`Page error: ${error.message}`);
     console.error('Page error:', error);
   });
-  
-  page.on('requestfailed', request => {
+
+  page.on('requestfailed', (request: Request) => {
     errors.push(`Request failed: ${request.url()} - ${request.failure()?.errorText}`);
   });
-  
+
   await page.goto('/');
-  await page.waitForLoadState('networkidle', { timeout: 1000 });
-  
+  await page.waitForLoadState('networkidle', { timeout: 5000 });
+
   console.log('=== Console Messages ===');
   consoleMessages.forEach(msg => console.log(msg));
-  
+
   if (errors.length > 0) {
     console.log('=== Errors ===');
     errors.forEach(err => console.error(err));
   }
-  
-  await expect(page.locator('h1')).toBeVisible({ timeout: 1000 });
+
+  await expect(page.locator('h1')).toBeVisible({ timeout: 5000 });
 });
 
-test('can select a level and start learning', async ({ page }) => {
+test('can select a level and start learning', async ({ page }: { page: Page }) => {
   const consoleMessages: string[] = [];
   const errors: string[] = [];
   const networkRequests: string[] = [];
-  
-  page.on('console', msg => {
+
+  page.on('console', (msg: ConsoleMessage) => {
     const text = msg.text();
     consoleMessages.push(`[${msg.type()}] ${text}`);
     if (msg.type() === 'error') {
       errors.push(text);
     }
   });
-  
-  page.on('pageerror', error => {
+
+  page.on('pageerror', (error: Error) => {
     errors.push(`Page error: ${error.message}\nStack: ${error.stack}`);
     console.error('Page error:', error);
   });
-  
-  page.on('requestfailed', request => {
+
+  page.on('requestfailed', (request: Request) => {
     const failure = request.failure();
     errors.push(`Request failed: ${request.url()} - ${failure?.errorText || 'Unknown error'}`);
   });
-  
+
   const vocabularyResponsePromise = page.waitForResponse(
-    response => response.url().includes('/static/vocabulary.json') && response.status() === 200,
-    { timeout: 1000 }
+    (response: Response) => response.url().includes('/vocabulary.json') && response.status() === 200,
+    { timeout: 5000 }
   );
-  
-  page.on('response', response => {
+
+  page.on('response', (response: Response) => {
     if (response.url().includes('vocabulary') || response.url().includes('main') || response.url().includes('styles')) {
       networkRequests.push(`${response.status()} ${response.url()}`);
     }
   });
-  
+
   await page.goto('/');
-  await page.waitForLoadState('networkidle', { timeout: 1000 });
-  
+  await page.waitForLoadState('networkidle', { timeout: 5000 });
+
   // Wait for vocabulary to load
   await vocabularyResponsePromise;
-  
+
   console.log('=== Network Requests ===');
   networkRequests.forEach(req => console.log(req));
-  
+
   console.log('=== Console Messages ===');
   consoleMessages.forEach(msg => console.log(msg));
-  
+
   if (errors.length > 0) {
     console.log('=== Errors ===');
     errors.forEach(err => console.error(err));
   }
-  
+
   // Check if vocabulary.json file exists and is accessible
   const vocabFileCheck = await page.evaluate(async () => {
     try {
-      const response = await fetch('/static/vocabulary.json');
+      const response = await fetch('/vocabulary.json');
       return {
         status: response.status,
         ok: response.ok,
@@ -104,39 +104,57 @@ test('can select a level and start learning', async ({ page }) => {
   });
   console.log('=== Vocabulary.json File Check ===');
   console.log(JSON.stringify(vocabFileCheck, null, 2));
-  
+
   // Check if app initialized
   const appStatus = await page.evaluate(() => {
     const buttons = document.querySelectorAll('.level-btn');
     return {
       levelButtonsCount: buttons.length,
-      a1ButtonExists: document.querySelector('button[data-level="A1"]') !== null,
-      a1ButtonText: document.querySelector('button[data-level="A1"]')?.textContent,
+      a1ButtonExists: !!document.querySelector('button.level-btn'),
     };
   });
   console.log('=== App Status ===');
   console.log(JSON.stringify(appStatus, null, 2));
-  
+
   // Wait for the app to be ready (vocabulary loads and app initializes)
-  await page.waitForSelector('button:has-text("A1")', { state: 'visible', timeout: 1000 });
-  
+  await page.waitForSelector('button.level-btn', { state: 'visible', timeout: 5000 });
+
   // Wait a moment for the app to process the vocabulary and initialize
-  // The app calls initializeApp() after vocabulary loads, which sets up event handlers
   await page.waitForTimeout(300);
-  
+
   console.log('=== Clicking A1 button ===');
-  await page.click('button:has-text("A1")');
-  
-  // Check what happened after click
+  await page.click('button.level-btn:first-child');
+
+  // Wait for navigation to learning mode
+  await page.waitForURL(/\/learn\//, { timeout: 5000 });
+
+  // Check what happened after navigation
   const afterClick = await page.evaluate(() => {
     return {
-      learningModeVisible: document.querySelector('.learning-mode')?.classList.contains('active'),
-      levelSelectionVisible: document.querySelector('#level-selection')?.classList.contains('active'),
-      currentScreen: Array.from(document.querySelectorAll('.screen')).find(s => s.classList.contains('active'))?.id,
+      url: window.location.pathname,
+      learningModeVisible: !!document.querySelector('#learning-mode'),
+      wordCardVisible: !!document.querySelector('.word-card'),
     };
   });
   console.log('=== After Click Status ===');
   console.log(JSON.stringify(afterClick, null, 2));
-  
-  await expect(page.locator('#learning-mode.active')).toBeVisible({ timeout: 1000 });
+
+  await expect(page.locator('#learning-mode')).toBeVisible({ timeout: 5000 });
+});
+
+test('respects custom cards count setting', async ({ page }: { page: Page }) => {
+  await page.goto('/');
+  await page.waitForSelector('button.level-btn', { state: 'visible', timeout: 5000 });
+
+  // Set cards count to 3
+  const cardsInput = page.locator('#cards-count');
+  await cardsInput.fill('3');
+
+  // Click on A1 level
+  await page.click('button.level-btn:first-child');
+  await page.waitForURL(/\/learn\//, { timeout: 5000 });
+
+  // Check that learning count shows 3 words
+  const learningCount = await page.locator('.learning-count').textContent();
+  expect(learningCount).toContain('/ 3');
 });
