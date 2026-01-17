@@ -26,7 +26,7 @@ src/
 │   │   ├── QuizOption.svelte
 │   │   └── StatsDisplay.svelte
 │   ├── types.ts               # TypeScript interfaces
-│   └── analytics.ts           # PostHog wrapper
+│   └── analytics.ts           # PostHog NPM package wrapper
 ├── routes/
 │   ├── +layout.svelte         # Shared header/footer
 │   ├── +page.svelte           # Level selection (/)
@@ -89,8 +89,9 @@ export const currentLevel = writable<string | null>(null);
 ### Phase 1: Project Setup
 1. Initialize SvelteKit project in place
 2. Configure TypeScript, SCSS, Biome
-3. Create `app.html` with PostHog script
-4. Set up static asset copying for `vocabulary.json`
+3. Install `posthog-js` NPM package
+4. Create `app.html` template
+5. Set up static asset copying for `vocabulary.json`
 
 ### Phase 2: Core Infrastructure
 1. Create TypeScript types (`$lib/types.ts`)
@@ -124,14 +125,18 @@ export const currentLevel = writable<string | null>(null);
 
 ### Store Persistence Pattern
 ```typescript
+// Keep armenianApp_ prefix for backwards compatibility
+const STORAGE_PREFIX = 'armenianApp_';
+
 // Auto-sync store to localStorage
 function persistentStore<T>(key: string, initial: T) {
-  const stored = browser ? localStorage.getItem(key) : null;
+  const fullKey = `${STORAGE_PREFIX}${key}`;
+  const stored = browser ? localStorage.getItem(fullKey) : null;
   const data = stored ? JSON.parse(stored) : initial;
   const store = writable<T>(data);
 
   if (browser) {
-    store.subscribe(value => localStorage.setItem(key, JSON.stringify(value)));
+    store.subscribe(value => localStorage.setItem(fullKey, JSON.stringify(value)));
   }
   return store;
 }
