@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": false,
-        "includes": ["**", "!dist/**", "!node_modules/**", "!static/**", "!**/*.scss"]
+        "includes": ["**", "!dist/**", "!node_modules/**", "!static/**", "!**/*.scss", "!.svelte-kit/**"]
     },
     "formatter": {
         "enabled": true,
@@ -22,6 +22,12 @@
             "recommended": true,
             "complexity": {
                 "noForEach": "off"
+            },
+            "correctness": {
+                "noUnusedVariables": "off"
+            },
+            "suspicious": {
+                "noAssignInExpressions": "off"
             }
         }
     },
