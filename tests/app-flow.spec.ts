@@ -141,3 +141,20 @@ test('can select a level and start learning', async ({ page }: { page: Page }) =
 
   await expect(page.locator('#learning-mode')).toBeVisible({ timeout: 5000 });
 });
+
+test('respects custom cards count setting', async ({ page }: { page: Page }) => {
+  await page.goto('/');
+  await page.waitForSelector('button.level-btn', { state: 'visible', timeout: 5000 });
+
+  // Set cards count to 3
+  const cardsInput = page.locator('#cards-count');
+  await cardsInput.fill('3');
+
+  // Click on A1 level
+  await page.click('button.level-btn:first-child');
+  await page.waitForURL(/\/learn\//, { timeout: 5000 });
+
+  // Check that learning count shows 3 words
+  const learningCount = await page.locator('.learning-count').textContent();
+  expect(learningCount).toContain('/ 3');
+});

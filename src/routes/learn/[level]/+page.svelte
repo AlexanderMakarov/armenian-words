@@ -1,5 +1,6 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
 import { ProgressBar } from '$lib/components/index.js';
@@ -19,14 +20,16 @@ import type { QuizLanguage, Word } from '$lib/types.js';
 let words = $state<Word[]>([]);
 let wordIndex = $state(0);
 let language = $state<QuizLanguage>('english');
-let count = $state(10);
 let showComplete = $state(false);
 
 // Get level from URL params
 const level = $derived(page.params.level ?? '');
 
 onMount(() => {
-    // Subscribe to stores
+    // Subscribe to language for display
+    const unsubLanguage = quizLanguage.subscribe((l) => (language = l));
+
+    // Subscribe to vocabulary and initialize words
     const unsubVocab = vocabulary.subscribe((vocab) => {
         if (!vocab || !level) return;
 
@@ -36,6 +39,9 @@ onMount(() => {
             goto('/');
             return;
         }
+
+        // Read cardsCount synchronously to get the current saved value
+        const count = get(cardsCount);
 
         // Filter unlearnt words first, then add learnt words
         const unlearntWords = levelWords.filter((word) => !learntWords.isLearnt(word));
@@ -51,7 +57,7 @@ onMount(() => {
             }
         });
 
-        // Shuffle and limit
+        // Shuffle and limit to user-selected count
         const shuffled = [...uniqueWords].sort(() => 0.5 - Math.random());
         words = shuffled.slice(0, Math.min(count, shuffled.length));
 
@@ -66,14 +72,10 @@ onMount(() => {
         showComplete = i >= words.length && words.length > 0;
     });
 
-    const unsubLanguage = quizLanguage.subscribe((l) => (language = l));
-    const unsubCount = cardsCount.subscribe((c) => (count = c));
-
     return () => {
         unsubVocab();
         unsubIndex();
         unsubLanguage();
-        unsubCount();
     };
 });
 
