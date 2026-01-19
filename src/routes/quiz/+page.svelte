@@ -1,25 +1,26 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { trackQuizComplete } from '$lib/analytics.js';
-import { ProgressBar, QuizOption } from '$lib/components/index.js';
+import { QuizOption } from '$lib/components/index.js';
 import {
     cardsCount,
     createQuizQuestions,
     currentLevel,
     currentQuizIndex,
     learningWords,
-    learntWords,
+    learntTranslations,
     quizLanguage,
+    quizQuestions,
     quizScore,
-    quizWords,
     resetQuizSession,
     userStats,
 } from '$lib/stores/index.js';
-import type { QuizLanguage, QuizWord, Word } from '$lib/types.js';
+import type { QuizLanguage, QuizQuestion, Word } from '$lib/types.js';
 
 let words = $state<Word[]>([]);
-let questions = $state<QuizWord[]>([]);
+let questions = $state<QuizQuestion[]>([]);
 let questionIndex = $state(0);
 let score = $state(0);
 let level = $state<string | null>(null);
@@ -30,6 +31,10 @@ let answered = $state(false);
 let showComplete = $state(false);
 
 onMount(() => {
+    // Get language first (needed for creating questions)
+    const currentLanguage = get(quizLanguage);
+    language = currentLanguage;
+
     // Check if we have learning words
     const unsubLearning = learningWords.subscribe((w) => {
         words = w;
@@ -37,10 +42,10 @@ onMount(() => {
             goto('/');
             return;
         }
-        // Create quiz questions
-        const qs = createQuizQuestions(w);
+        // Create translation-based quiz questions
+        const qs = createQuizQuestions(w, language);
         questions = qs;
-        quizWords.set(qs);
+        quizQuestions.set(qs);
         resetQuizSession();
     });
 
@@ -68,16 +73,6 @@ onMount(() => {
 const currentQuestion = $derived(questions[questionIndex]);
 const displayIndex = $derived(questionIndex + 1);
 
-const translationQuestion = $derived(() => {
-    if (!currentQuestion) return '';
-    const data = language === 'english' ? currentQuestion.en : currentQuestion.ru;
-    if (Array.isArray(data) && data.length > 0) {
-        // Pick a random translation for the quiz
-        return data[Math.floor(Math.random() * data.length)];
-    }
-    return '';
-});
-
 const percentage = $derived(
     questions.length > 0 ? Math.round((score / questions.length) * 100) : 0
 );
@@ -88,10 +83,10 @@ function selectOption(option: Word) {
     selectedOption = option;
     answered = true;
 
-    const isCorrect = option.am === currentQuestion.am;
+    const isCorrect = option.am === currentQuestion.word.am;
     if (isCorrect) {
         quizScore.update((s) => s + 1);
-        learntWords.markAsLearnt(currentQuestion);
+        learntTranslations.markAsLearnt(currentQuestion);
     }
 
     // Auto-advance after 1 second
@@ -123,7 +118,7 @@ function handleQuizComplete() {
     })();
 
     let learntCount = 0;
-    learntWords.subscribe((w) => (learntCount = w.length))();
+    learntTranslations.subscribe((t) => (learntCount = t.length))();
 
     trackQuizComplete(level, progressByLevel, learntCount, language, count);
 }
@@ -155,13 +150,13 @@ function changeLevel() {
 		<div class="quiz-card">
 			<div class="quiz-question">
 				<p>Select the Armenian word for:</p>
-				<div class="translation-question" id="translation-question">{translationQuestion()}</div>
+				<div class="translation-question" id="translation-question">{currentQuestion.translation}</div>
 			</div>
 			<div class="options" id="quiz-options">
 				{#each currentQuestion.options as option}
 					<QuizOption
 						word={option}
-						isCorrect={option.am === currentQuestion.am}
+						isCorrect={option.am === currentQuestion.word.am}
 						isSelected={selectedOption?.am === option.am}
 						disabled={answered}
 						onclick={() => selectOption(option)}

@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import type { Vocabulary, Word } from '$lib/types.js';
+import { learntTranslations } from './progress.js';
 
 function createVocabularyStore() {
     const store = writable<Vocabulary | null>(null);
@@ -21,6 +22,9 @@ function createVocabularyStore() {
                 }
                 const data = (await response.json()) as Vocabulary;
                 store.set(data);
+
+                // Run migration from old learntWords format if needed
+                learntTranslations.migrateIfNeeded(data);
             } catch (error) {
                 console.error('Error loading vocabulary:', error);
                 throw error;
