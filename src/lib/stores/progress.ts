@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { LevelStats, UserStats, Word } from '$lib/types.js';
+import type { QuizQuestion, UserStats, Word } from '$lib/types.js';
 
 const STORAGE_PREFIX = 'armenianApp_';
 
@@ -39,7 +39,134 @@ function createUserStatsStore() {
     };
 }
 
-// Learnt words store - stored as comma-separated string for backwards compatibility
+/**
+ * Creates a unique key for a translation.
+ * Format: "armenianWord|translation" (e.g., "է|is")
+ */
+function createTranslationKey(word: Word, translation: string): string {
+    return `${word.am}|${translation}`;
+}
+
+/**
+ * Migrates old learntWords (word-based) to learntTranslations (translation-based).
+ * For each learned word, marks ALL its translations as learned.
+ */
+function migrateFromLearntWords(vocabulary: Record<string, Word[]>): string[] {
+    const oldKey = `${STORAGE_PREFIX}learntWords`;
+    const stored = browser ? localStorage.getItem(oldKey) : null;
+
+    if (!stored) {
+        return [];
+    }
+
+    const learnedWordIds = stored
+        .split(',')
+        .map((w) => w.trim())
+        .filter(Boolean);
+
+    if (learnedWordIds.length === 0) {
+        return [];
+    }
+
+    // Build a map of armenian word -> Word object
+    const wordMap = new Map<string, Word>();
+    for (const level of Object.values(vocabulary)) {
+        for (const word of level) {
+            wordMap.set(word.am, word);
+        }
+    }
+
+    // Convert learned words to learned translations
+    const learntTranslations: string[] = [];
+    for (const wordId of learnedWordIds) {
+        const word = wordMap.get(wordId);
+        if (word) {
+            // Mark all translations of this word as learned
+            for (const translation of word.en) {
+                learntTranslations.push(createTranslationKey(word, translation));
+            }
+            for (const translation of word.ru) {
+                learntTranslations.push(createTranslationKey(word, translation));
+            }
+        }
+    }
+
+    // Remove old key after migration
+    if (browser) {
+        localStorage.removeItem(oldKey);
+    }
+
+    return learntTranslations;
+}
+
+// Learnt translations store - tracks individual translations that have been learned
+function createLearntTranslationsStore() {
+    const key = `${STORAGE_PREFIX}learntTranslations`;
+    const stored = browser ? localStorage.getItem(key) : null;
+    const data = stored
+        ? stored
+              .split(',')
+              .map((w) => w.trim())
+              .filter(Boolean)
+        : [];
+    const store = writable<string[]>(data);
+
+    if (browser) {
+        store.subscribe((value) => {
+            localStorage.setItem(key, value.join(','));
+        });
+    }
+
+    return {
+        subscribe: store.subscribe,
+        /**
+         * Marks a specific translation as learned.
+         */
+        markAsLearnt: (question: QuizQuestion) => {
+            const translationKey = createTranslationKey(question.word, question.translation);
+            store.update((translations) => {
+                if (!translations.includes(translationKey)) {
+                    return [...translations, translationKey];
+                }
+                return translations;
+            });
+        },
+        /**
+         * Checks if a specific translation has been learned.
+         */
+        isLearnt: (word: Word, translation: string): boolean => {
+            const translationKey = createTranslationKey(word, translation);
+            return get(store).includes(translationKey);
+        },
+        /**
+         * Runs migration from old learntWords format if needed.
+         * Should be called once when vocabulary is loaded.
+         */
+        migrateIfNeeded: (vocabulary: Record<string, Word[]>) => {
+            const oldKey = `${STORAGE_PREFIX}learntWords`;
+            const hasOldData = browser && localStorage.getItem(oldKey);
+
+            if (hasOldData) {
+                const migratedTranslations = migrateFromLearntWords(vocabulary);
+                if (migratedTranslations.length > 0) {
+                    store.update((existing) => {
+                        const combined = [...existing, ...migratedTranslations];
+                        // Remove duplicates
+                        return [...new Set(combined)];
+                    });
+                }
+            }
+        },
+        reset: () => {
+            store.set([]);
+            if (browser) {
+                localStorage.removeItem(key);
+            }
+        },
+    };
+}
+
+/** @deprecated Use learntTranslations instead */
 function createLearntWordsStore() {
     const key = `${STORAGE_PREFIX}learntWords`;
     const stored = browser ? localStorage.getItem(key) : null;
@@ -80,4 +207,6 @@ function createLearntWordsStore() {
 }
 
 export const userStats = createUserStatsStore();
+export const learntTranslations = createLearntTranslationsStore();
+/** @deprecated Use learntTranslations instead */
 export const learntWords = createLearntWordsStore();
