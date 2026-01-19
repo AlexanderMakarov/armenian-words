@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
+import { base } from '$app/paths';
 import type { Vocabulary, Word } from '$lib/types.js';
 import { learntTranslations } from './progress.js';
 
@@ -14,7 +15,7 @@ function createVocabularyStore() {
             loading = true;
 
             try {
-                const response = await fetch('/vocabulary.json');
+                const response = await fetch(`${base}/vocabulary.json`);
                 if (!response.ok) {
                     throw new Error(
                         `Failed to load vocabulary: ${response.status} ${response.statusText}`
