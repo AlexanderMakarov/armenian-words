@@ -14,7 +14,7 @@ const config = {
 			strict: false
 		}),
 		paths: {
-			base: ''
+			base: process.env.NODE_ENV === 'production' ? '/armenian-words' : ''
 		},
 		prerender: {
 			handleUnseenRoutes: 'ignore'
