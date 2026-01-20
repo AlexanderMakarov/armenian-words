@@ -2,6 +2,7 @@
 import { onMount } from 'svelte';
 import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 import { trackQuizComplete } from '$lib/analytics.js';
 import { ProgressBar, QuizOption } from '$lib/components/index.js';
 import { QUIZ_CONFIG } from '$lib/constants.js';
@@ -40,7 +41,7 @@ onMount(() => {
     const unsubLearning = learningWords.subscribe((w) => {
         words = w;
         if (w.length === 0) {
-            goto('/');
+            goto(base || '/');
             return;
         }
         // Create translation-based quiz questions
@@ -130,14 +131,14 @@ $effect(() => {
 
 function restartApp() {
     if (level) {
-        goto(`/learn/${level}`);
+        goto(`${base}/learn/${level}`);
     } else {
-        goto('/');
+        goto(base || '/');
     }
 }
 
 function changeLevel() {
-    goto('/');
+    goto(base || '/');
 }
 </script>
 
