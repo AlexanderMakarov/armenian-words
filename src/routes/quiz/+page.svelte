@@ -37,10 +37,8 @@ onMount(() => {
 
     // Check if we have learning words
     const unsubLearning = learningWords.subscribe((w) => {
-        console.log('[Quiz] learningWords subscription fired, words count:', w.length);
         words = w;
         if (w.length === 0) {
-            console.log('[Quiz] No learning words, redirecting to home');
             goto('/');
             return;
         }

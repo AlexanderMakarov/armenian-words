@@ -12,6 +12,8 @@ interface Vocabulary {
     [level: string]: Word[];
 }
 
+type QuizLanguage = 'english' | 'russian';
+
 // Mock localStorage
 const localStorageMock = (() => {
     let store: Record<string, string> = {};
@@ -45,7 +47,8 @@ function createTranslationKey(word: Word, translation: string): string {
 // This mirrors the implementation in progress.ts
 function migrateFromLearntWords(
     oldData: string | null,
-    vocabulary: Vocabulary
+    vocabulary: Vocabulary,
+    language: QuizLanguage = 'english'
 ): { translations: string[]; wordsNotFound: string[] } {
     if (!oldData) {
         return { translations: [], wordsNotFound: [] };
@@ -68,18 +71,15 @@ function migrateFromLearntWords(
         }
     }
 
-    // Convert learned words to learned translations
+    // Convert learned words to learned translations (only for selected language)
     const translations: string[] = [];
     const wordsNotFound: string[] = [];
 
     for (const wordId of learnedWordIds) {
         const word = wordMap.get(wordId);
         if (word) {
-            // Mark all translations of this word as learned
-            for (const translation of word.en) {
-                translations.push(createTranslationKey(word, translation));
-            }
-            for (const translation of word.ru) {
+            const wordTranslations = language === 'english' ? word.en : word.ru;
+            for (const translation of wordTranslations) {
                 translations.push(createTranslationKey(word, translation));
             }
         } else {
@@ -145,41 +145,54 @@ describe('Migration: migrateFromLearntWords', () => {
         expect(result.wordsNotFound).toEqual([]);
     });
 
-    test('migrates single word with multiple translations', () => {
-        const result = migrateFromLearntWords('է', sampleVocabulary);
+    test('migrates single word with multiple English translations', () => {
+        const result = migrateFromLearntWords('է', sampleVocabulary, 'english');
 
-        // Should have 4 translations: 2 English + 2 Russian
-        expect(result.translations).toHaveLength(4);
+        // Should have 2 English translations only
+        expect(result.translations).toHaveLength(2);
         expect(result.translations).toContain('է|is');
         expect(result.translations).toContain('է|it');
+        expect(result.translations).not.toContain('է|есть');
+        expect(result.translations).not.toContain('է|это');
+        expect(result.wordsNotFound).toEqual([]);
+    });
+
+    test('migrates single word with multiple Russian translations', () => {
+        const result = migrateFromLearntWords('է', sampleVocabulary, 'russian');
+
+        // Should have 2 Russian translations only
+        expect(result.translations).toHaveLength(2);
+        expect(result.translations).not.toContain('է|is');
+        expect(result.translations).not.toContain('է|it');
         expect(result.translations).toContain('է|есть');
         expect(result.translations).toContain('է|это');
         expect(result.wordsNotFound).toEqual([]);
     });
 
-    test('migrates multiple words', () => {
-        const result = migrateFromLearntWords('է,և', sampleVocabulary);
+    test('migrates multiple words (English)', () => {
+        const result = migrateFromLearntWords('է,և', sampleVocabulary, 'english');
 
-        // է has 4 translations, և has 2 translations
-        expect(result.translations).toHaveLength(6);
+        // է has 2 English translations, և has 1 English translation
+        expect(result.translations).toHaveLength(3);
         expect(result.translations).toContain('է|is');
+        expect(result.translations).toContain('է|it');
         expect(result.translations).toContain('և|and');
-        expect(result.translations).toContain('և|и');
+        expect(result.translations).not.toContain('և|и');
         expect(result.wordsNotFound).toEqual([]);
     });
 
     test('handles words with whitespace in old data', () => {
-        const result = migrateFromLearntWords(' է , և ', sampleVocabulary);
+        const result = migrateFromLearntWords(' է , և ', sampleVocabulary, 'english');
 
-        expect(result.translations).toHaveLength(6);
+        expect(result.translations).toHaveLength(3);
         expect(result.wordsNotFound).toEqual([]);
     });
 
     test('tracks words not found in vocabulary', () => {
-        const result = migrateFromLearntWords('է,unknown_word,և', sampleVocabulary);
+        const result = migrateFromLearntWords('է,unknown_word,և', sampleVocabulary, 'english');
 
-        // Should still migrate known words
-        expect(result.translations).toHaveLength(6);
+        // Should still migrate known words (English only)
+        expect(result.translations).toHaveLength(3);
         // Should report unknown word
         expect(result.wordsNotFound).toEqual(['unknown_word']);
     });
@@ -191,12 +204,23 @@ describe('Migration: migrateFromLearntWords', () => {
         expect(result.wordsNotFound).toEqual(['foo', 'bar', 'baz']);
     });
 
-    test('finds words across different levels', () => {
+    test('finds words across different levels (English)', () => {
         // 'բdelays' is in A2 level
-        const result = migrateFromLearntWords('է,բdelays', sampleVocabulary);
+        const result = migrateFromLearntWords('է,բdelays', sampleVocabulary, 'english');
 
         expect(result.translations).toContain('է|is');
         expect(result.translations).toContain('բdelays|word');
+        expect(result.translations).not.toContain('բdelays|слово');
+        expect(result.wordsNotFound).toEqual([]);
+    });
+
+    test('finds words across different levels (Russian)', () => {
+        // 'բdelays' is in A2 level
+        const result = migrateFromLearntWords('է,բdelays', sampleVocabulary, 'russian');
+
+        expect(result.translations).not.toContain('է|is');
+        expect(result.translations).toContain('է|есть');
+        expect(result.translations).not.toContain('բdelays|word');
         expect(result.translations).toContain('բdelays|слово');
         expect(result.wordsNotFound).toEqual([]);
     });
@@ -308,13 +332,27 @@ describe('Real-world localStorage data', () => {
     const realUserData =
         ' delays,մdelays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays, delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,է,delays,delays,delays,delays,delays,delays,delays,ես,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays';
 
-    test('handles real user data with many words (57 words)', () => {
+    test('handles real user data with many words (57 words) - English', () => {
         // Use sampleVocabulary which has 'է'
-        const result = migrateFromLearntWords(realUserData, sampleVocabulary);
+        const result = migrateFromLearntWords(realUserData, sampleVocabulary, 'english');
 
-        // Should find 'է' and create its translations
+        // Should find 'է' and create only English translations
         expect(result.translations).toContain('է|is');
         expect(result.translations).toContain('է|it');
+        expect(result.translations).not.toContain('է|есть');
+        expect(result.translations).not.toContain('է|это');
+
+        // Most words won't be in our sample vocabulary
+        expect(result.wordsNotFound.length).toBeGreaterThan(0);
+    });
+
+    test('handles real user data with many words (57 words) - Russian', () => {
+        // Use sampleVocabulary which has 'է'
+        const result = migrateFromLearntWords(realUserData, sampleVocabulary, 'russian');
+
+        // Should find 'է' and create only Russian translations
+        expect(result.translations).not.toContain('է|is');
+        expect(result.translations).not.toContain('է|it');
         expect(result.translations).toContain('է|есть');
         expect(result.translations).toContain('է|это');
 
@@ -355,18 +393,18 @@ describe('Edge cases and error handling', () => {
     });
 
     test('handles duplicate words in old data', () => {
-        const result = migrateFromLearntWords('է,է,է', sampleVocabulary);
+        const result = migrateFromLearntWords('է,է,է', sampleVocabulary, 'english');
 
         // Should create translations for each occurrence (migration doesn't dedupe)
         // The store's migrateIfNeeded function handles deduplication
-        expect(result.translations).toHaveLength(12); // 4 translations × 3 occurrences
+        expect(result.translations).toHaveLength(6); // 2 English translations × 3 occurrences
     });
 
     test('deduplication should be handled by caller', () => {
-        const result = migrateFromLearntWords('է,է', sampleVocabulary);
+        const result = migrateFromLearntWords('է,է', sampleVocabulary, 'english');
         const deduped = [...new Set(result.translations)];
 
-        expect(result.translations).toHaveLength(8);
-        expect(deduped).toHaveLength(4);
+        expect(result.translations).toHaveLength(4); // 2 translations × 2 occurrences
+        expect(deduped).toHaveLength(2); // Only unique translations
     });
 });

@@ -105,7 +105,6 @@ function previousWord() {
 }
 
 function startQuiz() {
-    console.log('[Learn] Starting quiz, learningWords count:', words.length);
     goto('/quiz');
 }
 

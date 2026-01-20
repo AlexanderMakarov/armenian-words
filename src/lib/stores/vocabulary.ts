@@ -1,8 +1,9 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import { base } from '$app/paths';
 import type { Vocabulary, Word } from '$lib/types.js';
 import { learntTranslations } from './progress.js';
+import { quizLanguage } from './settings.js';
 
 function createVocabularyStore() {
     const store = writable<Vocabulary | null>(null);
@@ -25,7 +26,9 @@ function createVocabularyStore() {
                 store.set(data);
 
                 // Run migration from old learntWords format if needed
-                learntTranslations.migrateIfNeeded(data);
+                // Uses the currently selected language setting
+                const currentLanguage = get(quizLanguage);
+                learntTranslations.migrateIfNeeded(data, currentLanguage);
             } catch (error) {
                 console.error('Error loading vocabulary:', error);
                 throw error;
