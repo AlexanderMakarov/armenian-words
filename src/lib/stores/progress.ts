@@ -8,7 +8,18 @@ const STORAGE_PREFIX = 'armenianApp_';
 function createUserStatsStore() {
     const key = 'armenianLearningStats';
     const stored = browser ? localStorage.getItem(key) : null;
-    const data = stored ? (JSON.parse(stored) as UserStats) : {};
+    let data: UserStats = {};
+    if (stored) {
+        try {
+            data = JSON.parse(stored) as UserStats;
+        } catch {
+            // Invalid JSON in localStorage, use empty stats and clear the invalid data
+            console.warn(`Invalid JSON in localStorage for key "${key}", resetting to default`);
+            if (browser) {
+                localStorage.removeItem(key);
+            }
+        }
+    }
     const store = writable<UserStats>(data);
 
     if (browser) {

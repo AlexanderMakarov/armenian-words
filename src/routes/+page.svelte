@@ -1,5 +1,6 @@
 <script lang="ts">
 import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 import { StatsDisplay } from '$lib/components/index.js';
 import { LEVEL_DESCRIPTIONS } from '$lib/constants.js';
 import {
@@ -42,7 +43,7 @@ $effect(() => {
 const levels = $derived(getAvailableLevels(vocab));
 
 function selectLevel(level: string) {
-    goto(`/learn/${level}`);
+    goto(`${base}/learn/${level}`);
 }
 
 function selectLanguage(language: QuizLanguage) {

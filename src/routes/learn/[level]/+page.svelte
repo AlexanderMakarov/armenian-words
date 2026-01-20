@@ -2,6 +2,7 @@
 import { onMount } from 'svelte';
 import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 import { page } from '$app/state';
 import { ProgressBar } from '$lib/components/index.js';
 import {
@@ -37,7 +38,7 @@ onMount(() => {
         // Get words for this level
         const levelWords = getWordsByLevel(vocab, level);
         if (levelWords.length === 0) {
-            goto('/');
+            goto(base || '/');
             return;
         }
 
@@ -100,7 +101,7 @@ function previousWord() {
 }
 
 function startQuiz() {
-    goto('/quiz');
+    goto(`${base}/quiz`);
 }
 
 function handleKeydown(event: KeyboardEvent) {

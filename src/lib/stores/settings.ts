@@ -7,7 +7,18 @@ const STORAGE_PREFIX = 'armenianApp_';
 function createPersistentStore<T>(key: string, initial: T) {
     const fullKey = `${STORAGE_PREFIX}${key}`;
     const stored = browser ? localStorage.getItem(fullKey) : null;
-    const data = stored ? (JSON.parse(stored) as T) : initial;
+    let data = initial;
+    if (stored) {
+        try {
+            data = JSON.parse(stored) as T;
+        } catch {
+            // Invalid JSON in localStorage, use initial value and clear the invalid data
+            console.warn(`Invalid JSON in localStorage for key "${fullKey}", resetting to default`);
+            if (browser) {
+                localStorage.removeItem(fullKey);
+            }
+        }
+    }
     const store = writable<T>(data);
 
     if (browser) {
