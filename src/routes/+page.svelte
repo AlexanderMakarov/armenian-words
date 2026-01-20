@@ -1,10 +1,11 @@
 <script lang="ts">
 import { goto } from '$app/navigation';
 import { StatsDisplay } from '$lib/components/index.js';
+import { LEVEL_DESCRIPTIONS } from '$lib/constants.js';
 import {
     cardsCount,
     getAvailableLevels,
-    learntWords,
+    learntTranslations,
     quizLanguage,
     userStats,
     vocabulary,
@@ -64,7 +65,7 @@ function resetProgress() {
             'Are you sure you want to reset all progress? This will clear all learnt words and statistics.'
         )
     ) {
-        learntWords.reset();
+        learntTranslations.reset();
         userStats.reset();
     }
 }
@@ -80,14 +81,8 @@ function resetProgress() {
 		{#each levels as level}
 			<button class="level-btn" onclick={() => selectLevel(level)}>
 				{level}
-				{#if level === 'A1'}
-					- Beginner
-				{:else if level === 'A2'}
-					- Elementary
-				{:else if level === 'B1'}
-					- Intermediate
-				{:else if level === 'B2'}
-					- Upper Intermediate
+				{#if LEVEL_DESCRIPTIONS[level]}
+					- {LEVEL_DESCRIPTIONS[level]}
 				{/if}
 			</button>
 		{/each}

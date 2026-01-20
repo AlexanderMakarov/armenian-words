@@ -1,17 +1,7 @@
 import { writable } from 'svelte/store';
+import { QUIZ_CONFIG } from '$lib/constants.js';
 import type { QuizLanguage, QuizQuestion, QuizWord, Word } from '$lib/types.js';
-
-/**
- * Fisher-Yates shuffle for unbiased randomization.
- * Mutates the array in place and returns it.
- */
-function shuffle<T>(array: T[]): T[] {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
+import { getTranslations, shuffle } from '$lib/utils.js';
 
 // Session state - not persisted to localStorage
 export const currentLevel = writable<string | null>(null);
@@ -41,7 +31,8 @@ export function generateQuizOptions(correctWord: Word, allWords: Word[]): Word[]
     const options: Word[] = [correctWord];
 
     // Add random incorrect options from learning words
-    while (options.length < Math.min(10, allWords.length)) {
+    const maxOptions = Math.min(QUIZ_CONFIG.MAX_OPTIONS, allWords.length);
+    while (options.length < maxOptions) {
         const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
         if (!options.find((opt) => opt.am === randomWord.am)) {
             options.push(randomWord);
@@ -60,7 +51,7 @@ export function createQuizQuestions(words: Word[], language: QuizLanguage): Quiz
     const questions: QuizQuestion[] = [];
 
     for (const word of words) {
-        const translations = language === 'english' ? word.en : word.ru;
+        const translations = getTranslations(word, language);
 
         // Create a question for each translation
         for (const translation of translations) {

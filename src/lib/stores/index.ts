@@ -1,4 +1,4 @@
-export { learntTranslations, learntWords, userStats } from './progress.js';
+export { learntTranslations, userStats } from './progress.js';
 export {
     createQuizQuestions,
     currentLevel,
@@ -8,7 +8,6 @@ export {
     learningWords,
     quizQuestions,
     quizScore,
-    quizWords,
     resetLearningSession,
     resetQuizSession,
 } from './quiz.js';

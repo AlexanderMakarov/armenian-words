@@ -139,6 +139,17 @@ function createLearntTranslationsStore() {
             return get(store).includes(translationKey);
         },
         /**
+         * Checks if all translations for a word in the given language have been learned.
+         */
+        isWordFullyLearnt: (word: Word, language: QuizLanguage): boolean => {
+            const translations = language === 'english' ? word.en : word.ru;
+            const currentStore = get(store);
+            return translations.every((translation) => {
+                const key = createTranslationKey(word, translation);
+                return currentStore.includes(key);
+            });
+        },
+        /**
          * Runs migration from old learntWords format if needed.
          * Should be called once when vocabulary is loaded.
          * Only migrates translations for the specified language.

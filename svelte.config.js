@@ -17,7 +17,8 @@ const config = {
 			base: process.env.NODE_ENV === 'production' ? '/armenian-words' : ''
 		},
 		prerender: {
-			handleUnseenRoutes: 'ignore'
+			handleUnseenRoutes: 'ignore',
+			handleHttpError: 'warn'
 		}
 	}
 };
