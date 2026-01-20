@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { QuizQuestion, UserStats, Word } from '$lib/types.js';
+import type { QuizLanguage, QuizQuestion, UserStats, Word } from '$lib/types.js';
 
 const STORAGE_PREFIX = 'armenianApp_';
 
@@ -49,9 +49,12 @@ function createTranslationKey(word: Word, translation: string): string {
 
 /**
  * Migrates old learntWords (word-based) to learntTranslations (translation-based).
- * For each learned word, marks ALL its translations as learned.
+ * For each learned word, marks only the translations for the specified language as learned.
  */
-function migrateFromLearntWords(vocabulary: Record<string, Word[]>): string[] {
+function migrateFromLearntWords(
+    vocabulary: Record<string, Word[]>,
+    language: QuizLanguage
+): string[] {
     const oldKey = `${STORAGE_PREFIX}learntWords`;
     const stored = browser ? localStorage.getItem(oldKey) : null;
 
@@ -76,16 +79,13 @@ function migrateFromLearntWords(vocabulary: Record<string, Word[]>): string[] {
         }
     }
 
-    // Convert learned words to learned translations
+    // Convert learned words to learned translations (only for selected language)
     const learntTranslations: string[] = [];
     for (const wordId of learnedWordIds) {
         const word = wordMap.get(wordId);
         if (word) {
-            // Mark all translations of this word as learned
-            for (const translation of word.en) {
-                learntTranslations.push(createTranslationKey(word, translation));
-            }
-            for (const translation of word.ru) {
+            const translations = language === 'english' ? word.en : word.ru;
+            for (const translation of translations) {
                 learntTranslations.push(createTranslationKey(word, translation));
             }
         }
@@ -141,13 +141,14 @@ function createLearntTranslationsStore() {
         /**
          * Runs migration from old learntWords format if needed.
          * Should be called once when vocabulary is loaded.
+         * Only migrates translations for the specified language.
          */
-        migrateIfNeeded: (vocabulary: Record<string, Word[]>) => {
+        migrateIfNeeded: (vocabulary: Record<string, Word[]>, language: QuizLanguage) => {
             const oldKey = `${STORAGE_PREFIX}learntWords`;
             const hasOldData = browser && localStorage.getItem(oldKey);
 
             if (hasOldData) {
-                const migratedTranslations = migrateFromLearntWords(vocabulary);
+                const migratedTranslations = migrateFromLearntWords(vocabulary, language);
                 if (migratedTranslations.length > 0) {
                     store.update((existing) => {
                         const combined = [...existing, ...migratedTranslations];

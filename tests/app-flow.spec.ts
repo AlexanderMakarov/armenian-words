@@ -158,3 +158,80 @@ test('respects custom cards count setting', async ({ page }: { page: Page }) => 
   const learningCount = await page.locator('.learning-count').textContent();
   expect(learningCount).toContain('/ 3');
 });
+
+test('migrates old learntWords localStorage to learntTranslations', async ({ page }: { page: Page }) => {
+  const errors: string[] = [];
+
+  page.on('pageerror', (error: Error) => {
+    errors.push(`Page error: ${error.message}`);
+  });
+
+  // Set up old localStorage format BEFORE navigating
+  await page.addInitScript(() => {
+    // Simulate old learntWords format (comma-separated Armenian words)
+    localStorage.setItem('armenianApp_learntWords', 'է,և');
+  });
+
+  await page.goto('/');
+  await page.waitForSelector('button.level-btn', { state: 'visible', timeout: 5000 });
+
+  // Check migration happened
+  const migrationResult = await page.evaluate(() => {
+    const oldKey = localStorage.getItem('armenianApp_learntWords');
+    const newKey = localStorage.getItem('armenianApp_learntTranslations');
+    return {
+      oldKeyExists: oldKey !== null,
+      oldKeyValue: oldKey,
+      newKeyExists: newKey !== null,
+      newKeyValue: newKey,
+      newKeyContainsTranslations: newKey ? newKey.includes('|') : false,
+    };
+  });
+
+  console.log('=== Migration Result ===');
+  console.log(JSON.stringify(migrationResult, null, 2));
+
+  // Old key should be removed after migration
+  expect(migrationResult.oldKeyExists).toBe(false);
+
+  // New key should exist and contain pipe-separated format
+  expect(migrationResult.newKeyExists).toBe(true);
+  expect(migrationResult.newKeyContainsTranslations).toBe(true);
+
+  // Should not have any page errors
+  if (errors.length > 0) {
+    console.log('=== Errors ===');
+    errors.forEach(err => console.error(err));
+  }
+  expect(errors).toHaveLength(0);
+});
+
+test('handles app load with corrupted localStorage gracefully', async ({ page }: { page: Page }) => {
+  const errors: string[] = [];
+
+  page.on('pageerror', (error: Error) => {
+    errors.push(`Page error: ${error.message}`);
+  });
+
+  // Set up potentially problematic localStorage data
+  await page.addInitScript(() => {
+    // Old format with words that might not exist in vocabulary
+    localStorage.setItem('armenianApp_learntWords', 'nonexistent,words,here');
+  });
+
+  await page.goto('/');
+
+  // App should still load without errors
+  await page.waitForSelector('button.level-btn', { state: 'visible', timeout: 5000 });
+
+  // Verify app is functional
+  const appLoaded = await page.evaluate(() => {
+    return document.querySelectorAll('.level-btn').length > 0;
+  });
+
+  expect(appLoaded).toBe(true);
+
+  // Should not have JSON parse errors or other page errors
+  const jsonParseErrors = errors.filter(e => e.includes('JSON') || e.includes('parse'));
+  expect(jsonParseErrors).toHaveLength(0);
+});

@@ -3,7 +3,7 @@ import { onMount } from 'svelte';
 import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { trackQuizComplete } from '$lib/analytics.js';
-import { QuizOption } from '$lib/components/index.js';
+import { ProgressBar, QuizOption } from '$lib/components/index.js';
 import {
     cardsCount,
     createQuizQuestions,

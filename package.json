@@ -12,6 +12,7 @@
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
         "test": "bunx playwright test",
+        "test:unit": "bun test src/",
         "lint": "biome check --write src/",
         "lint:fix": "biome check --write src/",
         "vocabulary-build": "python3 scripts/build_vocabulary.py",
