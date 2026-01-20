@@ -1,10 +1,11 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { get } from 'svelte/store';
 import { initAnalytics } from '$lib/analytics.js';
 import {
     cardsCount,
     currentLevel,
-    learntWords,
+    learntTranslations,
     quizLanguage,
     userStats,
     vocabulary,
@@ -31,20 +32,12 @@ function generateIssueUrl(): string {
     const repoUrl = 'https://github.com/AlexanderMakarov/armenian-words';
     const title = encodeURIComponent('Issue Report');
 
-    let language = 'english';
-    let cards = 10;
-    let level: string | null = null;
-    let learntCount = 0;
-    let stats: Record<
-        string,
-        { totalQuizzes: number; totalCorrect: number; totalQuestions: number }
-    > = {};
-
-    quizLanguage.subscribe((v) => (language = v))();
-    cardsCount.subscribe((v) => (cards = v))();
-    currentLevel.subscribe((v) => (level = v))();
-    learntWords.subscribe((v) => (learntCount = v.length))();
-    userStats.subscribe((v) => (stats = v))();
+    // Use get() to read store values synchronously
+    const language = get(quizLanguage);
+    const cards = get(cardsCount);
+    const level = get(currentLevel);
+    const learntCount = get(learntTranslations).length;
+    const stats = get(userStats);
 
     let statsText = 'Cache Settings:\n';
     statsText += `- Quiz Language: ${language}\n`;

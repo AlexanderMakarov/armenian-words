@@ -4,6 +4,7 @@ import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { trackQuizComplete } from '$lib/analytics.js';
 import { ProgressBar, QuizOption } from '$lib/components/index.js';
+import { QUIZ_CONFIG } from '$lib/constants.js';
 import {
     cardsCount,
     createQuizQuestions,
@@ -89,10 +90,10 @@ function selectOption(option: Word) {
         learntTranslations.markAsLearnt(currentQuestion);
     }
 
-    // Auto-advance after 1 second
+    // Auto-advance after delay
     setTimeout(() => {
         currentQuizIndex.update((i) => i + 1);
-    }, 1000);
+    }, QUIZ_CONFIG.AUTO_ADVANCE_DELAY_MS);
 }
 
 function handleQuizComplete() {
@@ -101,24 +102,22 @@ function handleQuizComplete() {
     // Update stats
     userStats.update(level, score, questions.length);
 
-    // Track analytics
+    // Track analytics - use get() to read store value synchronously
+    const stats = get(userStats);
     const progressByLevel: Record<string, { quizzes: number; accuracy: number }> = {};
-    userStats.subscribe((stats) => {
-        Object.keys(stats).forEach((lvl) => {
-            const levelStats = stats[lvl];
-            const accuracy =
-                levelStats.totalQuestions > 0
-                    ? Math.round((levelStats.totalCorrect / levelStats.totalQuestions) * 100)
-                    : 0;
-            progressByLevel[lvl] = {
-                quizzes: levelStats.totalQuizzes,
-                accuracy,
-            };
-        });
-    })();
+    for (const lvl of Object.keys(stats)) {
+        const levelStats = stats[lvl];
+        const accuracy =
+            levelStats.totalQuestions > 0
+                ? Math.round((levelStats.totalCorrect / levelStats.totalQuestions) * 100)
+                : 0;
+        progressByLevel[lvl] = {
+            quizzes: levelStats.totalQuizzes,
+            accuracy,
+        };
+    }
 
-    let learntCount = 0;
-    learntTranslations.subscribe((t) => (learntCount = t.length))();
+    const learntCount = get(learntTranslations).length;
 
     trackQuizComplete(level, progressByLevel, learntCount, language, count);
 }

@@ -10,12 +10,13 @@ import {
     currentWordIndex,
     getWordsByLevel,
     learningWords,
-    learntWords,
+    learntTranslations,
     quizLanguage,
     resetLearningSession,
     vocabulary,
 } from '$lib/stores/index.js';
 import type { QuizLanguage, Word } from '$lib/types.js';
+import { getLanguageLabel, getTranslationDisplay, shuffle, uniqueByArmenian } from '$lib/utils.js';
 
 let words = $state<Word[]>([]);
 let wordIndex = $state(0);
@@ -40,25 +41,20 @@ onMount(() => {
             return;
         }
 
-        // Read cardsCount synchronously to get the current saved value
+        // Read settings synchronously
         const count = get(cardsCount);
+        const currentLanguage = get(quizLanguage);
 
         // Filter unlearnt words first, then add learnt words
-        const unlearntWords = levelWords.filter((word) => !learntWords.isLearnt(word));
+        // A word is "unlearnt" if not all its translations have been learned
+        const unlearntWords = levelWords.filter(
+            (word) => !learntTranslations.isWordFullyLearnt(word, currentLanguage)
+        );
         const combined = [...unlearntWords, ...levelWords];
 
-        // Remove duplicates
-        const uniqueWords: Word[] = [];
-        const seen = new Set<string>();
-        combined.forEach((w) => {
-            if (!seen.has(w.am)) {
-                seen.add(w.am);
-                uniqueWords.push(w);
-            }
-        });
-
-        // Shuffle and limit to user-selected count
-        const shuffled = [...uniqueWords].sort(() => 0.5 - Math.random());
+        // Remove duplicates, shuffle, and limit to user-selected count
+        const uniqueWords = uniqueByArmenian(combined);
+        const shuffled = shuffle(uniqueWords);
         words = shuffled.slice(0, Math.min(count, shuffled.length));
 
         // Update stores
@@ -84,11 +80,10 @@ const displayIndex = $derived(Math.min(wordIndex + 1, words.length));
 
 const translation = $derived(() => {
     if (!currentWord) return '';
-    const data = language === 'english' ? currentWord.en : currentWord.ru;
-    return Array.isArray(data) ? data.join(', ') : data || '';
+    return getTranslationDisplay(currentWord, language);
 });
 
-const languageLabel = $derived(language === 'english' ? 'English' : 'Russian');
+const languageLabel = $derived(getLanguageLabel(language));
 const canGoPrevious = $derived(wordIndex > 0);
 const canGoNext = $derived(wordIndex < words.length);
 
