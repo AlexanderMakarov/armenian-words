@@ -302,6 +302,39 @@ describe('localStorage migration integration', () => {
     });
 });
 
+describe('Real-world localStorage data', () => {
+    // This test uses actual localStorage data from a user's browser
+    // Real data: " delays,մdelays,իdelays,սdelays,delays,delays,delays,delays,delays,delays,delays,delays, delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,է,delays,delays,delays,delays,delays,delays,delays, delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays"
+    const realUserData =
+        ' delays,մdelays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays, delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,է,delays,delays,delays,delays,delays,delays,delays,ես,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays,delays';
+
+    test('handles real user data with many words (57 words)', () => {
+        // Use sampleVocabulary which has 'է'
+        const result = migrateFromLearntWords(realUserData, sampleVocabulary);
+
+        // Should find 'է' and create its translations
+        expect(result.translations).toContain('է|is');
+        expect(result.translations).toContain('է|it');
+        expect(result.translations).toContain('է|есть');
+        expect(result.translations).toContain('է|это');
+
+        // Most words won't be in our sample vocabulary
+        expect(result.wordsNotFound.length).toBeGreaterThan(0);
+    });
+
+    test('migration with many unknown words should still work', () => {
+        // Simulate case where most words are not in vocabulary
+        const mostlyUnknown = 'unknown1,unknown2,է,unknown3';
+        const result = migrateFromLearntWords(mostlyUnknown, sampleVocabulary);
+
+        // Should still migrate the known word
+        expect(result.translations).toContain('է|is');
+        expect(result.wordsNotFound).toContain('unknown1');
+        expect(result.wordsNotFound).toContain('unknown2');
+        expect(result.wordsNotFound).toContain('unknown3');
+    });
+});
+
 describe('Edge cases and error handling', () => {
     test('handles word with empty translation arrays', () => {
         const vocabWithEmptyTranslations: Vocabulary = {
