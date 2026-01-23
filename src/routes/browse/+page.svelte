@@ -33,17 +33,27 @@ const allWords = $derived<WordWithLevel[]>(() => {
     return words;
 });
 
+const MAX_RESULTS = 10;
+
 // Filter words based on search query (Armenian or pronunciation)
+// Uses early termination to avoid scanning entire vocabulary
 const filteredWords = $derived<WordWithLevel[]>(() => {
     const words = allWords();
     if (!searchQuery.trim()) return [];
 
     const query = searchQuery.toLowerCase().trim();
-    return words.filter((word) => {
+    const results: WordWithLevel[] = [];
+
+    for (const word of words) {
         const matchesArmenian = word.am.toLowerCase().includes(query);
         const matchesPronunciation = word.spell?.toLowerCase().includes(query) ?? false;
-        return matchesArmenian || matchesPronunciation;
-    });
+        if (matchesArmenian || matchesPronunciation) {
+            results.push(word);
+            if (results.length >= MAX_RESULTS) break;
+        }
+    }
+
+    return results;
 });
 
 function handleInputFocus() {
@@ -89,7 +99,7 @@ function goBack() {
                 {#if filteredWords().length === 0}
                     <div class="no-results">No words found</div>
                 {:else}
-                    {#each filteredWords().slice(0, 20) as word}
+                    {#each filteredWords() as word}
                         <button
                             class="dropdown-item"
                             onclick={() => selectWord(word)}
@@ -101,11 +111,6 @@ function goBack() {
                             <span class="word-level">{word.level}</span>
                         </button>
                     {/each}
-                    {#if filteredWords().length > 20}
-                        <div class="more-results">
-                            ...and {filteredWords().length - 20} more results
-                        </div>
-                    {/if}
                 {/if}
             </div>
         {/if}
