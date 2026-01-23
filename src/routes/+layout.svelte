@@ -1,6 +1,8 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import { get } from 'svelte/store';
+import { base } from '$app/paths';
+import { page } from '$app/state';
 import { initAnalytics } from '$lib/analytics.js';
 import {
     cardsCount,
@@ -85,6 +87,16 @@ function handleReportClick(event: MouseEvent) {
     const url = generateIssueUrl();
     window.open(url, '_blank', 'noopener,noreferrer');
 }
+
+// Generate browse URL with current page as return path
+function getBrowseUrl(): string {
+    const currentPath = page.url.pathname;
+    const fromParam = encodeURIComponent(currentPath);
+    return `${base}/browse?from=${fromParam}`;
+}
+
+// Check if we're currently on a browse page (don't show link there)
+const isOnBrowsePage = $derived(page.url.pathname.startsWith(`${base}/browse`));
 </script>
 
 <div class="container">
@@ -105,6 +117,10 @@ function handleReportClick(event: MouseEvent) {
 	{/if}
 
 	<footer>
+		{#if !isOnBrowsePage}
+			<a href={getBrowseUrl()} class="footer-link">Browse Vocabulary</a>
+			<span class="footer-separator">|</span>
+		{/if}
 		<button type="button" class="link-button" onclick={handleReportClick}>Report an Issue</button>
 	</footer>
 </div>
