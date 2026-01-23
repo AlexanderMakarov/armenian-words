@@ -502,3 +502,285 @@ footer .link-button:hover {
     color: #764ba2;
     text-decoration: underline;
 }
+
+.footer-link {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+.footer-separator {
+    margin: 0 0.75rem;
+    color: #cbd5e0;
+}
+
+// Browse page styles
+.browse-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+}
+
+.browse-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    h2 {
+        margin: 0;
+        color: #4a5568;
+        font-size: 1.5rem;
+    }
+}
+
+.back-link {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #764ba2;
+        text-decoration: underline;
+    }
+}
+
+.search-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Arial Unicode MS', Arial, sans-serif;
+    transition: all 0.3s ease;
+
+    &:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    &::placeholder {
+        color: #a0aec0;
+    }
+}
+
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    max-height: 350px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.2s ease;
+
+    &:hover {
+        background: #f7fafc;
+    }
+
+    &:not(:last-child) {
+        border-bottom: 1px solid #edf2f7;
+    }
+}
+
+.word-armenian {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    font-family: 'Arial Unicode MS', Arial, sans-serif;
+}
+
+.word-pronunciation {
+    font-size: 0.9rem;
+    color: #667eea;
+    font-style: italic;
+}
+
+.word-level {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #718096;
+    background: #edf2f7;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.no-results,
+.more-results {
+    padding: 1rem;
+    text-align: center;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.search-hint {
+    text-align: center;
+    color: #a0aec0;
+    font-size: 0.85rem;
+}
+
+// Word detail page styles
+.word-detail-page {
+    display: flex;
+    flex-direction: column;
+}
+
+.word-detail-header {
+    margin-bottom: 1.5rem;
+}
+
+.word-detail-card {
+    background: #f7fafc;
+    border-radius: 16px;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease;
+}
+
+.word-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.detail-armenian-word {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2d3748;
+    font-family: 'Arial Unicode MS', Arial, sans-serif;
+}
+
+.level-badge {
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+
+    &.level-a1 {
+        background: #c6f6d5;
+        color: #22543d;
+    }
+
+    &.level-a2 {
+        background: #bee3f8;
+        color: #2a4365;
+    }
+
+    &.level-b1 {
+        background: #fef3c7;
+        color: #744210;
+    }
+
+    &.level-b2 {
+        background: #fed7e2;
+        color: #702459;
+    }
+}
+
+.detail-pronunciation {
+    text-align: center;
+    font-size: 1.25rem;
+    color: #667eea;
+    font-style: italic;
+    font-weight: 500;
+    margin-bottom: 2rem;
+}
+
+.translations-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.translation-group {
+    h3 {
+        font-size: 1rem;
+        color: #4a5568;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e2e8f0;
+    }
+}
+
+.translation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        padding: 0.5rem 0;
+        color: #2d3748;
+        font-size: 1rem;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid #edf2f7;
+        }
+    }
+}
+
+.word-not-found {
+    text-align: center;
+    padding: 2rem;
+
+    h2 {
+        color: #e53e3e;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        color: #718096;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .translations-section {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-armenian-word {
+        font-size: 2.5rem;
+    }
+
+    .word-main {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
