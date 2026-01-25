@@ -124,8 +124,6 @@ armenian-words/
 4. **Stop dev server** after testing (use `pkill -f 'vite dev'` or similar)
 5. **Verify cleanup**: Ensure no background processes or temporary resources remain
 
-**MANDATORY**: Never claim a fix is complete without completing all applicable steps above.
-
 ### Build Commands
 
 - `bun run build` - Production build: Compile TypeScript, compile Sass, copy assets, copy files to `dist/`, run linter

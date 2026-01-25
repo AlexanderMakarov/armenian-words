@@ -1,6 +1,8 @@
 <script lang="ts">
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
+import { StatsDisplay } from '$lib/components/index.js';
+import { LEVEL_DESCRIPTIONS } from '$lib/constants.js';
 import {
     cardsCount,
     getAvailableLevels,

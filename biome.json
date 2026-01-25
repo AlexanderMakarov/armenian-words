@@ -61,6 +61,16 @@
                     "recommended": true
                 }
             }
+        },
+        {
+            "includes": ["**/*.svelte"],
+            "linter": {
+                "rules": {
+                    "correctness": {
+                        "noUnusedImports": "off"
+                    }
+                }
+            }
         }
     ]
 }
