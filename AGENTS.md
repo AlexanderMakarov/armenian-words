@@ -129,11 +129,12 @@ armenian-words/
 
 ### Vocabulary Loading
 
-- `vocabulary.json` is loaded via `fetch('/static/vocabulary.json')` on app initialization
+- `vocabulary.json` is loaded via `fetch(\`${base}/vocabulary.json\`)` on app initialization
 - If loading fails, shows error message to user
 - Vocabulary is stored in global `vocabulary` variable (typed as `Vocabulary | null`)
 - Access via `getWordsByLevel(level)` helper function
-- File location: `static/vocabulary.json` (served from `/static/vocabulary.json`)
+- File location: `static/vocabulary.json` (served from `/vocabulary.json` in dev, `/armenian-words/vocabulary.json` in production)
+- Note: In SvelteKit, files in `static/` folder are served from root, not from `/static/` path
 
 ### Screen Management
 
