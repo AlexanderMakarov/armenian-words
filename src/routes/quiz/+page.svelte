@@ -4,7 +4,6 @@ import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { trackQuizComplete } from '$lib/analytics.js';
-import { ProgressBar, QuizOption } from '$lib/components/index.js';
 import { QUIZ_CONFIG } from '$lib/constants.js';
 import {
     cardsCount,
