@@ -27,13 +27,16 @@ function createVocabularyStore() {
 
                 // Run migration from old learntWords format if needed
                 // Uses the currently selected language setting
-                try {
-                    const currentLanguage = get(quizLanguage);
-                    learntTranslations.migrateIfNeeded(data, currentLanguage);
-                } catch (migrationError) {
-                    // Don't fail vocabulary loading if migration fails
-                    console.error('Error during migration:', migrationError);
-                }
+                // Run migration asynchronously after a microtask to avoid blocking
+                queueMicrotask(() => {
+                    try {
+                        const currentLanguage = get(quizLanguage);
+                        learntTranslations.migrateIfNeeded(data, currentLanguage);
+                    } catch (migrationError) {
+                        // Don't fail vocabulary loading if migration fails
+                        console.error('Error during migration:', migrationError);
+                    }
+                });
             } catch (error) {
                 console.error('Error loading vocabulary:', error);
                 throw error;
