@@ -113,8 +113,18 @@ armenian-words/
 - Edit source files in `src/` folder
 - Run `bun run build` to compile TypeScript and Sass
 - Test locally: `bun run serve` (builds and serves on [http://localhost:8000](http://localhost:8000))
-- **MANDATORY**: Test functionality in browser before declaring complete
-- Run `bun run lint` to check code quality
+
+### Completion Checklist
+
+**Before declaring any task complete, you MUST:**
+
+1. **Run `bun run lint`** and fix all errors and warnings
+2. **Run `bun run build`** and verify it succeeds without errors
+3. **If functionality was changed or broken**, start dev server (`bun run dev`) and test the specific feature that was modified
+4. **Stop dev server** after testing (use `pkill -f 'vite dev'` or similar)
+5. **Verify cleanup**: Ensure no background processes or temporary resources remain
+
+**MANDATORY**: Never claim a fix is complete without completing all applicable steps above.
 
 ### Build Commands
 
