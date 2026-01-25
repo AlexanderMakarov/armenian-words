@@ -4,7 +4,6 @@ import { get } from 'svelte/store';
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
-import { ProgressBar } from '$lib/components/index.js';
 import {
     cardsCount,
     currentLevel,

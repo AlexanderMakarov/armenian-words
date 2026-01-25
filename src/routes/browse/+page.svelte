@@ -9,7 +9,9 @@ interface WordWithLevel extends Word {
     level: string;
 }
 
+// biome-ignore lint/style/useConst: Required for bind:value in Svelte
 let searchQuery = $state('');
+let debouncedQuery = $state('');
 let vocab = $state<Vocabulary | null>(null);
 let showDropdown = $state(false);
 
@@ -21,36 +23,49 @@ $effect(() => {
     return unsub;
 });
 
-// Flatten all words with their levels
-const allWords = $derived<WordWithLevel[]>(() => {
-    if (!vocab) return [];
-    const words: WordWithLevel[] = [];
-    for (const [level, levelWords] of Object.entries(vocab)) {
-        for (const word of levelWords) {
-            words.push({ ...word, level });
-        }
-    }
-    return words;
+// Debounce search query to avoid recalculating on every keystroke
+$effect(() => {
+    // Read searchQuery to establish dependency
+    const query = searchQuery;
+
+    const timeoutId = setTimeout(() => {
+        debouncedQuery = query;
+    }, 150); // 150ms debounce
+
+    return () => clearTimeout(timeoutId);
 });
 
 const MAX_RESULTS = 10;
 
 // Filter words based on search query (Armenian or pronunciation)
+// Searches directly in vocabulary structure without flattening first
 // Uses early termination to avoid scanning entire vocabulary
 const filteredWords = $derived<WordWithLevel[]>(() => {
-    const words = allWords();
-    if (!searchQuery.trim()) return [];
+    if (!vocab || !debouncedQuery.trim() || typeof vocab !== 'object') return [];
 
-    const query = searchQuery.toLowerCase().trim();
+    const query = debouncedQuery.toLowerCase().trim();
     const results: WordWithLevel[] = [];
 
-    for (const word of words) {
-        const matchesArmenian = word.am.toLowerCase().includes(query);
-        const matchesPronunciation = word.spell?.toLowerCase().includes(query) ?? false;
-        if (matchesArmenian || matchesPronunciation) {
-            results.push(word);
+    // Search directly in vocabulary structure - no need to flatten first
+    // This avoids creating a 9,539 element array on every search
+    try {
+        for (const [level, levelWords] of Object.entries(vocab)) {
+            if (!Array.isArray(levelWords)) continue;
+            for (const word of levelWords) {
+                if (!word || !word.am) continue;
+                const matchesArmenian = word.am.toLowerCase().includes(query);
+                const matchesPronunciation = word.spell?.toLowerCase().includes(query) ?? false;
+                if (matchesArmenian || matchesPronunciation) {
+                    results.push({ ...word, level });
+                    if (results.length >= MAX_RESULTS) break;
+                }
+            }
+            // Early exit if we've found enough results
             if (results.length >= MAX_RESULTS) break;
         }
+    } catch (error) {
+        console.error('Error filtering words:', error);
+        return [];
     }
 
     return results;
@@ -96,9 +111,9 @@ function goBack() {
 
         {#if showDropdown && searchQuery.trim()}
             <div class="search-dropdown">
-                {#if filteredWords().length === 0}
+                {#if debouncedQuery.trim() && filteredWords().length === 0}
                     <div class="no-results">No words found</div>
-                {:else}
+                {:else if filteredWords().length > 0}
                     {#each filteredWords() as word}
                         <button
                             class="dropdown-item"
