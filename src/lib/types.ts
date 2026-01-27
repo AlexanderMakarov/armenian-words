@@ -3,6 +3,7 @@ export interface Word {
     ru: string[];
     en: string[];
     spell?: string;
+    ogg_url?: string;
 }
 
 export interface Vocabulary {

@@ -4,6 +4,7 @@ import { base } from '$app/paths';
 import { page } from '$app/state';
 import { vocabulary } from '$lib/stores/index.js';
 import type { Vocabulary, Word } from '$lib/types.js';
+import { playSound } from '$lib/utils.js';
 
 interface WordWithLevel extends Word {
     level: string;
@@ -91,6 +92,11 @@ function selectWord(word: WordWithLevel) {
 function goBack() {
     goto(returnTo);
 }
+
+function handlePlaySound(event: MouseEvent, url: string | undefined) {
+    event.stopPropagation();
+    playSound(url);
+}
 </script>
 
 <div class="browse-page">
@@ -115,16 +121,27 @@ function goBack() {
                     <div class="no-results">No words found</div>
                 {:else if filteredWords().length > 0}
                     {#each filteredWords() as word}
-                        <button
+                        <div
                             class="dropdown-item"
+                            role="button"
+                            tabindex="0"
                             onclick={() => selectWord(word)}
+                            onkeydown={(e) => e.key === 'Enter' && selectWord(word)}
                         >
                             <span class="word-armenian">{word.am}</span>
                             {#if word.spell}
                                 <span class="word-pronunciation">({word.spell})</span>
                             {/if}
+                            <button
+                                class="play-sound-btn small"
+                                onclick={(e) => handlePlaySound(e, word.ogg_url)}
+                                disabled={!word.ogg_url}
+                                aria-label="Play pronunciation"
+                            >
+                                🔊
+                            </button>
                             <span class="word-level">{word.level}</span>
-                        </button>
+                        </div>
                     {/each}
                 {/if}
             </div>

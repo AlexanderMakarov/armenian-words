@@ -7,6 +7,7 @@ import { trackQuizComplete } from '$lib/analytics.js';
 import { ProgressBar, QuizOption } from '$lib/components/index.js';
 import { QUIZ_CONFIG } from '$lib/constants.js';
 import {
+    autoPlaySound,
     cardsCount,
     createQuizQuestions,
     currentLevel,
@@ -20,6 +21,7 @@ import {
     userStats,
 } from '$lib/stores/index.js';
 import type { QuizLanguage, QuizQuestion, Word } from '$lib/types.js';
+import { playSound } from '$lib/utils.js';
 
 let words = $state<Word[]>([]);
 let questions = $state<QuizQuestion[]>([]);
@@ -31,6 +33,7 @@ let count = $state(10);
 let selectedOption = $state<Word | null>(null);
 let answered = $state(false);
 let showComplete = $state(false);
+let soundEnabled = $state(true);
 
 onMount(() => {
     // Get language first (needed for creating questions)
@@ -61,6 +64,7 @@ onMount(() => {
     const unsubScore = quizScore.subscribe((s) => (score = s));
     const unsubLanguage = quizLanguage.subscribe((l) => (language = l));
     const unsubCount = cardsCount.subscribe((c) => (count = c));
+    const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
 
     return () => {
         unsubLearning();
@@ -69,6 +73,7 @@ onMount(() => {
         unsubScore();
         unsubLanguage();
         unsubCount();
+        unsubSound();
     };
 });
 
@@ -84,6 +89,11 @@ function selectOption(option: Word) {
 
     selectedOption = option;
     answered = true;
+
+    // Play pronunciation of selected word if enabled
+    if (soundEnabled && option.ogg_url) {
+        playSound(option.ogg_url);
+    }
 
     const isCorrect = option.am === currentQuestion.word.am;
     if (isCorrect) {

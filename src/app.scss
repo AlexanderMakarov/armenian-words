@@ -203,6 +203,78 @@ header p {
     color: white;
 }
 
+.sound-toggle-selection {
+    margin: 0.75rem 0;
+    text-align: center;
+}
+
+.sound-toggle-selection p {
+    color: #4a5568;
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.toggle-btn {
+    padding: 0.7rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.toggle-btn:hover {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.toggle-btn.active {
+    border-color: #667eea;
+    background: #667eea;
+    color: white;
+}
+
+.play-sound-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.play-sound-btn:hover:not(:disabled) {
+    border-color: #667eea;
+    background: #f7fafc;
+    transform: scale(1.1);
+}
+
+.play-sound-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.play-sound-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.play-sound-btn.small {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
+}
+
 .progress-bar {
     background: #e2e8f0;
     border-radius: 10px;

@@ -32,3 +32,4 @@ function createPersistentStore<T>(key: string, initial: T) {
 
 export const quizLanguage = createPersistentStore<QuizLanguage>('quizLanguage', 'english');
 export const cardsCount = createPersistentStore<number>('cardsCount', 10);
+export const autoPlaySound = createPersistentStore<boolean>('autoPlaySound', true);

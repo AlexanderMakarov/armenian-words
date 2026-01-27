@@ -48,3 +48,15 @@ export function uniqueByArmenian(words: Word[]): Word[] {
         return true;
     });
 }
+
+/**
+ * Plays pronunciation audio for a word if ogg_url is available.
+ * Fails silently if playback isn't possible (e.g., no user interaction yet).
+ */
+export function playSound(url: string | undefined): void {
+    if (!url) return;
+    const audio = new Audio(url);
+    audio.play().catch(() => {
+        // Silently ignore playback errors (autoplay restrictions, network issues)
+    });
+}

@@ -4,6 +4,7 @@ import { base } from '$app/paths';
 import { StatsDisplay } from '$lib/components/index.js';
 import { LEVEL_DESCRIPTIONS } from '$lib/constants.js';
 import {
+    autoPlaySound,
     cardsCount,
     getAvailableLevels,
     learntTranslations,
@@ -15,14 +16,17 @@ import type { QuizLanguage, Vocabulary } from '$lib/types.js';
 
 let currentCardsCount = $state(10);
 let currentLanguage = $state<QuizLanguage>('english');
+let soundEnabled = $state(true);
 
 // Subscribe to stores
 $effect(() => {
     const unsubCardsCount = cardsCount.subscribe((v) => (currentCardsCount = v));
     const unsubLanguage = quizLanguage.subscribe((v) => (currentLanguage = v));
+    const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
     return () => {
         unsubCardsCount();
         unsubLanguage();
+        unsubSound();
     };
 });
 
@@ -48,6 +52,10 @@ function selectLevel(level: string) {
 
 function selectLanguage(language: QuizLanguage) {
     quizLanguage.set(language);
+}
+
+function toggleSound() {
+    autoPlaySound.update((v) => !v);
 }
 
 function handleCardsCountChange(event: Event) {
@@ -121,6 +129,18 @@ function resetProgress() {
 				Русский
 			</button>
 		</div>
+	</div>
+
+	<div class="sound-toggle-selection">
+		<p>Auto-play pronunciation:</p>
+		<button
+			class="toggle-btn"
+			class:active={soundEnabled}
+			onclick={toggleSound}
+			aria-pressed={soundEnabled}
+		>
+			{soundEnabled ? 'On' : 'Off'}
+		</button>
 	</div>
 
 	<StatsDisplay {stats} />

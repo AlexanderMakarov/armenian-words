@@ -4,6 +4,7 @@ import { base } from '$app/paths';
 import { page } from '$app/state';
 import { vocabulary } from '$lib/stores/index.js';
 import type { Vocabulary, Word } from '$lib/types.js';
+import { playSound } from '$lib/utils.js';
 
 interface WordWithLevel extends Word {
     level: string;
@@ -52,6 +53,15 @@ function goBackToBrowse() {
         <div class="word-detail-card">
             <div class="word-main">
                 <span class="detail-armenian-word">{word.am}</span>
+                <button
+                    class="play-sound-btn"
+                    onclick={() => playSound(word.ogg_url)}
+                    disabled={!word.ogg_url}
+                    aria-label="Play pronunciation"
+                    title={word.ogg_url ? 'Play pronunciation' : 'No audio available'}
+                >
+                    🔊
+                </button>
                 <span class="level-badge level-{word.level.toLowerCase()}">{word.level}</span>
             </div>
 
