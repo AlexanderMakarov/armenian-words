@@ -77,38 +77,38 @@ header p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 500px;
 }
 
 #level-selection h2 {
     text-align: center;
-    margin: 0 0 0.75rem 0;
-    padding-bottom: 0.5rem;
+    margin: 0 0 0.5rem 0;
+    padding-bottom: 0.25rem;
+    font-size: 1.25rem;
 }
 
 .app-description {
     text-align: center;
     color: #4a5568;
-    margin-bottom: 0.75rem;
-    line-height: 1.4;
-    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+    font-size: 0.85rem;
 }
 
 .level-buttons {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .level-btn {
-    padding: 0.85rem;
+    padding: 0.6rem;
     border: 2px solid #e2e8f0;
-    border-radius: 12px;
+    border-radius: 10px;
     background: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
 }
 
@@ -122,20 +122,44 @@ header p {
     transform: translateY(0);
 }
 
-.cards-count-selection {
-    margin: 1rem 0;
-    text-align: center;
+.settings-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin: 0.75rem 0;
+    flex-wrap: wrap;
 }
 
-.cards-count-selection p {
+.setting-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.setting-item.horizontal {
+    flex-direction: row;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.setting-item p,
+.setting-item span {
     color: #4a5568;
-    margin-bottom: 0.75rem;
-    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    line-height: 1.3;
+}
+
+.setting-item.horizontal span {
+    margin-bottom: 0;
+    text-align: left;
 }
 
 .cards-count-input {
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     background: white;
@@ -143,7 +167,7 @@ header p {
     font-size: 0.9rem;
     font-weight: 500;
     color: #4a5568;
-    width: 120px;
+    width: 80px;
     text-align: center;
 }
 
@@ -158,37 +182,25 @@ header p {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.quiz-language-selection {
-    margin: 0.75rem 0;
-    text-align: center;
-}
-
-.quiz-language-selection p {
-    color: #4a5568;
-    margin-bottom: 0.75rem;
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
 .reset-section {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     text-align: center;
 }
 
 .language-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-content: center;
 }
 
 .language-btn {
-    padding: 0.7rem 1.2rem;
+    padding: 0.5rem 0.75rem;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     background: white;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 
@@ -201,6 +213,62 @@ header p {
     border-color: #667eea;
     background: #667eea;
     color: white;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #4a5568;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.play-sound-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.play-sound-btn:hover:not(:disabled) {
+    border-color: #667eea;
+    background: #f7fafc;
+    transform: scale(1.1);
+}
+
+.play-sound-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.play-sound-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.play-sound-btn.small {
+    width: 28px;
+    height: 28px;
+    font-size: 0.85rem;
 }
 
 .progress-bar {
@@ -246,6 +314,18 @@ header p {
 .word-card {
     text-align: center;
     padding: 2rem;
+}
+
+.word-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.word-header .armenian-word {
+    margin-bottom: 0;
 }
 
 .armenian-word {
@@ -420,9 +500,9 @@ header p {
 
 .stats {
     background: #f7fafc;
-    border-radius: 12px;
-    padding: 1rem;
-    margin-top: 0.75rem;
+    border-radius: 10px;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
     text-align: center;
 }
 

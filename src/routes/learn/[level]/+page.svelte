@@ -6,6 +6,7 @@ import { base } from '$app/paths';
 import { page } from '$app/state';
 import { ProgressBar } from '$lib/components/index.js';
 import {
+    autoPlaySound,
     cardsCount,
     currentLevel,
     currentWordIndex,
@@ -17,12 +18,19 @@ import {
     vocabulary,
 } from '$lib/stores/index.js';
 import type { QuizLanguage, Word } from '$lib/types.js';
-import { getLanguageLabel, getTranslationDisplay, shuffle, uniqueByArmenian } from '$lib/utils.js';
+import {
+    getLanguageLabel,
+    getTranslationDisplay,
+    playSound,
+    shuffle,
+    uniqueByArmenian,
+} from '$lib/utils.js';
 
 let words = $state<Word[]>([]);
 let wordIndex = $state(0);
 let language = $state<QuizLanguage>('english');
 let showComplete = $state(false);
+let soundEnabled = $state(true);
 
 // Get level from URL params
 const level = $derived(page.params.level ?? '');
@@ -69,11 +77,21 @@ onMount(() => {
         showComplete = i >= words.length && words.length > 0;
     });
 
+    const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
+
     return () => {
         unsubVocab();
         unsubIndex();
         unsubLanguage();
+        unsubSound();
     };
+});
+
+// Auto-play sound when word changes (if enabled)
+$effect(() => {
+    if (soundEnabled && currentWord?.ogg_url) {
+        playSound(currentWord.ogg_url);
+    }
 });
 
 const currentWord = $derived(words[wordIndex]);
@@ -126,7 +144,18 @@ function handleKeydown(event: KeyboardEvent) {
 
 	{#if !showComplete && currentWord}
 		<div class="word-card">
-			<div class="armenian-word">{currentWord.am}</div>
+			<div class="word-header">
+				<div class="armenian-word">{currentWord.am}</div>
+				<button
+					class="play-sound-btn"
+					onclick={() => playSound(currentWord.ogg_url)}
+					disabled={!currentWord.ogg_url}
+					aria-label="Play pronunciation"
+					title={currentWord.ogg_url ? 'Play pronunciation' : 'No audio available'}
+				>
+					🔊
+				</button>
+			</div>
 			{#if currentWord.spell}
 				<div class="pronunciation">{currentWord.spell}</div>
 			{/if}

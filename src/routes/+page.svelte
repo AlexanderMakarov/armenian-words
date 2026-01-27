@@ -4,6 +4,7 @@ import { base } from '$app/paths';
 import { StatsDisplay } from '$lib/components/index.js';
 import { LEVEL_DESCRIPTIONS } from '$lib/constants.js';
 import {
+    autoPlaySound,
     cardsCount,
     getAvailableLevels,
     learntTranslations,
@@ -15,14 +16,17 @@ import type { QuizLanguage, Vocabulary } from '$lib/types.js';
 
 let currentCardsCount = $state(10);
 let currentLanguage = $state<QuizLanguage>('english');
+let soundEnabled = $state(true);
 
 // Subscribe to stores
 $effect(() => {
     const unsubCardsCount = cardsCount.subscribe((v) => (currentCardsCount = v));
     const unsubLanguage = quizLanguage.subscribe((v) => (currentLanguage = v));
+    const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
     return () => {
         unsubCardsCount();
         unsubLanguage();
+        unsubSound();
     };
 });
 
@@ -48,6 +52,10 @@ function selectLevel(level: string) {
 
 function selectLanguage(language: QuizLanguage) {
     quizLanguage.set(language);
+}
+
+function toggleSound() {
+    autoPlaySound.update((v) => !v);
 }
 
 function handleCardsCountChange(event: Event) {
@@ -89,37 +97,50 @@ function resetProgress() {
 		{/each}
 	</div>
 
-	<div class="cards-count-selection">
-		<p>Choose how many words to learn:</p>
-		<input
-			type="number"
-			id="cards-count"
-			class="cards-count-input"
-			min="1"
-			max="100"
-			value={currentCardsCount}
-			onchange={handleCardsCountChange}
-			oninput={handleCardsCountChange}
-		/>
-	</div>
+	<div class="settings-row">
+		<label class="setting-item horizontal">
+			<span>Number of<br />words to learn:</span>
+			<input
+				type="number"
+				id="cards-count"
+				class="cards-count-input"
+				min="1"
+				max="100"
+				value={currentCardsCount}
+				onchange={handleCardsCountChange}
+				oninput={handleCardsCountChange}
+			/>
+		</label>
 
-	<div class="quiz-language-selection">
-		<p>Your language:</p>
-		<div class="language-buttons">
-			<button
-				class="language-btn"
-				class:active={currentLanguage === 'english'}
-				onclick={() => selectLanguage('english')}
-			>
-				English
-			</button>
-			<button
-				class="language-btn"
-				class:active={currentLanguage === 'russian'}
-				onclick={() => selectLanguage('russian')}
-			>
-				Русский
-			</button>
+		<div class="setting-item">
+			<p>Language:</p>
+			<div class="language-buttons">
+				<button
+					class="language-btn"
+					class:active={currentLanguage === 'english'}
+					onclick={() => selectLanguage('english')}
+				>
+					English
+				</button>
+				<button
+					class="language-btn"
+					class:active={currentLanguage === 'russian'}
+					onclick={() => selectLanguage('russian')}
+				>
+					Русский
+				</button>
+			</div>
+		</div>
+
+		<div class="setting-item">
+			<label class="checkbox-label">
+				<input
+					type="checkbox"
+					checked={soundEnabled}
+					onchange={toggleSound}
+				/>
+				Auto-play<br />pronunciation
+			</label>
 		</div>
 	</div>
 

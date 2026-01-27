@@ -11,5 +11,5 @@ export {
     resetLearningSession,
     resetQuizSession,
 } from './quiz.js';
-export { cardsCount, quizLanguage } from './settings.js';
+export { autoPlaySound, cardsCount, quizLanguage } from './settings.js';
 export { getAvailableLevels, getWordsByLevel, vocabulary } from './vocabulary.js';
