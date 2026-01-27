@@ -97,49 +97,51 @@ function resetProgress() {
 		{/each}
 	</div>
 
-	<div class="cards-count-selection">
-		<p>Choose how many words to learn:</p>
-		<input
-			type="number"
-			id="cards-count"
-			class="cards-count-input"
-			min="1"
-			max="100"
-			value={currentCardsCount}
-			onchange={handleCardsCountChange}
-			oninput={handleCardsCountChange}
-		/>
-	</div>
-
-	<div class="quiz-language-selection">
-		<p>Your language:</p>
-		<div class="language-buttons">
-			<button
-				class="language-btn"
-				class:active={currentLanguage === 'english'}
-				onclick={() => selectLanguage('english')}
-			>
-				English
-			</button>
-			<button
-				class="language-btn"
-				class:active={currentLanguage === 'russian'}
-				onclick={() => selectLanguage('russian')}
-			>
-				Русский
-			</button>
-		</div>
-	</div>
-
-	<div class="sound-toggle-selection">
-		<label class="checkbox-label">
+	<div class="settings-row">
+		<div class="setting-item">
+			<p>Number of<br />words to learn:</p>
 			<input
-				type="checkbox"
-				checked={soundEnabled}
-				onchange={toggleSound}
+				type="number"
+				id="cards-count"
+				class="cards-count-input"
+				min="1"
+				max="100"
+				value={currentCardsCount}
+				onchange={handleCardsCountChange}
+				oninput={handleCardsCountChange}
 			/>
-			Auto-play pronunciation
-		</label>
+		</div>
+
+		<div class="setting-item">
+			<p>Language:</p>
+			<div class="language-buttons">
+				<button
+					class="language-btn"
+					class:active={currentLanguage === 'english'}
+					onclick={() => selectLanguage('english')}
+				>
+					English
+				</button>
+				<button
+					class="language-btn"
+					class:active={currentLanguage === 'russian'}
+					onclick={() => selectLanguage('russian')}
+				>
+					Русский
+				</button>
+			</div>
+		</div>
+
+		<div class="setting-item">
+			<label class="checkbox-label">
+				<input
+					type="checkbox"
+					checked={soundEnabled}
+					onchange={toggleSound}
+				/>
+				Auto-play<br />pronunciation
+			</label>
+		</div>
 	</div>
 
 	<StatsDisplay {stats} />
