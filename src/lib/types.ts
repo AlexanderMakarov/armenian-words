@@ -3,6 +3,8 @@ export interface Word {
     ru: string[];
     en: string[];
     spell?: string;
+    pos?: string;
+    etymology_text?: string;
     ogg_url?: string;
 }
 
