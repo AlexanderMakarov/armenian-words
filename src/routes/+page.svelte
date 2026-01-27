@@ -98,8 +98,8 @@ function resetProgress() {
 	</div>
 
 	<div class="settings-row">
-		<div class="setting-item">
-			<p>Number of<br />words to learn:</p>
+		<label class="setting-item horizontal">
+			<span>Number of<br />words to learn:</span>
 			<input
 				type="number"
 				id="cards-count"
@@ -110,7 +110,7 @@ function resetProgress() {
 				onchange={handleCardsCountChange}
 				oninput={handleCardsCountChange}
 			/>
-		</div>
+		</label>
 
 		<div class="setting-item">
 			<p>Language:</p>
