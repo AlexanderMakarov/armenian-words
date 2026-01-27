@@ -19,6 +19,7 @@ import {
 } from '$lib/stores/index.js';
 import type { QuizLanguage, Word } from '$lib/types.js';
 import {
+    expandPos,
     getLanguageLabel,
     getTranslationDisplay,
     playSound,
@@ -144,6 +145,9 @@ function handleKeydown(event: KeyboardEvent) {
 
 	{#if !showComplete && currentWord}
 		<div class="word-card">
+			{#if currentWord.pos}
+				<div class="part-of-speech">{expandPos(currentWord.pos, language)}</div>
+			{/if}
 			<div class="word-header">
 				<div class="armenian-word">{currentWord.am}</div>
 				<button
@@ -160,6 +164,9 @@ function handleKeydown(event: KeyboardEvent) {
 				<div class="pronunciation">{currentWord.spell}</div>
 			{/if}
 			<div class="translation">{translation()} ({languageLabel})</div>
+			{#if currentWord.etymology_text}
+				<div class="etymology">{currentWord.etymology_text}</div>
+			{/if}
 			<div class="word-navigation">
 				<button
 					id="previous-word"

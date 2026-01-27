@@ -60,3 +60,32 @@ export function playSound(url: string | undefined): void {
         // Silently ignore playback errors (autoplay restrictions, network issues)
     });
 }
+
+/**
+ * Part of speech abbreviation mappings for English and Russian.
+ */
+const posLabels: Record<string, { english: string; russian: string }> = {
+    adj: { english: 'adjective', russian: 'прилагательное' },
+    adv: { english: 'adverb', russian: 'наречие' },
+    conj: { english: 'conjunction', russian: 'союз' },
+    det: { english: 'determiner', russian: 'определитель' },
+    intj: { english: 'interjection', russian: 'междометие' },
+    noun: { english: 'noun', russian: 'существительное' },
+    num: { english: 'numeral', russian: 'числительное' },
+    part: { english: 'particle', russian: 'частица' },
+    prep: { english: 'preposition', russian: 'предлог' },
+    pron: { english: 'pronoun', russian: 'местоимение' },
+    verb: { english: 'verb', russian: 'глагол' },
+};
+
+/**
+ * Expands a part of speech abbreviation to its full form in the specified language.
+ * Returns the original abbreviation if no mapping exists.
+ */
+export function expandPos(pos: string, language: QuizLanguage): string {
+    const mapping = posLabels[pos.toLowerCase()];
+    if (!mapping) {
+        return pos;
+    }
+    return mapping[language];
+}

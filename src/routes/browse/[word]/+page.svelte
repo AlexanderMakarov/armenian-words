@@ -2,18 +2,24 @@
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
-import { vocabulary } from '$lib/stores/index.js';
-import type { Vocabulary, Word } from '$lib/types.js';
-import { playSound } from '$lib/utils.js';
+import { quizLanguage, vocabulary } from '$lib/stores/index.js';
+import type { QuizLanguage, Vocabulary, Word } from '$lib/types.js';
+import { expandPos, playSound } from '$lib/utils.js';
 
 interface WordWithLevel extends Word {
     level: string;
 }
 
 let vocab = $state<Vocabulary | null>(null);
+let language = $state<QuizLanguage>('english');
 
 $effect(() => {
     const unsub = vocabulary.subscribe((v) => (vocab = v));
+    return unsub;
+});
+
+$effect(() => {
+    const unsub = quizLanguage.subscribe((l) => (language = l));
     return unsub;
 });
 
@@ -51,6 +57,10 @@ function goBackToBrowse() {
         </div>
 
         <div class="word-detail-card">
+            {#if word.pos}
+                <div class="detail-part-of-speech">{expandPos(word.pos, language)}</div>
+            {/if}
+
             <div class="word-main">
                 <span class="detail-armenian-word">{word.am}</span>
                 <button
@@ -88,6 +98,10 @@ function goBackToBrowse() {
                     </ul>
                 </div>
             </div>
+
+            {#if word.etymology_text}
+                <div class="detail-etymology">{word.etymology_text}</div>
+            {/if}
         </div>
     {:else}
         <div class="word-not-found">
