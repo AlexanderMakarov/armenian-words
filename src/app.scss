@@ -208,34 +208,21 @@ header p {
     text-align: center;
 }
 
-.sound-toggle-selection p {
-    color: #4a5568;
-    margin-bottom: 0.75rem;
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
-.toggle-btn {
-    padding: 0.7rem 1.5rem;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    background: white;
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 0.85rem;
+    color: #4a5568;
+    font-size: 1rem;
     font-weight: 500;
-    min-width: 80px;
 }
 
-.toggle-btn:hover {
-    border-color: #667eea;
-    background: #f7fafc;
-}
-
-.toggle-btn.active {
-    border-color: #667eea;
-    background: #667eea;
-    color: white;
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #667eea;
+    cursor: pointer;
 }
 
 .play-sound-btn {
@@ -318,6 +305,18 @@ header p {
 .word-card {
     text-align: center;
     padding: 2rem;
+}
+
+.word-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.word-header .armenian-word {
+    margin-bottom: 0;
 }
 
 .armenian-word {

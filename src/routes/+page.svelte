@@ -132,15 +132,14 @@ function resetProgress() {
 	</div>
 
 	<div class="sound-toggle-selection">
-		<p>Auto-play pronunciation:</p>
-		<button
-			class="toggle-btn"
-			class:active={soundEnabled}
-			onclick={toggleSound}
-			aria-pressed={soundEnabled}
-		>
-			{soundEnabled ? 'On' : 'Off'}
-		</button>
+		<label class="checkbox-label">
+			<input
+				type="checkbox"
+				checked={soundEnabled}
+				onchange={toggleSound}
+			/>
+			Auto-play pronunciation
+		</label>
 	</div>
 
 	<StatsDisplay {stats} />

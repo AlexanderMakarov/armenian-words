@@ -144,7 +144,18 @@ function handleKeydown(event: KeyboardEvent) {
 
 	{#if !showComplete && currentWord}
 		<div class="word-card">
-			<div class="armenian-word">{currentWord.am}</div>
+			<div class="word-header">
+				<div class="armenian-word">{currentWord.am}</div>
+				<button
+					class="play-sound-btn"
+					onclick={() => playSound(currentWord.ogg_url)}
+					disabled={!currentWord.ogg_url}
+					aria-label="Play pronunciation"
+					title={currentWord.ogg_url ? 'Play pronunciation' : 'No audio available'}
+				>
+					🔊
+				</button>
+			</div>
 			{#if currentWord.spell}
 				<div class="pronunciation">{currentWord.spell}</div>
 			{/if}
