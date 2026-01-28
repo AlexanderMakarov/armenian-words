@@ -12,6 +12,7 @@ export function initAnalytics(): void {
 
     posthog.init(POSTHOG_KEY, {
         api_host: POSTHOG_HOST,
+        opt_in_site_apps: true, // Required for surveys to work
         defaults: '2025-11-30',
     });
 
