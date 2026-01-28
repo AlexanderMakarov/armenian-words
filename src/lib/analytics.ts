@@ -1,4 +1,4 @@
-import posthog from 'posthog-js';
+import posthog, { DisplaySurveyType } from 'posthog-js';
 import { browser } from '$app/environment';
 
 const POSTHOG_KEY = 'phc_INrsG7cXvOhizqKzRnJaj1nx1wG7Y6MfzMRnuh0sBLs';
@@ -52,5 +52,40 @@ export function trackQuizComplete(
         learnt_words: learntWordsCount,
         language,
         cards_count: cardsCount,
+    });
+}
+
+// Survey ID - create this survey in PostHog dashboard
+const FEEDBACK_SURVEY_ID = 'feedback-survey';
+
+export interface FeedbackContext {
+    pageUrl: string;
+    pagePath: string;
+    word?: string;
+    level?: string;
+    quizLanguage: string;
+    cardsCount: number;
+    learntWordsCount: number;
+}
+
+export function showFeedbackSurvey(context: FeedbackContext): void {
+    if (!browser || !initialized) return;
+
+    // Register context as properties so they're included with survey responses
+    posthog.register({
+        feedback_page_url: context.pageUrl,
+        feedback_page_path: context.pagePath,
+        feedback_word: context.word || null,
+        feedback_level: context.level || null,
+        feedback_quiz_language: context.quizLanguage,
+        feedback_cards_count: context.cardsCount,
+        feedback_learnt_words_count: context.learntWordsCount,
+    });
+
+    // Display the survey popover
+    posthog.displaySurvey(FEEDBACK_SURVEY_ID, {
+        displayType: DisplaySurveyType.Popover,
+        ignoreConditions: true,
+        ignoreDelay: true,
     });
 }

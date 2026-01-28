@@ -3,13 +3,12 @@ import { onMount } from 'svelte';
 import { get } from 'svelte/store';
 import { base } from '$app/paths';
 import { page } from '$app/state';
-import { initAnalytics } from '$lib/analytics.js';
+import { initAnalytics, showFeedbackSurvey } from '$lib/analytics.js';
 import {
     cardsCount,
     currentLevel,
     learntTranslations,
     quizLanguage,
-    userStats,
     vocabulary,
 } from '$lib/stores/index.js';
 import '../app.scss';
@@ -30,62 +29,32 @@ onMount(async () => {
     }
 });
 
-function generateIssueUrl(): string {
-    const repoUrl = 'https://github.com/AlexanderMakarov/armenian-words';
-    const title = encodeURIComponent('Issue Report');
+function handleReportClick(event: MouseEvent) {
+    event.preventDefault();
 
-    // Use get() to read store values synchronously
+    // Gather context for the feedback
     const language = get(quizLanguage);
     const cards = get(cardsCount);
     const level = get(currentLevel);
     const learntCount = get(learntTranslations).length;
-    const stats = get(userStats);
 
-    let statsText = 'Cache Settings:\n';
-    statsText += `- Quiz Language: ${language}\n`;
-    statsText += `- Cards Count: ${cards}\n`;
-    statsText += `- Current Level: ${level || 'not set'}\n`;
-    statsText += `- Learnt Words Count: ${learntCount}\n`;
+    // Extract word from URL if on a word detail page (e.g., /browse/word)
+    const pathParts = page.url.pathname.split('/');
+    const browseIndex = pathParts.indexOf('browse');
+    const word =
+        browseIndex !== -1 && pathParts[browseIndex + 1]
+            ? decodeURIComponent(pathParts[browseIndex + 1])
+            : undefined;
 
-    if (Object.keys(stats).length > 0) {
-        statsText += '- User Statistics:\n';
-        Object.entries(stats).forEach(([lvl, s]) => {
-            const accuracy =
-                s.totalQuestions > 0
-                    ? ((s.totalCorrect / s.totalQuestions) * 100).toFixed(1)
-                    : '0.0';
-            statsText += `  * ${lvl}: ${s.totalQuizzes} quizzes, ${accuracy}% accuracy\n`;
-        });
-    }
-
-    const body = encodeURIComponent(`## Problem Description
-<!-- Please explain the problem you encountered: -->
-
----
-
-## Translation Issue (if applicable)
-
-- **Armenian word:**
-- **Correct translation (English):**
-- **Correct translation (Russian):**
-- **Pronunciation:**
-
----
-
-## Settings (don't edit this section)
-
-\`\`\`
-${statsText}
-\`\`\`
-`);
-
-    return `${repoUrl}/issues/new?title=${title}&body=${body}`;
-}
-
-function handleReportClick(event: MouseEvent) {
-    event.preventDefault();
-    const url = generateIssueUrl();
-    window.open(url, '_blank', 'noopener,noreferrer');
+    showFeedbackSurvey({
+        pageUrl: page.url.href,
+        pagePath: page.url.pathname,
+        word,
+        level: level || undefined,
+        quizLanguage: language,
+        cardsCount: cards,
+        learntWordsCount: learntCount,
+    });
 }
 
 // Generate browse URL with current page as return path
