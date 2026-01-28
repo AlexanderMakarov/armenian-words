@@ -39,7 +39,9 @@ export function generateQuizOptions(correctWord: Word, allWords: Word[]): Word[]
         }
     }
 
-    return shuffle(options);
+    // Sort options by their position in the learning words array (stable order)
+    const wordIndexMap = new Map(allWords.map((word, index) => [word.am, index]));
+    return options.sort((a, b) => (wordIndexMap.get(a.am) ?? 0) - (wordIndexMap.get(b.am) ?? 0));
 }
 
 /**
