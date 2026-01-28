@@ -55,8 +55,8 @@ export function trackQuizComplete(
     });
 }
 
-// Survey ID - create this survey in PostHog dashboard
-const FEEDBACK_SURVEY_ID = 'feedback-survey';
+// Survey ID from PostHog dashboard
+const FEEDBACK_SURVEY_ID = '019c053a-2fd8-0000-a68f-0ab1a0cb5df7';
 
 export interface FeedbackContext {
     pageUrl: string;
