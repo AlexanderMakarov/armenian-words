@@ -182,9 +182,7 @@ function changeLevel() {
 			<div class="score" id="final-score">Score: {score}/{questions.length} ({percentage}%)</div>
 			<div class="actions">
 				<button id="restart-app" class="btn primary" onclick={restartApp}>One More Time</button>
-				<button id="change-level" class="btn secondary" onclick={changeLevel}
-					>Change Settings</button
-				>
+				<button id="main-screen" class="btn secondary" onclick={changeLevel}>Main Screen</button>
 			</div>
 		</div>
 	{/if}
