@@ -30,7 +30,6 @@ import {
 let words = $state<Word[]>([]);
 let wordIndex = $state(0);
 let language = $state<QuizLanguage>('english');
-let showComplete = $state(false);
 let soundEnabled = $state(true);
 
 // Get level from URL params
@@ -75,7 +74,6 @@ onMount(() => {
 
     const unsubIndex = currentWordIndex.subscribe((i) => {
         wordIndex = i;
-        showComplete = i >= words.length && words.length > 0;
     });
 
     const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
@@ -105,7 +103,8 @@ const translation = $derived(() => {
 
 const languageLabel = $derived(getLanguageLabel(language));
 const canGoPrevious = $derived(wordIndex > 0);
-const canGoNext = $derived(wordIndex < words.length);
+const canGoNext = $derived(wordIndex < words.length - 1);
+const isLastWord = $derived(wordIndex === words.length - 1 && words.length > 0);
 
 function nextWord() {
     if (wordIndex < words.length) {
@@ -123,11 +122,15 @@ function startQuiz() {
     goto(`${base}/quiz`);
 }
 
+function goToMainScreen() {
+    goto(base || '/');
+}
+
 function handleKeydown(event: KeyboardEvent) {
-    if (showComplete && event.key === 'Enter') {
+    if (isLastWord && event.key === 'Enter') {
         event.preventDefault();
         startQuiz();
-    } else if (event.key === 'ArrowRight') {
+    } else if (event.key === 'ArrowRight' && !isLastWord) {
         event.preventDefault();
         nextWord();
     } else if (event.key === 'ArrowLeft') {
@@ -143,7 +146,7 @@ function handleKeydown(event: KeyboardEvent) {
 	<div class="learning-count">{displayIndex} / {words.length}</div>
 	<ProgressBar current={displayIndex} total={words.length} />
 
-	{#if !showComplete && currentWord}
+	{#if currentWord}
 		<div class="word-card">
 			{#if currentWord.pos}
 				<div class="part-of-speech">{expandPos(currentWord.pos, language)}</div>
@@ -177,24 +180,26 @@ function handleKeydown(event: KeyboardEvent) {
 				>
 					Previous Word
 				</button>
-				<button
-					id="next-word"
-					class="btn primary"
-					class:disabled={!canGoNext}
-					disabled={!canGoNext}
-					onclick={nextWord}
-				>
-					Next Word
-				</button>
+				{#if isLastWord}
+					<button id="start-quiz" class="btn primary" onclick={startQuiz}>
+						Start Quiz
+					</button>
+					<button id="main-screen" class="btn secondary" onclick={goToMainScreen}>
+						Main Screen
+					</button>
+				{:else}
+					<button
+						id="next-word"
+						class="btn primary"
+						class:disabled={!canGoNext}
+						disabled={!canGoNext}
+						onclick={nextWord}
+					>
+						Next Word
+					</button>
+				{/if}
 			</div>
 		</div>
 	{/if}
 
-	{#if showComplete}
-		<div class="learning-complete" id="learning-complete">
-			<h3>Learning Complete!</h3>
-			<p id="learning-complete-text">You've studied {words.length} words. Ready for the quiz?</p>
-			<button id="start-quiz" class="btn primary" onclick={startQuiz}>Start Quiz</button>
-		</div>
-	{/if}
 </div>
