@@ -1,12 +1,14 @@
 /**
- * Trie-based search index for vocabulary
+ * Trie-based search index for vocabulary (v2)
  *
  * Loads and searches the pre-built binary trie index.
  * All searches are case-insensitive (index is built lowercase).
+ *
+ * v2: Results stored only at terminal nodes, search collects from subtree.
  */
 
 const MAGIC = 'TRIE';
-const VERSION = 1;
+const VERSION = 2;
 const NO_LINK = 0xffffffff;
 const HEADER_SIZE = 13;
 const NODE_SIZE = 12;
@@ -18,6 +20,8 @@ export interface SearchIndex {
     results: DataView;
     nodesOffset: number;
     resultsOffset: number;
+    // Pre-computed results offsets for O(1) lookup
+    resultsOffsets: Uint32Array;
 }
 
 /**
@@ -40,7 +44,7 @@ export function parseSearchIndex(buffer: ArrayBuffer): SearchIndex {
 
     const version = view.getUint8(4);
     if (version !== VERSION) {
-        throw new Error(`Unsupported search index version: ${version}`);
+        throw new Error(`Unsupported search index version: ${version}, expected ${VERSION}`);
     }
 
     const nodeCount = view.getUint32(5, true);
@@ -56,6 +60,15 @@ export function parseSearchIndex(buffer: ArrayBuffer): SearchIndex {
         );
     }
 
+    // Pre-compute results offsets for O(1) lookup
+    const resultsOffsets = new Uint32Array(nodeCount);
+    let offset = resultsOffset;
+    for (let i = 0; i < nodeCount; i++) {
+        resultsOffsets[i] = offset;
+        const count = view.getUint16(offset, true);
+        offset += 2 + count * 2;
+    }
+
     return {
         nodeCount,
         resultsCount,
@@ -63,6 +76,7 @@ export function parseSearchIndex(buffer: ArrayBuffer): SearchIndex {
         results: view,
         nodesOffset,
         resultsOffset,
+        resultsOffsets,
     };
 }
 
@@ -82,25 +96,19 @@ function getNode(
 }
 
 /**
- * Get word indices for a node
+ * Get word indices for a node (O(1) with pre-computed offsets)
  */
 function getNodeResults(index: SearchIndex, nodeIdx: number): number[] {
-    // Results are stored sequentially after all nodes
-    // We need to iterate through all previous nodes to find offset
-    let offset = index.resultsOffset;
-
-    for (let i = 0; i < nodeIdx; i++) {
-        const count = index.results.getUint16(offset, true);
-        offset += 2 + count * 2;
-    }
-
+    const offset = index.resultsOffsets[nodeIdx];
     const count = index.results.getUint16(offset, true);
-    offset += 2;
+
+    if (count === 0) return [];
 
     const results: number[] = [];
+    let pos = offset + 2;
     for (let i = 0; i < count; i++) {
-        results.push(index.results.getUint16(offset, true));
-        offset += 2;
+        results.push(index.results.getUint16(pos, true));
+        pos += 2;
     }
 
     return results;
@@ -126,6 +134,42 @@ function findChild(index: SearchIndex, parentIdx: number, charCode: number): num
     }
 
     return null;
+}
+
+/**
+ * Collect all results from a node and its descendants (subtree traversal)
+ * Uses iterative DFS to avoid stack overflow on deep tries
+ */
+function collectSubtreeResults(
+    index: SearchIndex,
+    startNodeIdx: number,
+    maxResults: number
+): number[] {
+    const results = new Set<number>();
+    const stack: number[] = [startNodeIdx];
+
+    while (stack.length > 0 && results.size < maxResults) {
+        // biome-ignore lint/style/noNonNullAssertion: stack.length > 0 guarantees pop() returns a value
+        const nodeIdx = stack.pop()!;
+        const node = getNode(index, nodeIdx);
+
+        // Collect results at this node
+        const nodeResults = getNodeResults(index, nodeIdx);
+        for (const idx of nodeResults) {
+            results.add(idx);
+            if (results.size >= maxResults) break;
+        }
+
+        // Add children to stack (process siblings via linked list)
+        let childIdx = node.firstChild;
+        while (childIdx !== NO_LINK) {
+            stack.push(childIdx);
+            const child = getNode(index, childIdx);
+            childIdx = child.sibling;
+        }
+    }
+
+    return Array.from(results).slice(0, maxResults);
 }
 
 /**
@@ -158,10 +202,8 @@ export function searchIndex(index: SearchIndex, query: string, maxResults = 10):
     }
 
     // Found the node matching the full query prefix
-    // Return word indices stored at this node
-    const results = getNodeResults(index, nodeIdx);
-
-    return results.slice(0, maxResults);
+    // Collect results from this node and all its descendants
+    return collectSubtreeResults(index, nodeIdx, maxResults);
 }
 
 /**

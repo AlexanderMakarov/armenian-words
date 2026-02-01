@@ -5,12 +5,12 @@
  * Creates a compact binary trie index for multi-language vocabulary search.
  * Supports searching by: Armenian (am), English (en), Russian (ru), pronunciation (spell)
  *
- * Binary Format:
+ * Binary Format (v2 - terminal nodes only):
  * [Header] (13 bytes)
  *   - magic (4): "TRIE"
- *   - version (1): 1
+ *   - version (1): 2
  *   - node_count (4): total nodes
- *   - results_count (4): total word indices
+ *   - results_count (4): total word indices (stored only at terminal nodes)
  *
  * [Nodes] (12 bytes each)
  *   - char (4): UTF-32 code point
@@ -18,14 +18,15 @@
  *   - sibling (4): index of next sibling (0xFFFFFFFF = none)
  *
  * [Results] (after all nodes)
- *   - For each node with results: count (2) + indices (2 each)
+ *   - For each node: count (2) + indices (2 each)
+ *   - Only terminal nodes have non-zero counts
  */
 
-import { readFileSync, writeFileSync, statSync } from "fs";
-import { join } from "path";
+import { readFileSync, writeFileSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 
-const MAGIC = "TRIE";
-const VERSION = 1;
+const MAGIC = 'TRIE';
+const VERSION = 2;
 const NO_LINK = 0xffffffff;
 
 interface Word {
@@ -43,7 +44,7 @@ interface Vocabulary {
 interface TrieNode {
 	char: number; // UTF-32 code point
 	children: Map<number, TrieNode>;
-	wordIndices: Set<number>;
+	wordIndices: Set<number>; // Only populated at terminal nodes
 }
 
 function createNode(char: number): TrieNode {
@@ -64,9 +65,10 @@ function insertWord(root: TrieNode, text: string, wordIndex: number): void {
 			node.children.set(codePoint, createNode(codePoint));
 		}
 		node = node.children.get(codePoint)!;
-		// Store word index at every node along the path (for prefix search)
-		node.wordIndices.add(wordIndex);
 	}
+
+	// Store word index ONLY at the terminal node (end of word)
+	node.wordIndices.add(wordIndex);
 }
 
 function buildTrie(vocabulary: Vocabulary): {
@@ -130,9 +132,7 @@ function flattenTrie(root: TrieNode): FlatNode[] {
 		nodes.push(flatNode);
 
 		// Process children as a linked list via siblings
-		const children = Array.from(node.children.values()).sort(
-			(a, b) => a.char - b.char
-		);
+		const children = Array.from(node.children.values()).sort((a, b) => a.char - b.char);
 
 		let prevChildIndex = -1;
 		for (let i = 0; i < children.length; i++) {
@@ -156,8 +156,12 @@ function flattenTrie(root: TrieNode): FlatNode[] {
 function serializeTrie(nodes: FlatNode[]): Buffer {
 	// Calculate sizes
 	let totalResults = 0;
+	let terminalNodes = 0;
 	for (const node of nodes) {
 		totalResults += node.wordIndices.length;
+		if (node.wordIndices.length > 0) {
+			terminalNodes++;
+		}
 	}
 
 	const headerSize = 13;
@@ -168,7 +172,7 @@ function serializeTrie(nodes: FlatNode[]): Buffer {
 	let offset = 0;
 
 	// Write header
-	buffer.write(MAGIC, offset, 4, "ascii");
+	buffer.write(MAGIC, offset, 4, 'ascii');
 	offset += 4;
 	buffer.writeUInt8(VERSION, offset);
 	offset += 1;
@@ -197,19 +201,21 @@ function serializeTrie(nodes: FlatNode[]): Buffer {
 		}
 	}
 
+	console.log(`  Terminal nodes (with results): ${terminalNodes}`);
+
 	return buffer;
 }
 
 function main() {
-	const projectRoot = join(import.meta.dir, "..");
-	const vocabPath = join(projectRoot, "static", "vocabulary.json");
-	const outputPath = join(projectRoot, "static", "search-index.bin");
+	const projectRoot = join(import.meta.dir, '..');
+	const vocabPath = join(projectRoot, 'static', 'vocabulary.json');
+	const outputPath = join(projectRoot, 'static', 'search-index.bin');
 
-	console.log("Building search index...\n");
+	console.log('Building search index (v2 - terminal nodes only)...\n');
 
 	// Load vocabulary
 	console.log(`Loading vocabulary from ${vocabPath}`);
-	const vocabJson = readFileSync(vocabPath, "utf-8");
+	const vocabJson = readFileSync(vocabPath, 'utf-8');
 	const vocabulary: Vocabulary = JSON.parse(vocabJson);
 
 	// Count words per level
@@ -221,16 +227,16 @@ function main() {
 	console.log(`  Total: ${totalWords} words\n`);
 
 	// Build trie
-	console.log("Building trie index...");
+	console.log('Building trie index...');
 	const { root, wordCount } = buildTrie(vocabulary);
 
 	// Flatten trie
-	console.log("Flattening trie...");
+	console.log('Flattening trie...');
 	const flatNodes = flattenTrie(root);
-	console.log(`  Created ${flatNodes.length} nodes\n`);
+	console.log(`  Created ${flatNodes.length} nodes`);
 
 	// Serialize
-	console.log("Serializing to binary...");
+	console.log('\nSerializing to binary...');
 	const buffer = serializeTrie(flatNodes);
 
 	// Write output
@@ -238,7 +244,7 @@ function main() {
 
 	// Statistics
 	const stats = statSync(outputPath);
-	console.log("\n=== Statistics ===");
+	console.log('\n=== Statistics ===');
 	console.log(`Words indexed: ${wordCount}`);
 	console.log(`Trie nodes: ${flatNodes.length}`);
 	console.log(`File size: ${stats.size} bytes (${(stats.size / 1024).toFixed(2)} KB)`);
