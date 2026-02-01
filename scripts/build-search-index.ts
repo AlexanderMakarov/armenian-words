@@ -60,9 +60,13 @@ function buildEntries(vocabulary: Vocabulary): SearchEntry[] {
 				entries.push({ key: word.spell.toLowerCase(), wordIndex });
 			}
 
-			// Index English translations
+			// Index English translations (strip "to " prefix from verbs)
 			for (const en of word.en || []) {
-				entries.push({ key: en.toLowerCase(), wordIndex });
+				let key = en.toLowerCase();
+				if (key.startsWith('to ')) {
+					key = key.slice(3);
+				}
+				entries.push({ key, wordIndex });
 			}
 
 			// Index Russian translations

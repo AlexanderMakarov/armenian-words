@@ -71,10 +71,14 @@ function findMatchingText(word: WordWithLevel, query: string, lang: QueryLang): 
         if (word.spell?.toLowerCase().startsWith(normalizedQuery)) {
             return word.spell;
         }
-        // Then check English translations
+        // Then check English translations (index strips "to " prefix, so match without it)
         for (const en of word.en || []) {
-            if (en.toLowerCase().startsWith(normalizedQuery)) {
-                return en;
+            let enKey = en.toLowerCase();
+            if (enKey.startsWith('to ')) {
+                enKey = enKey.slice(3);
+            }
+            if (enKey.startsWith(normalizedQuery)) {
+                return en; // Return original (with "to ") for display
             }
         }
     }
@@ -175,7 +179,7 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
     </div>
 
     <p class="search-hint">
-        Prefix search in Armenian, English, Russian, or pronunciation. For English verbs use "to " prefix.
+        Prefix search in Armenian, English, Russian, or pronunciation.
     </p>
 </div>
 
