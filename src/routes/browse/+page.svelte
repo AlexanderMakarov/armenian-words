@@ -32,6 +32,58 @@ $effect(() => {
 
 const MAX_RESULTS = 10;
 
+// Detect query language based on first character
+type QueryLang = 'armenian' | 'russian' | 'latin';
+
+function detectQueryLang(query: string): QueryLang {
+    const trimmed = query.trim();
+    if (!trimmed) return 'latin';
+
+    const firstChar = trimmed.codePointAt(0) ?? 0;
+
+    // Armenian: U+0530–U+058F
+    if (firstChar >= 0x0530 && firstChar <= 0x058f) {
+        return 'armenian';
+    }
+
+    // Cyrillic (Russian): U+0400–U+04FF
+    if (firstChar >= 0x0400 && firstChar <= 0x04ff) {
+        return 'russian';
+    }
+
+    // Default to Latin (English/pronunciation)
+    return 'latin';
+}
+
+// Find matching text for display based on query
+function findMatchingText(word: WordWithLevel, query: string, lang: QueryLang): string | null {
+    const normalizedQuery = query.toLowerCase().trim();
+
+    if (lang === 'russian') {
+        // Find matching Russian translation
+        for (const ru of word.ru || []) {
+            if (ru.toLowerCase().startsWith(normalizedQuery)) {
+                return ru;
+            }
+        }
+    } else if (lang === 'latin') {
+        // Check pronunciation first
+        if (word.spell?.toLowerCase().startsWith(normalizedQuery)) {
+            return word.spell;
+        }
+        // Then check English translations
+        for (const en of word.en || []) {
+            if (en.toLowerCase().startsWith(normalizedQuery)) {
+                return en;
+            }
+        }
+    }
+
+    return null;
+}
+
+const queryLang = $derived(detectQueryLang(debouncedQuery));
+
 // Search using trie index (with fallback to linear search)
 const filteredWords = $derived.by<WordWithLevel[]>(() => {
     if (!debouncedQuery.trim()) return [];
@@ -89,6 +141,7 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
                     <div class="no-results">No words found</div>
                 {:else if filteredWords.length > 0}
                     {#each filteredWords as word}
+                        {@const matchedText = findMatchingText(word, debouncedQuery, queryLang)}
                         <div
                             class="dropdown-item"
                             role="button"
@@ -96,9 +149,14 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
                             onclick={() => selectWord(word)}
                             onkeydown={(e) => e.key === 'Enter' && selectWord(word)}
                         >
-                            <span class="word-armenian">{word.am}</span>
-                            {#if word.spell}
-                                <span class="word-pronunciation">({word.spell})</span>
+                            {#if queryLang === 'armenian' || !matchedText}
+                                <span class="word-armenian">{word.am}</span>
+                                {#if word.spell}
+                                    <span class="word-pronunciation">({word.spell})</span>
+                                {/if}
+                            {:else}
+                                <span class="word-matched">{matchedText}</span>
+                                <span class="word-armenian-secondary">({word.am})</span>
                             {/if}
                             <button
                                 class="play-sound-btn small"
@@ -120,3 +178,14 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
         Prefix search in Armenian, English, Russian, or pronunciation. For English verbs use "to " prefix.
     </p>
 </div>
+
+<style>
+    .word-matched {
+        font-weight: 500;
+    }
+
+    .word-armenian-secondary {
+        color: var(--text-secondary, #666);
+        margin-left: 0.25rem;
+    }
+</style>
