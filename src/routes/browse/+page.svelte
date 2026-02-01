@@ -2,8 +2,8 @@
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
-import { vocabulary } from '$lib/stores/index.js';
-import type { Vocabulary, Word } from '$lib/types.js';
+import { searchVocabulary } from '$lib/stores/vocabulary.js';
+import type { Word } from '$lib/types.js';
 import { playSound } from '$lib/utils.js';
 
 interface WordWithLevel extends Word {
@@ -13,16 +13,10 @@ interface WordWithLevel extends Word {
 // biome-ignore lint/style/useConst: Required for bind:value in Svelte
 let searchQuery = $state('');
 let debouncedQuery = $state('');
-let vocab = $state<Vocabulary | null>(null);
 let showDropdown = $state(false);
 
 // Get the return path from URL query params
 const returnTo = $derived(page.url.searchParams.get('from') || `${base}/`);
-
-$effect(() => {
-    const unsub = vocabulary.subscribe((v) => (vocab = v));
-    return unsub;
-});
 
 // Debounce search query to avoid recalculating on every keystroke
 $effect(() => {
@@ -38,38 +32,68 @@ $effect(() => {
 
 const MAX_RESULTS = 10;
 
-// Filter words based on search query (Armenian or pronunciation)
-// Searches directly in vocabulary structure without flattening first
-// Uses early termination to avoid scanning entire vocabulary
-const filteredWords = $derived<WordWithLevel[]>(() => {
-    if (!vocab || !debouncedQuery.trim() || typeof vocab !== 'object') return [];
+// Detect query language based on first character
+type QueryLang = 'armenian' | 'russian' | 'latin';
 
-    const query = debouncedQuery.toLowerCase().trim();
-    const results: WordWithLevel[] = [];
+function detectQueryLang(query: string): QueryLang {
+    const trimmed = query.trim();
+    if (!trimmed) return 'latin';
 
-    // Search directly in vocabulary structure - no need to flatten first
-    // This avoids creating a 9,539 element array on every search
-    try {
-        for (const [level, levelWords] of Object.entries(vocab)) {
-            if (!Array.isArray(levelWords)) continue;
-            for (const word of levelWords) {
-                if (!word || !word.am) continue;
-                const matchesArmenian = word.am.toLowerCase().includes(query);
-                const matchesPronunciation = word.spell?.toLowerCase().includes(query) ?? false;
-                if (matchesArmenian || matchesPronunciation) {
-                    results.push({ ...word, level });
-                    if (results.length >= MAX_RESULTS) break;
-                }
-            }
-            // Early exit if we've found enough results
-            if (results.length >= MAX_RESULTS) break;
-        }
-    } catch (error) {
-        console.error('Error filtering words:', error);
-        return [];
+    const firstChar = trimmed.codePointAt(0) ?? 0;
+
+    // Armenian: U+0530–U+058F
+    if (firstChar >= 0x0530 && firstChar <= 0x058f) {
+        return 'armenian';
     }
 
-    return results;
+    // Cyrillic (Russian): U+0400–U+04FF
+    if (firstChar >= 0x0400 && firstChar <= 0x04ff) {
+        return 'russian';
+    }
+
+    // Default to Latin (English/pronunciation)
+    return 'latin';
+}
+
+// Find matching text for display based on query
+function findMatchingText(word: WordWithLevel, query: string, lang: QueryLang): string | null {
+    const normalizedQuery = query.toLowerCase().trim();
+
+    if (lang === 'russian') {
+        // Find matching Russian translation
+        for (const ru of word.ru || []) {
+            if (ru.toLowerCase().startsWith(normalizedQuery)) {
+                return ru;
+            }
+        }
+    } else if (lang === 'latin') {
+        // Check pronunciation first
+        if (word.spell?.toLowerCase().startsWith(normalizedQuery)) {
+            return word.spell;
+        }
+        // Then check English translations (index strips "to " prefix, so match without it)
+        for (const en of word.en || []) {
+            let enKey = en.toLowerCase();
+            if (enKey.startsWith('to ')) {
+                enKey = enKey.slice(3);
+            }
+            if (enKey.startsWith(normalizedQuery)) {
+                return en; // Return original (with "to ") for display
+            }
+        }
+    }
+
+    return null;
+}
+
+const queryLang = $derived(detectQueryLang(debouncedQuery));
+
+// Search using trie index (with fallback to linear search)
+const filteredWords = $derived.by<WordWithLevel[]>(() => {
+    if (!debouncedQuery.trim()) return [];
+
+    const results = searchVocabulary(debouncedQuery, MAX_RESULTS);
+    return results.map(({ word, level }) => ({ ...word, level }));
 });
 
 function handleInputFocus() {
@@ -102,14 +126,14 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
 <div class="browse-page">
     <div class="browse-header">
         <button class="back-link" onclick={goBack}>&larr; Back</button>
-        <h2>Browse Vocabulary</h2>
+        <h2>Vocabulary</h2>
     </div>
 
     <div class="search-container">
         <input
             type="text"
             class="search-input"
-            placeholder="Search by Armenian word or pronunciation..."
+            placeholder="Search Armenian, English, Russian, or pronunciation..."
             bind:value={searchQuery}
             onfocus={handleInputFocus}
             onblur={handleInputBlur}
@@ -117,10 +141,11 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
 
         {#if showDropdown && searchQuery.trim()}
             <div class="search-dropdown">
-                {#if debouncedQuery.trim() && filteredWords().length === 0}
+                {#if debouncedQuery.trim() && filteredWords.length === 0}
                     <div class="no-results">No words found</div>
-                {:else if filteredWords().length > 0}
-                    {#each filteredWords() as word}
+                {:else if filteredWords.length > 0}
+                    {#each filteredWords as word}
+                        {@const matchedText = findMatchingText(word, debouncedQuery, queryLang)}
                         <div
                             class="dropdown-item"
                             role="button"
@@ -128,9 +153,14 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
                             onclick={() => selectWord(word)}
                             onkeydown={(e) => e.key === 'Enter' && selectWord(word)}
                         >
-                            <span class="word-armenian">{word.am}</span>
-                            {#if word.spell}
-                                <span class="word-pronunciation">({word.spell})</span>
+                            {#if queryLang === 'armenian' || !matchedText}
+                                <span class="word-armenian">{word.am}</span>
+                                {#if word.spell}
+                                    <span class="word-pronunciation">({word.spell})</span>
+                                {/if}
+                            {:else}
+                                <span class="word-matched">{matchedText}</span>
+                                <span class="word-armenian-secondary">({word.am})</span>
                             {/if}
                             <button
                                 class="play-sound-btn small"
@@ -149,6 +179,17 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
     </div>
 
     <p class="search-hint">
-        Type Armenian characters or romanized pronunciation to search
+        Prefix search in Armenian, English, Russian, or pronunciation.
     </p>
 </div>
+
+<style>
+    .word-matched {
+        font-weight: 500;
+    }
+
+    .word-armenian-secondary {
+        color: var(--text-secondary, #666);
+        margin-left: 0.25rem;
+    }
+</style>
