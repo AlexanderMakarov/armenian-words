@@ -70,7 +70,7 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
 <div class="browse-page">
     <div class="browse-header">
         <button class="back-link" onclick={goBack}>&larr; Back</button>
-        <h2>Browse Vocabulary</h2>
+        <h2>Vocabulary</h2>
     </div>
 
     <div class="search-container">
@@ -117,6 +117,6 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
     </div>
 
     <p class="search-hint">
-        Search by Armenian, English, Russian, or romanized pronunciation
+        Prefix search in Armenian, English, Russian, or pronunciation. For English verbs use "to " prefix.
     </p>
 </div>
