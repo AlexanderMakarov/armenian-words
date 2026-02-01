@@ -2,32 +2,27 @@
 /**
  * Build search index for vocabulary
  *
- * Creates a compact binary trie index for multi-language vocabulary search.
+ * Creates a compact sorted array index for multi-language vocabulary search.
  * Supports searching by: Armenian (am), English (en), Russian (ru), pronunciation (spell)
  *
- * Binary Format (v2 - terminal nodes only):
- * [Header] (13 bytes)
- *   - magic (4): "TRIE"
- *   - version (1): 2
- *   - node_count (4): total nodes
- *   - results_count (4): total word indices (stored only at terminal nodes)
+ * Binary Format (v3 - sorted array):
+ * [Header] (9 bytes)
+ *   - magic (4): "SIDX"
+ *   - version (1): 1
+ *   - entry_count (4): number of entries
  *
- * [Nodes] (12 bytes each)
- *   - char (4): UTF-32 code point
- *   - first_child (4): index of first child (0xFFFFFFFF = none)
- *   - sibling (4): index of next sibling (0xFFFFFFFF = none)
- *
- * [Results] (after all nodes)
- *   - For each node: count (2) + indices (2 each)
- *   - Only terminal nodes have non-zero counts
+ * [Entries] (sorted by key, variable length)
+ *   For each entry:
+ *     - key_length (1): length of search key in bytes (UTF-8)
+ *     - key_bytes (variable): UTF-8 encoded lowercase search key
+ *     - word_index (2): index into flattened vocabulary
  */
 
 import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-const MAGIC = 'TRIE';
-const VERSION = 2;
-const NO_LINK = 0xffffffff;
+const MAGIC = 'SIDX';
+const VERSION = 1;
 
 interface Word {
 	am: string;
@@ -40,45 +35,16 @@ interface Vocabulary {
 	[level: string]: Word[];
 }
 
-// In-memory trie node for building
-interface TrieNode {
-	char: number; // UTF-32 code point
-	children: Map<number, TrieNode>;
-	wordIndices: Set<number>; // Only populated at terminal nodes
+interface SearchEntry {
+	key: string; // lowercase search key
+	wordIndex: number; // index into flattened vocabulary
 }
 
-function createNode(char: number): TrieNode {
-	return {
-		char,
-		children: new Map(),
-		wordIndices: new Set(),
-	};
-}
-
-function insertWord(root: TrieNode, text: string, wordIndex: number): void {
-	const normalized = text.toLowerCase();
-	let node = root;
-
-	for (const char of normalized) {
-		const codePoint = char.codePointAt(0)!;
-		if (!node.children.has(codePoint)) {
-			node.children.set(codePoint, createNode(codePoint));
-		}
-		node = node.children.get(codePoint)!;
-	}
-
-	// Store word index ONLY at the terminal node (end of word)
-	node.wordIndices.add(wordIndex);
-}
-
-function buildTrie(vocabulary: Vocabulary): {
-	root: TrieNode;
-	wordCount: number;
-} {
-	const root = createNode(0);
+function buildEntries(vocabulary: Vocabulary): SearchEntry[] {
+	const entries: SearchEntry[] = [];
 	let wordIndex = 0;
 
-	// Flatten vocabulary and index all searchable fields
+	// Flatten vocabulary in sorted level order
 	const levels = Object.keys(vocabulary).sort();
 
 	for (const level of levels) {
@@ -86,89 +52,44 @@ function buildTrie(vocabulary: Vocabulary): {
 		for (const word of words) {
 			// Index Armenian word
 			if (word.am) {
-				insertWord(root, word.am, wordIndex);
+				entries.push({ key: word.am.toLowerCase(), wordIndex });
 			}
 
 			// Index pronunciation
 			if (word.spell) {
-				insertWord(root, word.spell, wordIndex);
+				entries.push({ key: word.spell.toLowerCase(), wordIndex });
 			}
 
 			// Index English translations
 			for (const en of word.en || []) {
-				insertWord(root, en, wordIndex);
+				entries.push({ key: en.toLowerCase(), wordIndex });
 			}
 
 			// Index Russian translations
 			for (const ru of word.ru || []) {
-				insertWord(root, ru, wordIndex);
+				entries.push({ key: ru.toLowerCase(), wordIndex });
 			}
 
 			wordIndex++;
 		}
 	}
 
-	return { root, wordCount: wordIndex };
+	// Sort entries by key for binary search
+	// Use simple string comparison (not localeCompare) for consistent binary search
+	entries.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
+
+	return entries;
 }
 
-interface FlatNode {
-	char: number;
-	firstChild: number;
-	sibling: number;
-	wordIndices: number[];
-}
-
-function flattenTrie(root: TrieNode): FlatNode[] {
-	const nodes: FlatNode[] = [];
-
-	function flatten(node: TrieNode): number {
-		const nodeIndex = nodes.length;
-		const flatNode: FlatNode = {
-			char: node.char,
-			firstChild: NO_LINK,
-			sibling: NO_LINK,
-			wordIndices: Array.from(node.wordIndices).sort((a, b) => a - b),
-		};
-		nodes.push(flatNode);
-
-		// Process children as a linked list via siblings
-		const children = Array.from(node.children.values()).sort((a, b) => a.char - b.char);
-
-		let prevChildIndex = -1;
-		for (let i = 0; i < children.length; i++) {
-			const childIndex = flatten(children[i]);
-
-			if (i === 0) {
-				flatNode.firstChild = childIndex;
-			} else {
-				nodes[prevChildIndex].sibling = childIndex;
-			}
-			prevChildIndex = childIndex;
-		}
-
-		return nodeIndex;
+function serializeEntries(entries: SearchEntry[]): Buffer {
+	// Calculate total size
+	let totalSize = 9; // header
+	for (const entry of entries) {
+		const keyBytes = Buffer.from(entry.key, 'utf-8');
+		totalSize += 1 + keyBytes.length + 2; // key_length + key_bytes + word_index
 	}
 
-	flatten(root);
-	return nodes;
-}
-
-function serializeTrie(nodes: FlatNode[]): Buffer {
-	// Calculate sizes
-	let totalResults = 0;
-	let terminalNodes = 0;
-	for (const node of nodes) {
-		totalResults += node.wordIndices.length;
-		if (node.wordIndices.length > 0) {
-			terminalNodes++;
-		}
-	}
-
-	const headerSize = 13;
-	const nodesSize = nodes.length * 12;
-	const resultsSize = nodes.length * 2 + totalResults * 2; // count per node + indices
-
-	const buffer = Buffer.alloc(headerSize + nodesSize + resultsSize);
+	const buffer = Buffer.alloc(totalSize);
 	let offset = 0;
 
 	// Write header
@@ -176,34 +97,35 @@ function serializeTrie(nodes: FlatNode[]): Buffer {
 	offset += 4;
 	buffer.writeUInt8(VERSION, offset);
 	offset += 1;
-	buffer.writeUInt32LE(nodes.length, offset);
-	offset += 4;
-	buffer.writeUInt32LE(totalResults, offset);
+	buffer.writeUInt32LE(entries.length, offset);
 	offset += 4;
 
-	// Write nodes
-	for (const node of nodes) {
-		buffer.writeUInt32LE(node.char, offset);
-		offset += 4;
-		buffer.writeUInt32LE(node.firstChild, offset);
-		offset += 4;
-		buffer.writeUInt32LE(node.sibling, offset);
-		offset += 4;
-	}
+	// Write entries
+	for (const entry of entries) {
+		const keyBytes = Buffer.from(entry.key, 'utf-8');
 
-	// Write results
-	for (const node of nodes) {
-		buffer.writeUInt16LE(node.wordIndices.length, offset);
-		offset += 2;
-		for (const idx of node.wordIndices) {
-			buffer.writeUInt16LE(idx, offset);
-			offset += 2;
+		// Key length (1 byte - max 255 bytes per key)
+		if (keyBytes.length > 255) {
+			console.warn(`Key too long (${keyBytes.length} bytes), truncating: ${entry.key}`);
+			const truncated = entry.key.substring(0, 80); // ~80 chars should be under 255 bytes
+			const truncatedBytes = Buffer.from(truncated, 'utf-8');
+			buffer.writeUInt8(truncatedBytes.length, offset);
+			offset += 1;
+			truncatedBytes.copy(buffer, offset);
+			offset += truncatedBytes.length;
+		} else {
+			buffer.writeUInt8(keyBytes.length, offset);
+			offset += 1;
+			keyBytes.copy(buffer, offset);
+			offset += keyBytes.length;
 		}
+
+		// Word index (2 bytes)
+		buffer.writeUInt16LE(entry.wordIndex, offset);
+		offset += 2;
 	}
 
-	console.log(`  Terminal nodes (with results): ${terminalNodes}`);
-
-	return buffer;
+	return buffer.slice(0, offset);
 }
 
 function main() {
@@ -211,7 +133,7 @@ function main() {
 	const vocabPath = join(projectRoot, 'static', 'vocabulary.json');
 	const outputPath = join(projectRoot, 'static', 'search-index.bin');
 
-	console.log('Building search index (v2 - terminal nodes only)...\n');
+	console.log('Building search index (v3 - sorted array)...\n');
 
 	// Load vocabulary
 	console.log(`Loading vocabulary from ${vocabPath}`);
@@ -226,18 +148,14 @@ function main() {
 	}
 	console.log(`  Total: ${totalWords} words\n`);
 
-	// Build trie
-	console.log('Building trie index...');
-	const { root, wordCount } = buildTrie(vocabulary);
-
-	// Flatten trie
-	console.log('Flattening trie...');
-	const flatNodes = flattenTrie(root);
-	console.log(`  Created ${flatNodes.length} nodes`);
+	// Build entries
+	console.log('Building search entries...');
+	const entries = buildEntries(vocabulary);
+	console.log(`  Created ${entries.length} searchable entries`);
 
 	// Serialize
 	console.log('\nSerializing to binary...');
-	const buffer = serializeTrie(flatNodes);
+	const buffer = serializeEntries(entries);
 
 	// Write output
 	writeFileSync(outputPath, buffer);
@@ -245,8 +163,8 @@ function main() {
 	// Statistics
 	const stats = statSync(outputPath);
 	console.log('\n=== Statistics ===');
-	console.log(`Words indexed: ${wordCount}`);
-	console.log(`Trie nodes: ${flatNodes.length}`);
+	console.log(`Words indexed: ${totalWords}`);
+	console.log(`Search entries: ${entries.length}`);
 	console.log(`File size: ${stats.size} bytes (${(stats.size / 1024).toFixed(2)} KB)`);
 	console.log(`Output: ${outputPath}`);
 }

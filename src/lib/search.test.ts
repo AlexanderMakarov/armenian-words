@@ -55,13 +55,13 @@ describe('Search Index', () => {
                 view.getUint8(2),
                 view.getUint8(3)
             );
-            expect(magic).toBe('TRIE');
+            expect(magic).toBe('SIDX');
         });
 
         test('has valid version', () => {
             const view = new DataView(indexBuffer);
             const version = view.getUint8(4);
-            expect(version).toBe(2);
+            expect(version).toBe(1);
         });
 
         test('passes full integrity validation', () => {
@@ -69,16 +69,9 @@ describe('Search Index', () => {
             expect(validateSearchIndex(indexBuffer)).toBe(true);
         });
 
-        test('node count is reasonable', () => {
-            expect(index.nodeCount).toBeGreaterThan(0);
-            // Should have at least some nodes for each word
-            expect(index.nodeCount).toBeGreaterThan(flatWords.length);
-        });
-
-        test('results count matches expected range', () => {
-            // Each word can be indexed multiple times (am, spell, en[], ru[])
-            // So resultsCount should be >= flatWords.length
-            expect(index.resultsCount).toBeGreaterThanOrEqual(flatWords.length);
+        test('entry count is reasonable', () => {
+            // Should have at least one entry per word (Armenian), plus translations
+            expect(index.entryCount).toBeGreaterThanOrEqual(flatWords.length);
         });
     });
 
@@ -244,10 +237,10 @@ describe('Search Index', () => {
             const badBuffer = new ArrayBuffer(100);
             const view = new DataView(badBuffer);
             // Valid magic
-            view.setUint8(0, 'T'.charCodeAt(0));
-            view.setUint8(1, 'R'.charCodeAt(0));
-            view.setUint8(2, 'I'.charCodeAt(0));
-            view.setUint8(3, 'E'.charCodeAt(0));
+            view.setUint8(0, 'S'.charCodeAt(0));
+            view.setUint8(1, 'I'.charCodeAt(0));
+            view.setUint8(2, 'D'.charCodeAt(0));
+            view.setUint8(3, 'X'.charCodeAt(0));
             // Invalid version
             view.setUint8(4, 99);
 
@@ -258,12 +251,12 @@ describe('Search Index', () => {
             const badBuffer = new ArrayBuffer(20);
             const view = new DataView(badBuffer);
             // Valid magic and version
-            view.setUint8(0, 'T'.charCodeAt(0));
-            view.setUint8(1, 'R'.charCodeAt(0));
-            view.setUint8(2, 'I'.charCodeAt(0));
-            view.setUint8(3, 'E'.charCodeAt(0));
-            view.setUint8(4, 2); // Version 2
-            // Node count that would exceed buffer
+            view.setUint8(0, 'S'.charCodeAt(0));
+            view.setUint8(1, 'I'.charCodeAt(0));
+            view.setUint8(2, 'D'.charCodeAt(0));
+            view.setUint8(3, 'X'.charCodeAt(0));
+            view.setUint8(4, 1);
+            // Entry count that would exceed buffer
             view.setUint32(5, 1000, true);
 
             expect(() => parseSearchIndex(badBuffer)).toThrow(/beyond buffer/);

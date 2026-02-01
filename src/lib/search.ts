@@ -1,27 +1,21 @@
 /**
- * Trie-based search index for vocabulary (v2)
+ * Sorted array search index for vocabulary (v3)
  *
- * Loads and searches the pre-built binary trie index.
+ * Loads and searches the pre-built binary search index.
  * All searches are case-insensitive (index is built lowercase).
  *
- * v2: Results stored only at terminal nodes, search collects from subtree.
+ * Uses binary search to find first prefix match, then linear scan for all matches.
  */
 
-const MAGIC = 'TRIE';
-const VERSION = 2;
-const NO_LINK = 0xffffffff;
-const HEADER_SIZE = 13;
-const NODE_SIZE = 12;
+const MAGIC = 'SIDX';
+const VERSION = 1;
+const HEADER_SIZE = 9;
 
 export interface SearchIndex {
-    nodeCount: number;
-    resultsCount: number;
-    nodes: DataView;
-    results: DataView;
-    nodesOffset: number;
-    resultsOffset: number;
-    // Pre-computed results offsets for O(1) lookup
-    resultsOffsets: Uint32Array;
+    entryCount: number;
+    data: DataView;
+    // Pre-computed entry offsets for O(1) access
+    entryOffsets: Uint32Array;
 }
 
 /**
@@ -47,129 +41,63 @@ export function parseSearchIndex(buffer: ArrayBuffer): SearchIndex {
         throw new Error(`Unsupported search index version: ${version}, expected ${VERSION}`);
     }
 
-    const nodeCount = view.getUint32(5, true);
-    const resultsCount = view.getUint32(9, true);
+    const entryCount = view.getUint32(5, true);
 
-    // Validate sizes
-    const nodesOffset = HEADER_SIZE;
-    const resultsOffset = HEADER_SIZE + nodeCount * NODE_SIZE;
+    // Pre-compute entry offsets for O(1) access
+    const entryOffsets = new Uint32Array(entryCount);
+    let offset = HEADER_SIZE;
 
-    if (resultsOffset > buffer.byteLength) {
-        throw new Error(
-            `Invalid search index: nodes extend beyond buffer (${resultsOffset} > ${buffer.byteLength})`
-        );
-    }
-
-    // Pre-compute results offsets for O(1) lookup
-    const resultsOffsets = new Uint32Array(nodeCount);
-    let offset = resultsOffset;
-    for (let i = 0; i < nodeCount; i++) {
-        resultsOffsets[i] = offset;
-        const count = view.getUint16(offset, true);
-        offset += 2 + count * 2;
+    for (let i = 0; i < entryCount; i++) {
+        if (offset >= buffer.byteLength) {
+            throw new Error(`Entry ${i} extends beyond buffer`);
+        }
+        entryOffsets[i] = offset;
+        const keyLength = view.getUint8(offset);
+        offset += 1 + keyLength + 2; // key_length + key_bytes + word_index
     }
 
     return {
-        nodeCount,
-        resultsCount,
-        nodes: view,
-        results: view,
-        nodesOffset,
-        resultsOffset,
-        resultsOffsets,
+        entryCount,
+        data: view,
+        entryOffsets,
     };
 }
 
 /**
- * Get node data at given index
+ * Get entry at given index
  */
-function getNode(
-    index: SearchIndex,
-    nodeIdx: number
-): { char: number; firstChild: number; sibling: number } {
-    const offset = index.nodesOffset + nodeIdx * NODE_SIZE;
-    return {
-        char: index.nodes.getUint32(offset, true),
-        firstChild: index.nodes.getUint32(offset + 4, true),
-        sibling: index.nodes.getUint32(offset + 8, true),
-    };
+function getEntry(index: SearchIndex, entryIdx: number): { key: string; wordIndex: number } {
+    const offset = index.entryOffsets[entryIdx];
+    const keyLength = index.data.getUint8(offset);
+
+    // Decode UTF-8 key
+    const keyBytes = new Uint8Array(index.data.buffer, offset + 1, keyLength);
+    const key = new TextDecoder().decode(keyBytes);
+
+    const wordIndex = index.data.getUint16(offset + 1 + keyLength, true);
+
+    return { key, wordIndex };
 }
 
 /**
- * Get word indices for a node (O(1) with pre-computed offsets)
+ * Binary search to find the first entry where key >= query
  */
-function getNodeResults(index: SearchIndex, nodeIdx: number): number[] {
-    const offset = index.resultsOffsets[nodeIdx];
-    const count = index.results.getUint16(offset, true);
+function lowerBound(index: SearchIndex, query: string): number {
+    let left = 0;
+    let right = index.entryCount;
 
-    if (count === 0) return [];
+    while (left < right) {
+        const mid = (left + right) >>> 1;
+        const entry = getEntry(index, mid);
 
-    const results: number[] = [];
-    let pos = offset + 2;
-    for (let i = 0; i < count; i++) {
-        results.push(index.results.getUint16(pos, true));
-        pos += 2;
-    }
-
-    return results;
-}
-
-/**
- * Find child node with given character
- */
-function findChild(index: SearchIndex, parentIdx: number, charCode: number): number | null {
-    const parent = getNode(index, parentIdx);
-    let childIdx = parent.firstChild;
-
-    while (childIdx !== NO_LINK) {
-        const child = getNode(index, childIdx);
-        if (child.char === charCode) {
-            return childIdx;
-        }
-        // Children are sorted by char, so we can stop early
-        if (child.char > charCode) {
-            return null;
-        }
-        childIdx = child.sibling;
-    }
-
-    return null;
-}
-
-/**
- * Collect all results from a node and its descendants (subtree traversal)
- * Uses iterative DFS to avoid stack overflow on deep tries
- */
-function collectSubtreeResults(
-    index: SearchIndex,
-    startNodeIdx: number,
-    maxResults: number
-): number[] {
-    const results = new Set<number>();
-    const stack: number[] = [startNodeIdx];
-
-    while (stack.length > 0 && results.size < maxResults) {
-        // biome-ignore lint/style/noNonNullAssertion: stack.length > 0 guarantees pop() returns a value
-        const nodeIdx = stack.pop()!;
-        const node = getNode(index, nodeIdx);
-
-        // Collect results at this node
-        const nodeResults = getNodeResults(index, nodeIdx);
-        for (const idx of nodeResults) {
-            results.add(idx);
-            if (results.size >= maxResults) break;
-        }
-
-        // Add children to stack (process siblings via linked list)
-        let childIdx = node.firstChild;
-        while (childIdx !== NO_LINK) {
-            stack.push(childIdx);
-            const child = getNode(index, childIdx);
-            childIdx = child.sibling;
+        if (entry.key < query) {
+            left = mid + 1;
+        } else {
+            right = mid;
         }
     }
 
-    return Array.from(results).slice(0, maxResults);
+    return left;
 }
 
 /**
@@ -185,25 +113,24 @@ export function searchIndex(index: SearchIndex, query: string, maxResults = 10):
 
     const normalized = query.toLowerCase();
 
-    // Traverse trie following the query characters
-    let nodeIdx = 0; // Start at root
+    // Find first entry that could match (key >= query)
+    const startIdx = lowerBound(index, normalized);
 
-    for (const char of normalized) {
-        // biome-ignore lint/style/noNonNullAssertion: char is always a valid string from iteration
-        const codePoint = char.codePointAt(0)!;
-        const childIdx = findChild(index, nodeIdx, codePoint);
+    // Collect all entries that start with the query prefix
+    const results = new Set<number>();
 
-        if (childIdx === null) {
-            // No match found
-            return [];
+    for (let i = startIdx; i < index.entryCount && results.size < maxResults; i++) {
+        const entry = getEntry(index, i);
+
+        // Stop if key no longer starts with query
+        if (!entry.key.startsWith(normalized)) {
+            break;
         }
 
-        nodeIdx = childIdx;
+        results.add(entry.wordIndex);
     }
 
-    // Found the node matching the full query prefix
-    // Collect results from this node and all its descendants
-    return collectSubtreeResults(index, nodeIdx, maxResults);
+    return Array.from(results);
 }
 
 /**
@@ -213,43 +140,21 @@ export function searchIndex(index: SearchIndex, query: string, maxResults = 10):
 export function validateSearchIndex(buffer: ArrayBuffer): boolean {
     const index = parseSearchIndex(buffer);
 
-    // Check all nodes are readable
-    for (let i = 0; i < index.nodeCount; i++) {
-        const node = getNode(index, i);
+    // Check all entries are readable and sorted (using simple string comparison)
+    let prevKey = '';
+    for (let i = 0; i < index.entryCount; i++) {
+        const entry = getEntry(index, i);
 
-        // Validate links
-        if (node.firstChild !== NO_LINK && node.firstChild >= index.nodeCount) {
-            throw new Error(`Node ${i} has invalid firstChild: ${node.firstChild}`);
+        // Validate sorting (simple string comparison, same as build script)
+        if (entry.key < prevKey) {
+            throw new Error(`Entry ${i} is not sorted: "${entry.key}" < "${prevKey}"`);
         }
-        if (node.sibling !== NO_LINK && node.sibling >= index.nodeCount) {
-            throw new Error(`Node ${i} has invalid sibling: ${node.sibling}`);
+        prevKey = entry.key;
+
+        // Validate word index is reasonable (< 65535 for 2-byte storage)
+        if (entry.wordIndex > 65535) {
+            throw new Error(`Entry ${i} has invalid wordIndex: ${entry.wordIndex}`);
         }
-    }
-
-    // Check results are readable
-    let resultsRead = 0;
-    let offset = index.resultsOffset;
-
-    for (let i = 0; i < index.nodeCount; i++) {
-        if (offset + 2 > buffer.byteLength) {
-            throw new Error(`Results count extends beyond buffer at node ${i}`);
-        }
-
-        const count = index.results.getUint16(offset, true);
-        offset += 2;
-
-        if (offset + count * 2 > buffer.byteLength) {
-            throw new Error(`Results extend beyond buffer at node ${i}`);
-        }
-
-        offset += count * 2;
-        resultsRead += count;
-    }
-
-    if (resultsRead !== index.resultsCount) {
-        throw new Error(
-            `Results count mismatch: header says ${index.resultsCount}, found ${resultsRead}`
-        );
     }
 
     return true;
