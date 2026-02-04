@@ -2,6 +2,7 @@
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
+import { tStore } from '$lib/i18n/index.js';
 import { searchVocabulary } from '$lib/stores/vocabulary.js';
 import type { Word } from '$lib/types.js';
 import { playSound } from '$lib/utils.js';
@@ -14,6 +15,13 @@ interface WordWithLevel extends Word {
 let searchQuery = $state('');
 let debouncedQuery = $state('');
 let showDropdown = $state(false);
+let t = $state((key: string) => key);
+
+// Subscribe to translation store
+$effect(() => {
+    const unsub = tStore.subscribe((v) => (t = v));
+    return unsub;
+});
 
 // Get the return path from URL query params
 const returnTo = $derived(page.url.searchParams.get('from') || `${base}/`);
@@ -125,15 +133,15 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
 
 <div class="browse-page">
     <div class="browse-header">
-        <button class="back-link" onclick={goBack}>&larr; Back</button>
-        <h2>Vocabulary</h2>
+        <button class="back-link" onclick={goBack}>&larr; {t('Back')}</button>
+        <h2>{t('Vocabulary')}</h2>
     </div>
 
     <div class="search-container">
         <input
             type="text"
             class="search-input"
-            placeholder="Search Armenian, English, Russian, or pronunciation..."
+            placeholder={t('Search Armenian, English, Russian, or pronunciation...')}
             bind:value={searchQuery}
             onfocus={handleInputFocus}
             onblur={handleInputBlur}
@@ -142,7 +150,7 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
         {#if showDropdown && searchQuery.trim()}
             <div class="search-dropdown">
                 {#if debouncedQuery.trim() && filteredWords.length === 0}
-                    <div class="no-results">No words found</div>
+                    <div class="no-results">{t('No words found')}</div>
                 {:else if filteredWords.length > 0}
                     {#each filteredWords as word}
                         {@const matchedText = findMatchingText(word, debouncedQuery, queryLang)}
@@ -166,7 +174,7 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
                                 class="play-sound-btn small"
                                 onclick={(e) => handlePlaySound(e, word.ogg_url)}
                                 disabled={!word.ogg_url}
-                                aria-label="Play pronunciation"
+                                aria-label={t('Play pronunciation')}
                             >
                                 🔊
                             </button>
@@ -179,7 +187,7 @@ function handlePlaySound(event: MouseEvent, url: string | undefined) {
     </div>
 
     <p class="search-hint">
-        Prefix search in Armenian, English, Russian, or pronunciation.
+        {t('Prefix search in Armenian, English, Russian, or pronunciation.')}
     </p>
 </div>
 

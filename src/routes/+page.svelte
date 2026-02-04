@@ -1,8 +1,9 @@
 <script lang="ts">
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
-import { StatsDisplay } from '$lib/components/index.js';
+import { LanguageSwitcher, StatsDisplay } from '$lib/components/index.js';
 import { LEVEL_DESCRIPTIONS } from '$lib/constants.js';
+import { tStore } from '$lib/i18n/index.js';
 import {
     autoPlaySound,
     cardsCount,
@@ -17,16 +18,19 @@ import type { QuizLanguage, Vocabulary } from '$lib/types.js';
 let currentCardsCount = $state(10);
 let currentLanguage = $state<QuizLanguage>('english');
 let soundEnabled = $state(true);
+let t = $state((key: string) => key);
 
 // Subscribe to stores
 $effect(() => {
     const unsubCardsCount = cardsCount.subscribe((v) => (currentCardsCount = v));
     const unsubLanguage = quizLanguage.subscribe((v) => (currentLanguage = v));
     const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
+    const unsubT = tStore.subscribe((v) => (t = v));
     return () => {
         unsubCardsCount();
         unsubLanguage();
         unsubSound();
+        unsubT();
     };
 });
 
@@ -71,7 +75,9 @@ function handleCardsCountChange(event: Event) {
 function resetProgress() {
     if (
         confirm(
-            'Are you sure you want to reset all progress? This will clear all learnt words and statistics.'
+            t(
+                'Are you sure you want to reset all progress? This will clear all learnt words and statistics.'
+            )
         )
     ) {
         learntTranslations.reset();
@@ -81,17 +87,17 @@ function resetProgress() {
 </script>
 
 <div id="level-selection" class="screen active">
+	<LanguageSwitcher />
 	<p class="app-description">
-		App would show given number of words to learn translation of and after this show quiz for
-		translating it back. Your preferences and progress stay saved on this device.
+		{t('App would show given number of words to learn translation of and after this show quiz for translating it back. Your preferences and progress stay saved on this device.')}
 	</p>
-	<h2>Select Your Armenian Level</h2>
+	<h2>{t('Select Your Armenian Level')}</h2>
 	<div class="level-buttons">
 		{#each levels as level}
 			<button class="level-btn" onclick={() => selectLevel(level)}>
 				{level}
 				{#if LEVEL_DESCRIPTIONS[level]}
-					- {LEVEL_DESCRIPTIONS[level]}
+					- {t(LEVEL_DESCRIPTIONS[level])}
 				{/if}
 			</button>
 		{/each}
@@ -99,7 +105,7 @@ function resetProgress() {
 
 	<div class="settings-row">
 		<label class="setting-item horizontal">
-			<span>Number of<br />words to learn:</span>
+			<span>{t('Number of words to learn:')}</span>
 			<input
 				type="number"
 				id="cards-count"
@@ -113,21 +119,21 @@ function resetProgress() {
 		</label>
 
 		<div class="setting-item">
-			<p>Language:</p>
+			<p>{t('Language:')}</p>
 			<div class="language-buttons">
 				<button
 					class="language-btn"
 					class:active={currentLanguage === 'english'}
 					onclick={() => selectLanguage('english')}
 				>
-					English
+					{t('English')}
 				</button>
 				<button
 					class="language-btn"
 					class:active={currentLanguage === 'russian'}
 					onclick={() => selectLanguage('russian')}
 				>
-					Русский
+					{t('Русский')}
 				</button>
 			</div>
 		</div>
@@ -139,16 +145,16 @@ function resetProgress() {
 					checked={soundEnabled}
 					onchange={toggleSound}
 				/>
-				Auto-play<br />pronunciation
+				{t('Auto-play pronunciation')}
 			</label>
 		</div>
 	</div>
 
-	<StatsDisplay {stats} />
+	<StatsDisplay {stats} {t} />
 
 	<div class="reset-section">
 		<button id="reset-progress" class="btn secondary" onclick={resetProgress}>
-			Reset Progress
+			{t('Reset Progress')}
 		</button>
 	</div>
 </div>

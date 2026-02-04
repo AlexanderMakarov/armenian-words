@@ -2,6 +2,7 @@
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
+import { tStore } from '$lib/i18n/index.js';
 import { quizLanguage, vocabulary } from '$lib/stores/index.js';
 import type { QuizLanguage, Vocabulary, Word } from '$lib/types.js';
 import { expandPos, playSound } from '$lib/utils.js';
@@ -12,6 +13,7 @@ interface WordWithLevel extends Word {
 
 let vocab = $state<Vocabulary | null>(null);
 let language = $state<QuizLanguage>('english');
+let t = $state((key: string) => key);
 
 $effect(() => {
     const unsub = vocabulary.subscribe((v) => (vocab = v));
@@ -20,6 +22,11 @@ $effect(() => {
 
 $effect(() => {
     const unsub = quizLanguage.subscribe((l) => (language = l));
+    return unsub;
+});
+
+$effect(() => {
+    const unsub = tStore.subscribe((v) => (t = v));
     return unsub;
 });
 
@@ -53,7 +60,7 @@ function goBackToBrowse() {
     {#if foundWord()}
         {@const word = foundWord()}
         <div class="word-detail-header">
-            <button class="back-link" onclick={goBackToBrowse}>&larr; Back to Search</button>
+            <button class="back-link" onclick={goBackToBrowse}>&larr; {t('Back to Search')}</button>
         </div>
 
         <div class="word-detail-card">
@@ -67,8 +74,8 @@ function goBackToBrowse() {
                     class="play-sound-btn"
                     onclick={() => playSound(word.ogg_url)}
                     disabled={!word.ogg_url}
-                    aria-label="Play pronunciation"
-                    title={word.ogg_url ? 'Play pronunciation' : 'No audio available'}
+                    aria-label={t('Play pronunciation')}
+                    title={word.ogg_url ? t('Play pronunciation') : t('No audio available')}
                 >
                     🔊
                 </button>
@@ -81,7 +88,7 @@ function goBackToBrowse() {
 
             <div class="translations-section">
                 <div class="translation-group">
-                    <h3>English</h3>
+                    <h3>{t('English')}</h3>
                     <ul class="translation-list">
                         {#each word.en as translation}
                             <li>{translation}</li>
@@ -90,7 +97,7 @@ function goBackToBrowse() {
                 </div>
 
                 <div class="translation-group">
-                    <h3>Russian</h3>
+                    <h3>{t('Русский')}</h3>
                     <ul class="translation-list">
                         {#each word.ru as translation}
                             <li>{translation}</li>
@@ -105,9 +112,9 @@ function goBackToBrowse() {
         </div>
     {:else}
         <div class="word-not-found">
-            <h2>Word not found</h2>
-            <p>The word "{wordParam}" was not found in the vocabulary.</p>
-            <button class="btn primary" onclick={goBackToBrowse}>Back to Search</button>
+            <h2>{t('Word not found')}</h2>
+            <p>{t('The word was not found in the vocabulary.')}</p>
+            <button class="btn primary" onclick={goBackToBrowse}>{t('Back to Search')}</button>
         </div>
     {/if}
 </div>

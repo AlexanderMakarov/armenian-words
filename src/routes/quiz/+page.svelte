@@ -6,6 +6,7 @@ import { base } from '$app/paths';
 import { trackQuizComplete } from '$lib/analytics.js';
 import { ProgressBar, QuizOption } from '$lib/components/index.js';
 import { QUIZ_CONFIG } from '$lib/constants.js';
+import { tStore } from '$lib/i18n/index.js';
 import {
     autoPlaySound,
     cardsCount,
@@ -34,6 +35,7 @@ let selectedOption = $state<Word | null>(null);
 let answered = $state(false);
 let showComplete = $state(false);
 let soundEnabled = $state(true);
+let t = $state((key: string) => key);
 
 onMount(() => {
     // Get language first (needed for creating questions)
@@ -65,6 +67,7 @@ onMount(() => {
     const unsubLanguage = quizLanguage.subscribe((l) => (language = l));
     const unsubCount = cardsCount.subscribe((c) => (count = c));
     const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
+    const unsubT = tStore.subscribe((v) => (t = v));
 
     return () => {
         unsubLearning();
@@ -74,6 +77,7 @@ onMount(() => {
         unsubLanguage();
         unsubCount();
         unsubSound();
+        unsubT();
     };
 });
 
@@ -159,7 +163,7 @@ function changeLevel() {
 	{#if !showComplete && currentQuestion}
 		<div class="quiz-card">
 			<div class="quiz-question">
-				<p>Select the Armenian word for:</p>
+				<p>{t('Select the Armenian word for:')}</p>
 				<div class="translation-question" id="translation-question">{currentQuestion.translation}</div>
 			</div>
 			<div class="options" id="quiz-options">
@@ -178,11 +182,11 @@ function changeLevel() {
 
 	{#if showComplete}
 		<div class="quiz-complete" id="quiz-complete">
-			<h3>Quiz Complete!</h3>
-			<div class="score" id="final-score">Score: {score}/{questions.length} ({percentage}%)</div>
+			<h3>{t('Quiz Complete!')}</h3>
+			<div class="score" id="final-score">{t('Score:')} {score}/{questions.length} ({percentage}%)</div>
 			<div class="actions">
-				<button id="restart-app" class="btn primary" onclick={restartApp}>One More Time</button>
-				<button id="main-screen" class="btn secondary" onclick={changeLevel}>Main Screen</button>
+				<button id="restart-app" class="btn primary" onclick={restartApp}>{t('One More Time')}</button>
+				<button id="main-screen" class="btn secondary" onclick={changeLevel}>{t('Main Screen')}</button>
 			</div>
 		</div>
 	{/if}

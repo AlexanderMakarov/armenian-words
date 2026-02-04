@@ -5,6 +5,7 @@ import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
 import { ProgressBar } from '$lib/components/index.js';
+import { tStore } from '$lib/i18n/index.js';
 import {
     autoPlaySound,
     cardsCount,
@@ -31,6 +32,7 @@ let words = $state<Word[]>([]);
 let wordIndex = $state(0);
 let language = $state<QuizLanguage>('english');
 let soundEnabled = $state(true);
+let t = $state((key: string) => key);
 
 // Get level from URL params
 const level = $derived(page.params.level ?? '');
@@ -38,6 +40,7 @@ const level = $derived(page.params.level ?? '');
 onMount(() => {
     // Subscribe to language for display
     const unsubLanguage = quizLanguage.subscribe((l) => (language = l));
+    const unsubT = tStore.subscribe((v) => (t = v));
 
     // Subscribe to vocabulary and initialize words
     const unsubVocab = vocabulary.subscribe((vocab) => {
@@ -83,6 +86,7 @@ onMount(() => {
         unsubIndex();
         unsubLanguage();
         unsubSound();
+        unsubT();
     };
 });
 
@@ -157,8 +161,8 @@ function handleKeydown(event: KeyboardEvent) {
 					class="play-sound-btn"
 					onclick={() => playSound(currentWord.ogg_url)}
 					disabled={!currentWord.ogg_url}
-					aria-label="Play pronunciation"
-					title={currentWord.ogg_url ? 'Play pronunciation' : 'No audio available'}
+					aria-label={t('Play pronunciation')}
+					title={currentWord.ogg_url ? t('Play pronunciation') : t('No audio available')}
 				>
 					🔊
 				</button>
@@ -178,14 +182,14 @@ function handleKeydown(event: KeyboardEvent) {
 					disabled={!canGoPrevious}
 					onclick={previousWord}
 				>
-					Previous Word
+					{t('Previous Word')}
 				</button>
 				{#if isLastWord}
 					<button id="start-quiz" class="btn primary" onclick={startQuiz}>
-						Start Quiz
+						{t('Start Quiz')}
 					</button>
 					<button id="main-screen" class="btn secondary" onclick={goToMainScreen}>
-						Main Screen
+						{t('Main Screen')}
 					</button>
 				{:else}
 					<button
@@ -195,7 +199,7 @@ function handleKeydown(event: KeyboardEvent) {
 						disabled={!canGoNext}
 						onclick={nextWord}
 					>
-						Next Word
+						{t('Next Word')}
 					</button>
 				{/if}
 			</div>
