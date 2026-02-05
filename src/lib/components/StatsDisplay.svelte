@@ -3,9 +3,10 @@ import type { UserStats } from '$lib/types.js';
 
 interface Props {
     stats: UserStats;
+    t: (key: string) => string;
 }
 
-const { stats }: Props = $props();
+const { stats, t }: Props = $props();
 
 const hasStats = $derived(Object.keys(stats).length > 0);
 
@@ -18,14 +19,14 @@ function getAccuracy(level: string): string {
 
 <div class="stats">
 	{#if hasStats}
-		<h4>Your Learning Progress</h4>
+		<h4>{t('Your Learning Progress')}</h4>
 		{#each Object.entries(stats) as [level, levelStats]}
 			<p>
 				<strong>{level}:</strong>
-				{levelStats.totalQuizzes} quizzes, {getAccuracy(level)}% accuracy
+				{levelStats.totalQuizzes} {t('quizzes')}, {getAccuracy(level)}% {t('accuracy')}
 			</p>
 		{/each}
 	{:else}
-		<p>No previous learning history</p>
+		<p>{t('No previous learning history')}</p>
 	{/if}
 </div>

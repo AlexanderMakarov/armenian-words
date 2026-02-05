@@ -34,3 +34,6 @@ export interface QuizQuestion {
 }
 
 export type QuizLanguage = 'english' | 'russian';
+
+/** UI language for interface translation */
+export type UILanguage = 'en' | 'ru';

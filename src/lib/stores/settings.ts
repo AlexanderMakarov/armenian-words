@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
-import type { QuizLanguage } from '$lib/types.js';
+import type { QuizLanguage, UILanguage } from '$lib/types.js';
 
 const STORAGE_PREFIX = 'armenianApp_';
 
@@ -33,3 +33,6 @@ function createPersistentStore<T>(key: string, initial: T) {
 export const quizLanguage = createPersistentStore<QuizLanguage>('quizLanguage', 'english');
 export const cardsCount = createPersistentStore<number>('cardsCount', 10);
 export const autoPlaySound = createPersistentStore<boolean>('autoPlaySound', true);
+
+/** UI language for interface translation (separate from vocabulary quiz language) */
+export const uiLanguage = createPersistentStore<UILanguage>('uiLanguage', 'en');
