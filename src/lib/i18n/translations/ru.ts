@@ -9,7 +9,7 @@ export const ru: Record<string, string> = {
     'Select Your Armenian Level': 'Выберите ваш уровень армянского',
     'Number of words to learn:': 'Количество слов для изучения:',
     'Language:': 'Язык:',
-    'Auto-play pronunciation': 'Автовоспроизведение произношения',
+    'Auto-play pronunciation': 'Автоматически проигрывать произношение',
     'Reset Progress': 'Сбросить прогресс',
     'Are you sure you want to reset all progress? This will clear all learnt words and statistics.':
         'Вы уверены, что хотите сбросить весь прогресс? Это удалит все выученные слова и статистику.',
