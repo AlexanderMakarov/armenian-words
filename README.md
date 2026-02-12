@@ -1,133 +1,134 @@
-🇦🇲 Armenian Language Learning App
+# 🇦🇲 Armenian Language Learning App
 
-A web-based static application for learning Armenian vocabulary with interactive learning and quiz modes.
+A modern web application for learning Armenian vocabulary with interactive learning, quizzes, and a searchable vocabulary browser. Built with SvelteKit and deployed as a static site on GitHub Pages.
+
+**https://alexandermakarov.github.io/armenian-words/**
 
 ## Features
 
-- **Language Levels**: A1, A2, B1, B2 difficulty levels
-- **Learning Mode**: Study 10 Armenian words with English and Russian translations
-- **Quiz Mode**: Test your knowledge by selecting the correct Armenian word for given translations
-- **Language Choice**: Choose between English or Russian for quiz questions
-- **Multiple Translations**: Support for words with multiple translation variants
-- **Progress Tracking**: Browser cache stores your language level and quiz performance
-- **Responsive Design**: Works on desktop and mobile devices
+- **CEFR Language Levels** — A1, A2, B1, B2 difficulty levels
+- **Learning Mode** — Study Armenian words with English and Russian translations, pronunciation audio, etymology, and part of speech
+- **Quiz Mode** — Multiple-choice quizzes generated from your learned words
+- **Vocabulary Browser** — Search and browse the full word database by Armenian, English, Russian, or romanized text
+- **Bilingual Quiz Language** — Choose English or Russian for quiz translations
+- **Bilingual UI** — Interface available in English and Russian (🇺🇸/🇷🇺 switcher)
+- **Configurable Sessions** — Choose 1–100 words per learning session
+- **Audio Pronunciation** — Optional auto-play for word audio
+- **Progress Tracking** — Per-level quiz statistics stored in browser localStorage
+- **Responsive Design** — Works on desktop and mobile
 
 ## How to Use
 
-1. Select your Armenian language level (A1-B2)
-2. Choose your preferred quiz language (English or Russian)
-3. Study 10 vocabulary words in learning mode
+1. Select your language level (A1–B2)
+2. Optionally adjust session size and quiz language in settings
+3. Study vocabulary words in learning mode
 4. Take the quiz to test your knowledge
-5. View your score and start a new session or change difficulty level
+5. Browse the full vocabulary using the search feature
 
-## Technical Details
+## Tech Stack
 
-- **Frontend**: HTML, TypeScript (compiled to JavaScript), Sass (compiled to CSS)
-- **Build Tool**: Bun (for TypeScript compilation, Sass compilation, and development server)
-- Uses browser localStorage for persistent settings and progress
-- Responsive design with modern CSS Grid and Flexbox
-- Vocabulary database with 200+ Armenian words across difficulty levels
-- Browser caching: `vocabulary.json` is cached by browsers using default caching behavior
+| Layer | Technology |
+|-------|------------|
+| Framework | SvelteKit 2 / Svelte 5 |
+| Language | TypeScript 5 |
+| Styling | Sass |
+| Build | Vite 7, Bun |
+| Linting | Biome |
+| Testing | Playwright (E2E), Bun test (unit) |
+| Analytics | PostHog |
+| Deployment | GitHub Pages (static adapter) |
 
-## GitHub Pages Deployment
+## Project Structure
 
-This app is automatically deployed to GitHub Pages when changes are pushed to the main branch. The deployment is handled by GitHub Actions workflow.
-
-### Live Demo
-
-Once deployed, the app will be available at: `https://[username].github.io/[repository-name]/`
+```
+src/
+├── routes/                    # SvelteKit pages
+│   ├── +page.svelte           #   Home / level selection
+│   ├── +layout.svelte         #   Root layout
+│   ├── learn/[level]/         #   Learning mode
+│   ├── quiz/                  #   Quiz mode
+│   └── browse/                #   Vocabulary browser & word detail
+├── lib/
+│   ├── components/            # Reusable components
+│   │   ├── LanguageSwitcher.svelte
+│   │   ├── ProgressBar.svelte
+│   │   ├── QuizOption.svelte
+│   │   ├── StatsDisplay.svelte
+│   │   └── WordCard.svelte
+│   ├── stores/                # Svelte stores (state management)
+│   │   ├── progress.ts        #   Learning progress & statistics
+│   │   ├── settings.ts        #   User preferences
+│   │   ├── quiz.ts            #   Quiz state
+│   │   └── vocabulary.ts      #   Vocabulary data & search
+│   ├── i18n/                  # Internationalization
+│   │   └── translations/      #   en.ts, ru.ts
+│   ├── types.ts               # TypeScript interfaces
+│   ├── constants.ts           # App constants
+│   ├── utils.ts               # Utility functions
+│   ├── analytics.ts           # PostHog integration
+│   └── search.ts              # Binary search index
+scripts/
+├── build_vocabulary_v2.py     # Vocabulary builder (Python)
+└── build-search-index.ts      # Search index builder
+static/
+├── vocabulary.json            # Vocabulary database (~200+ words)
+└── search-index.bin           # Pre-built binary search index
+tests/
+└── app-flow.spec.ts           # E2E tests
+```
 
 ## Development
 
 ### Prerequisites
 
-- **Bun** (runtime and build tool) - [Install Bun](https://bun.sh)
-- **Python 3** (for building vocabulary):
+- [Bun](https://bun.sh) — runtime and package manager
+- Python 3 — only needed for rebuilding the vocabulary database:
   ```bash
   pip install -r scripts/requirements.txt
   ```
 
-### Project Structure
-
-```
-src/              # Source files
-├── index.html    # Main HTML
-├── main.ts       # TypeScript source
-└── styles.scss   # Sass source
-static/           # Development build output (gitignored)
-dist/             # Production build output (gitignored)
-```         
-
-### Build Commands
+### Getting Started
 
 ```bash
-# Development server (watches for changes, auto-compiles)
-bun run dev
-
-# Production build
-bun run build
-
-# Build vocabulary database
-bun run vocabulary-build
-
-# Build vocabulary without cache
-bun run vocabulary-build-no-cache
-
-# Lint code
-bun run lint
-
-# Fix linting issues
-bun run lint:fix
+bun install
+bun run dev          # Start dev server with hot reload
 ```
 
-### Running Locally
+### Available Commands
 
-1. Clone the repository
-2. Install dependencies:
-  ```bash
-   bun install
-  ```
-3. Build vocabulary (if needed):
-  ```bash
-   bun run vocabulary-build
-  ```
-4. Start the development server:
-  ```bash
-   bun run dev
-  ```
-   This will:
-  - Compile TypeScript to JavaScript
-  - Compile Sass to CSS
-  - Copy assets from `src/assets/` to `static/assets/`
-  - Start a dev server at `http://localhost:8000`
-  - Watch for file changes and auto-recompile
-5. Open `http://localhost:8000` in your browser
+```bash
+# Development
+bun run dev                   # Dev server
+bun run build                 # Production build
+bun run preview               # Preview production build
 
-For production builds, run `bun run build` which creates optimized files in the `dist/` directory.
+# Code quality
+bun run lint                  # Lint with Biome
+bun run lint:fix              # Auto-fix lint issues
+bun run check                 # Type-check with svelte-check
 
-## Caching Configuration
+# Testing
+bun run test                  # E2E tests (Playwright)
+bun run test:unit             # Unit tests (Bun test)
 
-The vocabulary data is stored as `vocabulary.json` instead of a JavaScript file. Browsers typically cache JSON files more aggressively than JavaScript files by default, providing better caching behavior on GitHub Pages without requiring custom HTTP headers.
+# Data
+bun run vocabulary-build      # Rebuild vocabulary.json
+bun run search-index-build    # Rebuild search index
+```
 
-This approach works well with GitHub Pages since it relies on browser default caching policies rather than server-side cache headers.
+## Deployment
+
+The app is automatically deployed to GitHub Pages when changes are pushed to the `main` branch via GitHub Actions. The static adapter outputs to `dist/`.
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test the application
-5. Submit a pull request
+4. Run `bun run lint && bun run check` to verify code quality
+5. Run `bun run test` to verify E2E tests pass
+6. Submit a pull request
 
 ## License
 
-This project is open source and available under the MIT License.
-
-# Roadmap/TODO
-
-- [x] Add pronunciation to cards
-- [x] Add "Previous Word" button to cards
-- [x] Switch to TypeScript
-- [x] Show words in quiz which where shown in cards
-- [ ] Make quiz by translations, not by words + Ability to run quizes without cards
-- [ ] Add vocabulary page
+MIT
