@@ -2,6 +2,8 @@
 
 A modern web application for learning Armenian vocabulary with interactive learning, quizzes, and a searchable vocabulary browser. Built with SvelteKit and deployed as a static site on GitHub Pages.
 
+**https://alexandermakarov.github.io/armenian-words/**
+
 ## Features
 
 - **CEFR Language Levels** — A1, A2, B1, B2 difficulty levels
