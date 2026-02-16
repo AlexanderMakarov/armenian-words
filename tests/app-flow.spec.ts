@@ -196,3 +196,17 @@ test('handles app load with corrupted localStorage gracefully', async ({ page }:
   const jsonParseErrors = errors.filter(e => e.includes('JSON') || e.includes('parse'));
   expect(jsonParseErrors).toHaveLength(0);
 });
+
+test('part of speech filter is visible and defaults to all', async ({ page }: { page: Page }) => {
+    await page.goto('/');
+    await page.waitForSelector('button.level-btn', { state: 'visible', timeout: 5000 });
+
+    // Verify the POS dropdown exists and defaults to "all"
+    const posSelect = page.locator('#part-of-speech');
+    await expect(posSelect).toBeVisible();
+    await expect(posSelect).toHaveValue('all');
+
+    // Change to "noun" and verify it persists
+    await posSelect.selectOption('noun');
+    await expect(posSelect).toHaveValue('noun');
+});
