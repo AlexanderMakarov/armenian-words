@@ -5,6 +5,7 @@ import { goto } from '$app/navigation';
 import { base } from '$app/paths';
 import { page } from '$app/state';
 import { ProgressBar } from '$lib/components/index.js';
+import { MAJOR_POS } from '$lib/constants.js';
 import { tStore } from '$lib/i18n/index.js';
 import {
     autoPlaySound,
@@ -14,11 +15,12 @@ import {
     getWordsByLevel,
     learningWords,
     learntTranslations,
+    partOfSpeech,
     quizLanguage,
     resetLearningSession,
     vocabulary,
 } from '$lib/stores/index.js';
-import type { QuizLanguage, Word } from '$lib/types.js';
+import type { PartOfSpeech, QuizLanguage, Word } from '$lib/types.js';
 import {
     expandPos,
     getLanguageLabel,
@@ -37,6 +39,16 @@ let t = $state((key: string) => key);
 // Get level from URL params
 const level = $derived(page.params.level ?? '');
 
+function filterByPartOfSpeech(words: Word[], pos: PartOfSpeech): Word[] {
+    if (pos === 'all') return words;
+    if (pos === 'other') {
+        return words.filter(
+            (w) => w.pos && !MAJOR_POS.includes(w.pos as (typeof MAJOR_POS)[number])
+        );
+    }
+    return words.filter((w) => w.pos === pos);
+}
+
 onMount(() => {
     // Subscribe to language for display
     const unsubLanguage = quizLanguage.subscribe((l) => (language = l));
@@ -53,16 +65,24 @@ onMount(() => {
             return;
         }
 
+        // Filter by part of speech
+        const currentPos = get(partOfSpeech);
+        const filteredByPos = filterByPartOfSpeech(levelWords, currentPos);
+        if (filteredByPos.length === 0) {
+            goto(base || '/');
+            return;
+        }
+
         // Read settings synchronously
         const count = get(cardsCount);
         const currentLanguage = get(quizLanguage);
 
         // Filter unlearnt words first, then add learnt words
         // A word is "unlearnt" if not all its translations have been learned
-        const unlearntWords = levelWords.filter(
+        const unlearntWords = filteredByPos.filter(
             (word) => !learntTranslations.isWordFullyLearnt(word, currentLanguage)
         );
-        const combined = [...unlearntWords, ...levelWords];
+        const combined = [...unlearntWords, ...filteredByPos];
 
         // Remove duplicates, shuffle, and limit to user-selected count
         const uniqueWords = uniqueByArmenian(combined);
