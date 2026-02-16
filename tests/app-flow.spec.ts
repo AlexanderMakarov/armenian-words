@@ -45,7 +45,8 @@ test('migrates old learntWords localStorage to learntTranslations', async ({ pag
   // Set up old localStorage format BEFORE navigating
   await page.addInitScript(() => {
     // Simulate old learntWords format (comma-separated Armenian words)
-    localStorage.setItem('armenianApp_learntWords', 'է,և');
+    // Use words that actually exist in vocabulary.json (A1 level)
+    localStorage.setItem('armenianApp_learntWords', '\u0565\u057D,\u0574\u056B');
   });
 
   await page.goto('/');
@@ -117,14 +118,9 @@ test('complete learning flow: configure -> learn -> quiz -> finish', async ({ pa
   const armenianWord = await page.locator('.armenian-word').textContent();
   expect(armenianWord).toBeTruthy();
 
-  // Step 4: Click "Next Word" to complete learning
-  await page.click('#next-word');
-
-  // Wait for learning complete message
-  await expect(page.locator('#learning-complete')).toBeVisible({ timeout: 5000 });
-  await expect(page.locator('#learning-complete-text')).toContainText("You've studied 1 words");
-
-  // Step 5: Start the quiz
+  // Step 4: With only 1 word, we're already on the last word,
+  // so "Start Quiz" button is shown directly (no "Next Word" button)
+  await expect(page.locator('#start-quiz')).toBeVisible({ timeout: 5000 });
   await page.click('#start-quiz');
   await page.waitForURL(/\/quiz/, { timeout: 5000 });
 
@@ -160,8 +156,8 @@ test('complete learning flow: configure -> learn -> quiz -> finish', async ({ pa
   const finalScore = await page.locator('#final-score').textContent();
   expect(finalScore).toMatch(/Score: \d+\/\d+/); // Score: X/Y format
 
-  // Step 9: Click "Change Settings" to go back to main screen
-  await page.click('#change-level');
+  // Step 9: Click "Main Screen" to go back to main screen
+  await page.click('#main-screen');
   await page.waitForURL(/\/$/, { timeout: 5000 });
 
   // Verify we're back on the main screen
