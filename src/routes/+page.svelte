@@ -9,14 +9,16 @@ import {
     cardsCount,
     getAvailableLevels,
     learntTranslations,
+    partOfSpeech,
     quizLanguage,
     userStats,
     vocabulary,
 } from '$lib/stores/index.js';
-import type { QuizLanguage, Vocabulary } from '$lib/types.js';
+import type { PartOfSpeech, QuizLanguage, Vocabulary } from '$lib/types.js';
 
 let currentCardsCount = $state(10);
 let currentLanguage = $state<QuizLanguage>('english');
+let currentPartOfSpeech = $state<PartOfSpeech>('all');
 let soundEnabled = $state(true);
 let t = $state((key: string) => key);
 
@@ -24,11 +26,13 @@ let t = $state((key: string) => key);
 $effect(() => {
     const unsubCardsCount = cardsCount.subscribe((v) => (currentCardsCount = v));
     const unsubLanguage = quizLanguage.subscribe((v) => (currentLanguage = v));
+    const unsubPos = partOfSpeech.subscribe((v) => (currentPartOfSpeech = v));
     const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
     const unsubT = tStore.subscribe((v) => (t = v));
     return () => {
         unsubCardsCount();
         unsubLanguage();
+        unsubPos();
         unsubSound();
         unsubT();
     };
@@ -70,6 +74,11 @@ function handleCardsCountChange(event: Event) {
     } else {
         target.value = currentCardsCount.toString();
     }
+}
+
+function handlePartOfSpeechChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    partOfSpeech.set(target.value as PartOfSpeech);
 }
 
 function resetProgress() {
@@ -117,6 +126,23 @@ function resetProgress() {
 				oninput={handleCardsCountChange}
 			/>
 		</label>
+
+		<div class="setting-item">
+			<label for="part-of-speech">{t('Part of speech:')}</label>
+			<select
+				id="part-of-speech"
+				class="pos-select"
+				value={currentPartOfSpeech}
+				onchange={handlePartOfSpeechChange}
+			>
+				<option value="all">{t('All')}</option>
+				<option value="noun">{t('Nouns')}</option>
+				<option value="verb">{t('Verbs')}</option>
+				<option value="adj">{t('Adjectives')}</option>
+				<option value="adv">{t('Adverbs')}</option>
+				<option value="other">{t('Other')}</option>
+			</select>
+		</div>
 
 		<div class="setting-item">
 			<p>{t('Language:')}</p>
