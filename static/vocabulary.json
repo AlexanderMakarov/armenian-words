@@ -169,8 +169,7 @@
   {
    "am": "ինձ",
    "en": [
-    "panther",
-    "etc."
+    "panther"
    ],
    "ru": [
     "ягуар"
@@ -3394,8 +3393,7 @@
     "three"
    ],
    "ru": [
-    "три",
-    "три удовлетворительно"
+    "три"
    ],
    "spell": "erekʻ",
    "pos": "num",
@@ -6888,6 +6886,23 @@
    "pos": "noun",
    "etymology_text": "From Old Armenian համակարգ (hamakarg).",
    "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Hy-%D5%B0%D5%A1%D5%B4%D5%A1%D5%AF%D5%A1%D6%80%D5%A3.ogg"
+  },
+  {
+   "am": "մասն",
+   "en": [
+    "part",
+    "bit, piece, morsel",
+    "share, portion",
+    "lot, parcel",
+    "ration, allowance",
+    "contingent, quota"
+   ],
+   "ru": [
+    "часть"
+   ],
+   "spell": "masn",
+   "pos": "noun",
+   "etymology_text": "The origin is uncertain."
   },
   {
    "am": "պաղպաղակ",
@@ -10578,8 +10593,7 @@
     "честь",
     "почёт, почесть",
     "достоинство",
-    "орден",
-    "титло, титла"
+    "орден"
    ],
    "spell": "pativ",
    "pos": "noun",
@@ -11044,22 +11058,6 @@
    "pos": "noun",
    "etymology_text": "From Middle Armenian արճիճ (arčič).",
    "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Hy-%D5%A1%D6%80%D5%B3%D5%AB%D5%B3.ogg"
-  },
-  {
-   "am": "բղուղ",
-   "en": [
-    "oil",
-    "milk",
-    "matzoon",
-    "etc."
-   ],
-   "ru": [
-    "кувшин, кринка, крынка"
-   ],
-   "spell": "bġuġ",
-   "pos": "noun",
-   "etymology_text": "Inherited from Middle Armenian բղուղ (bġuġ).",
-   "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Hy-%D5%A2%D5%B2%D5%B8%D6%82%D5%B2.ogg"
   },
   {
    "am": "շիտակ",
@@ -12674,12 +12672,12 @@
   {
    "am": "դար",
    "en": [
-    "hill",
-    "hillock",
-    "knoll"
+    "century"
    ],
    "ru": [
-    "покой, сон и покой"
+    "век, столетие",
+    "вечность",
+    "эпоха"
    ],
    "spell": "dar",
    "pos": "noun",
@@ -13215,19 +13213,11 @@
   {
    "am": "հանդես",
    "en": [
-    "festival",
-    "celebrations",
-    "festivities",
-    "evening party",
-    "concert",
-    "spectacle",
-    "pageant etc.",
-    "splendour",
-    "magnificence",
-    "periodical publication",
-    "journal",
-    "magazine",
-    "sumptuous public ceremony"
+    "festival, concert, spectacle",
+    "celebrations, festivities, evening party, sumptuous public ceremony",
+    "pageant",
+    "splendour, magnificence",
+    "periodical publication, journal, magazine"
    ],
    "ru": [
     "торжество",
@@ -13241,18 +13231,14 @@
   {
    "am": "մատնել",
    "en": [
-    "to inform on",
-    "to report",
-    "to denounce",
+    "to inform on, to report, to denounce",
     "to betray",
     "to sell",
-    "to expose",
-    "to disclose",
-    "to reveal",
-    "to subject",
+    "to expose, to disclose, to reveal",
     "to subjugate"
    ],
    "ru": [
+    "выдать, донести",
     "обрекать, обречь"
    ],
    "spell": "matnel",
@@ -13262,15 +13248,9 @@
   {
    "am": "հանդեպ",
    "en": [
-    "facing",
-    "opposite",
-    "across from",
-    "against",
+    "facing, opposite, across from, against",
     "instead",
-    "instead of",
-    "to",
-    "towards",
-    "for"
+    "to, towards, for"
    ],
    "ru": [
     "против, напротив",
@@ -13285,7 +13265,7 @@
   {
    "am": "ֆուտբոլ",
    "en": [
-    "association football"
+    "football, soccer"
    ],
    "ru": [
     "футбол"
@@ -26355,6 +26335,8 @@
     "immersed"
    ],
    "ru": [
+    "носиться, возиться",
+    "проиграть",
     "увлекаться, увлечься"
    ],
    "spell": "tarvel",
@@ -33457,8 +33439,7 @@
     "get well soon!"
    ],
    "ru": [
-    "здоровье, здравие",
-    "устар"
+    "будь здоров!"
    ],
    "spell": "aṙoġǰutʻyun",
    "pos": "noun",
@@ -36548,7 +36529,6 @@
     "колотушка",
     "молоток",
     "било, трепало",
-    "грифельная доска",
     "стук"
    ],
    "spell": "tʻak",
@@ -36832,8 +36812,7 @@
    "ru": [
     "восход солнца",
     "рассвет",
-    "рань",
-    "начало"
+    "рань"
    ],
    "spell": "ceg",
    "pos": "noun",
@@ -43399,16 +43378,7 @@
     "offspring"
    ],
    "ru": [
-    "дитя",
-    "устар",
-    "ребёнок, отпрыск",
-    "устар. теперь ирон",
-    "чадо",
-    "устар. книжн",
-    "детище",
-    "совершеннолетние дети",
-    "дитя, детка",
-    "в обращении"
+    "дитя, ребёнок, отпрыск"
    ],
    "spell": "zavak",
    "pos": "noun",
