@@ -10,6 +10,13 @@ export const ru: Record<string, string> = {
     'Number of words to learn:': 'Количество слов для изучения:',
     'Language:': 'Язык:',
     'Auto-play pronunciation': 'Автоматически проигрывать произношение',
+    'Part of speech:': 'Часть речи:',
+    All: 'Все',
+    Nouns: 'Существительные',
+    Verbs: 'Глаголы',
+    Adjectives: 'Прилагательные',
+    Adverbs: 'Наречия',
+    Other: 'Другое',
     'Reset Progress': 'Сбросить прогресс',
     'Are you sure you want to reset all progress? This will clear all learnt words and statistics.':
         'Вы уверены, что хотите сбросить весь прогресс? Это удалит все выученные слова и статистику.',

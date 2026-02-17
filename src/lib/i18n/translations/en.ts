@@ -10,6 +10,13 @@ export const en: Record<string, string> = {
     'Number of words to learn:': 'Number of words to learn:',
     'Language:': 'Language:',
     'Auto-play pronunciation': 'Auto-play pronunciation',
+    'Part of speech:': 'Part of speech:',
+    All: 'All',
+    Nouns: 'Nouns',
+    Verbs: 'Verbs',
+    Adjectives: 'Adjectives',
+    Adverbs: 'Adverbs',
+    Other: 'Other',
     'Reset Progress': 'Reset Progress',
     'Are you sure you want to reset all progress? This will clear all learnt words and statistics.':
         'Are you sure you want to reset all progress? This will clear all learnt words and statistics.',

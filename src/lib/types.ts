@@ -37,3 +37,6 @@ export type QuizLanguage = 'english' | 'russian';
 
 /** UI language for interface translation */
 export type UILanguage = 'en' | 'ru';
+
+/** Part of speech filter options for learning/quiz sessions */
+export type PartOfSpeech = 'all' | 'noun' | 'verb' | 'adj' | 'adv' | 'other';

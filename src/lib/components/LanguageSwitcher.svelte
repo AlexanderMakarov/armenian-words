@@ -1,5 +1,5 @@
 <script lang="ts">
-import { uiLanguage } from '$lib/stores/settings.js';
+import { quizLanguage, uiLanguage } from '$lib/stores/settings.js';
 import type { UILanguage } from '$lib/types.js';
 
 let currentLang = $state<UILanguage>('en');
@@ -11,6 +11,7 @@ $effect(() => {
 
 function selectLanguage(lang: UILanguage) {
     uiLanguage.set(lang);
+    quizLanguage.set(lang === 'en' ? 'english' : 'russian');
 }
 </script>
 

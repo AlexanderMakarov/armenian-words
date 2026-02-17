@@ -32,3 +32,9 @@ export const LEVEL_DESCRIPTIONS: Record<string, string> = {
     B1: 'Intermediate',
     B2: 'Upper Intermediate',
 };
+
+/**
+ * Major parts of speech shown as individual filter options.
+ * Everything else falls under "other".
+ */
+export const MAJOR_POS = ['noun', 'verb', 'adj', 'adv'] as const;
