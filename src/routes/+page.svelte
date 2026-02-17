@@ -10,14 +10,12 @@ import {
     getAvailableLevels,
     learntTranslations,
     partOfSpeech,
-    quizLanguage,
     userStats,
     vocabulary,
 } from '$lib/stores/index.js';
-import type { PartOfSpeech, QuizLanguage, Vocabulary } from '$lib/types.js';
+import type { PartOfSpeech, Vocabulary } from '$lib/types.js';
 
 let currentCardsCount = $state(10);
-let currentLanguage = $state<QuizLanguage>('english');
 let currentPartOfSpeech = $state<PartOfSpeech>('all');
 let soundEnabled = $state(true);
 let t = $state((key: string) => key);
@@ -25,13 +23,11 @@ let t = $state((key: string) => key);
 // Subscribe to stores
 $effect(() => {
     const unsubCardsCount = cardsCount.subscribe((v) => (currentCardsCount = v));
-    const unsubLanguage = quizLanguage.subscribe((v) => (currentLanguage = v));
     const unsubPos = partOfSpeech.subscribe((v) => (currentPartOfSpeech = v));
     const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
     const unsubT = tStore.subscribe((v) => (t = v));
     return () => {
         unsubCardsCount();
-        unsubLanguage();
         unsubPos();
         unsubSound();
         unsubT();
@@ -56,10 +52,6 @@ const levels = $derived(getAvailableLevels(vocab));
 
 function selectLevel(level: string) {
     goto(`${base}/learn/${level}`);
-}
-
-function selectLanguage(language: QuizLanguage) {
-    quizLanguage.set(language);
 }
 
 function toggleSound() {
@@ -142,26 +134,6 @@ function resetProgress() {
 				<option value="adv">{t('Adverbs')}</option>
 				<option value="other">{t('Other')}</option>
 			</select>
-		</div>
-
-		<div class="setting-item">
-			<p>{t('Language:')}</p>
-			<div class="language-buttons">
-				<button
-					class="language-btn"
-					class:active={currentLanguage === 'english'}
-					onclick={() => selectLanguage('english')}
-				>
-					{t('English')}
-				</button>
-				<button
-					class="language-btn"
-					class:active={currentLanguage === 'russian'}
-					onclick={() => selectLanguage('russian')}
-				>
-					{t('Русский')}
-				</button>
-			</div>
 		</div>
 
 		<div class="setting-item">
