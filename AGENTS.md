@@ -218,3 +218,30 @@ Before submitting changes, verify:
 6. **Testing**: Always test in real browser, not just in head
 7. **Type safety**: Use TypeScript types and interfaces consistently
 8. **Build process**: Always build before testing (`bun run build`)
+
+## Cursor Cloud specific instructions
+
+### Runtime
+
+- **Bun** is pre-installed at `~/.bun/bin/bun`. Ensure `PATH` includes `~/.bun/bin` (the update script handles this).
+- The project is a **SvelteKit** app (Svelte 5 + Vite 7), not vanilla HTML/TS as some AGENTS.md sections suggest. The actual dev server runs on **port 5173** (Vite default), not 8000.
+
+### Key commands
+
+All commands use `bun` (never `npm`). See `package.json` `scripts` for the full list.
+
+| Command | Purpose |
+|---|---|
+| `bun run dev` | Dev server at `http://localhost:5173` |
+| `bun run build` | Production build to `dist/` |
+| `bun run lint` | Biome linter (`biome check --write src/`) |
+| `bun run check` | Svelte/TS type check (has pre-existing errors in test files and some Svelte 5 type issues) |
+| `bun run test:unit` | Bun unit tests (`bun test src/`) |
+| `bun run test` | Playwright e2e tests (auto-starts dev server) |
+
+### Gotchas
+
+- `bun run check` (svelte-check) reports pre-existing type errors in `*.test.ts` files (due to `bun:test` module) and some Svelte 5 `$derived` type issues. These do not affect build or runtime.
+- Playwright e2e tests require Chromium installed: `bunx playwright install --with-deps chromium`. The update script handles this.
+- The Playwright config (`playwright.config.ts`) auto-starts the dev server on port 5173, so `bun run test` works standalone.
+- No backend, database, or Docker required. The app is fully static (SvelteKit adapter-static).
