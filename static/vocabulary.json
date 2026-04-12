@@ -37772,6 +37772,169 @@
    "spell": "nyutʻapʻoxanakutʻyun",
    "pos": "noun",
    "etymology_text": "նյութ (nyutʻ, “matter, material”) + -ա- (-a-) + փոխանակություն (pʻoxanakutʻyun, “exchange”)"
+  },
+  {
+   "am": "հեսա",
+   "en": [
+    "now",
+    "right away",
+    "in a moment"
+   ],
+   "ru": [
+    "сейчас",
+    "сейчас же",
+    "с минуты на минуту"
+   ],
+   "spell": "hesa",
+   "pos": "adv",
+   "etymology_text": "Colloquial Eastern Armenian; related to հիմա (hima, “now”)."
+  },
+  {
+   "am": "հետո",
+   "en": [
+    "after",
+    "afterwards",
+    "then",
+    "later"
+   ],
+   "ru": [
+    "потом",
+    "затем",
+    "после",
+    "впоследствии"
+   ],
+   "spell": "heto",
+   "pos": "adv",
+   "etymology_text": "From հետ (het, “back, after”) + -ո (-o)."
+  },
+  {
+   "am": "այսինկն",
+   "en": [
+    "that is",
+    "i.e.",
+    "namely"
+   ],
+   "ru": [
+    "то есть",
+    "иными словами",
+    "а именно"
+   ],
+   "spell": "aysinkʻn",
+   "pos": "conj",
+   "etymology_text": "Literally այս (ays, “this”) + ինքն (inkʻn, “self”)."
+  },
+  {
+   "am": "բա",
+   "en": [
+    "well?",
+    "what about?",
+    "so?",
+    "isn’t it?"
+   ],
+   "ru": [
+    "ну?",
+    "а как же?",
+    "как же?",
+    "неужели?"
+   ],
+   "spell": "ba",
+   "pos": "part",
+   "etymology_text": "Colloquial discourse particle."
+  },
+  {
+   "am": "վայ",
+   "en": [
+    "wow",
+    "ouch",
+    "alas"
+   ],
+   "ru": [
+    "ого",
+    "ой",
+    "ах",
+    "увы"
+   ],
+   "spell": "vay",
+   "pos": "intj",
+   "etymology_text": "Common interjection."
+  },
+  {
+   "am": "էհե",
+   "en": [
+    "uh",
+    "er",
+    "well (hesitation)"
+   ],
+   "ru": [
+    "э",
+    "ну",
+    "как бы"
+   ],
+   "spell": "ēhe",
+   "pos": "intj",
+   "etymology_text": "Hesitation filler; colloquial; often spelled եկե or եքե in speech."
+  },
+  {
+   "am": "վրայով",
+   "en": [
+    "over",
+    "across",
+    "via the surface of",
+    "along the top of"
+   ],
+   "ru": [
+    "поверх",
+    "через",
+    "над",
+    "по верху"
+   ],
+   "spell": "vrayov",
+   "pos": "postp",
+   "etymology_text": "From վրա (vra, “on”) + instrumental -ով (-ov)."
+  },
+  {
+   "am": "մասին",
+   "en": [
+    "about",
+    "concerning"
+   ],
+   "ru": [
+    "о",
+    "об",
+    "про",
+    "касательно"
+   ],
+   "spell": "masin",
+   "pos": "postp",
+   "etymology_text": "Postposition; typically follows a genitive/dative noun phrase."
+  },
+  {
+   "am": "ոնց",
+   "en": [
+    "how (colloquial)"
+   ],
+   "ru": [
+    "как (разговорное)"
+   ],
+   "spell": "oncʻ",
+   "pos": "adv",
+   "etymology_text": "Colloquial Eastern Armenian; variant of ինչպես (inčʻpes, “how”)."
+  },
+  {
+   "am": "մինչև",
+   "en": [
+    "until",
+    "up to",
+    "as far as"
+   ],
+   "ru": [
+    "до",
+    "пока не",
+    "настолько что"
+   ],
+   "spell": "minčʻev",
+   "pos": "conj",
+   "etymology_text": "Standard spelling; also pronounced/spelled մինչեվ in speech."
   }
  ],
  "A2": [
@@ -38994,8 +39157,8 @@
     "riches"
    ],
    "ru": [
-    "песнь",
-    "в конце молебна"
+    "сокровище, клад",
+    "богатство"
    ],
    "spell": "ganj",
    "pos": "noun",
