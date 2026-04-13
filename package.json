@@ -14,6 +14,7 @@
         "test": "bunx playwright test",
         "test:unit": "bun test src/",
         "lint": "biome check --write src/",
+        "lint:ci": "biome check src/",
         "lint:fix": "biome check --write src/",
         "vocabulary-build": "python3 scripts/build_vocabulary_v2.py",
         "search-index-build": "bun run scripts/build-search-index.ts"
