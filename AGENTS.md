@@ -201,12 +201,13 @@ Before submitting changes, verify:
 
 ## Deployment
 
-- **Automatic**: GitHub Actions deploys to GitHub Pages on push to `main` branch
-- **Manual**: Push changes to `main` branch
+- **Automatic**: GitHub Actions deploys to GitHub Pages on push to `main` branch (`deploy.yml`)
+- **Manual deploy**: `gh workflow run deploy.yml --ref main` (or Actions → Deploy → Run workflow)
 - **Build step required**: TypeScript and Sass compilation
 - **Build process**: GitHub Actions installs Bun, runs `bun install`, runs `bun run build`
 - **Deployment source**: Files from `dist/` folder are deployed
-- **Caching**: Browsers cache `vocabulary.json` automatically
+- **Caching**: Browsers cache `vocabulary.json` automatically (HTML/JS assets are hashed)
+- **Idle-repo gotcha**: If `main` has no commits for ~60+ days, GitHub can suspend Actions event triggers. A merge to `main` may then **not** start `deploy.yml` (or only start it much later). `keepalive.yml` re-enables workflows twice a month via API to prevent this. If deploy still did not run after a merge, run the manual deploy command above.
 
 ## Best Practices
 
