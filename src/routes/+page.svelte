@@ -9,6 +9,9 @@ import {
     cardsCount,
     getAvailableLevels,
     learntTranslations,
+    MAX_CARDS_COUNT,
+    MIN_CARDS_COUNT,
+    parseCardsCount,
     partOfSpeech,
     userStats,
     vocabulary,
@@ -16,13 +19,23 @@ import {
 import type { PartOfSpeech, Vocabulary } from '$lib/types.js';
 
 let currentCardsCount = $state(10);
+let cardsCountDraft = $state('10');
+let cardsCountDraftTouched = $state(false);
 let currentPartOfSpeech = $state<PartOfSpeech>('all');
 let soundEnabled = $state(true);
 let t = $state((key: string) => key);
 
+const parsedCardsCount = $derived(parseCardsCount(cardsCountDraft));
+const isCardsCountValid = $derived(parsedCardsCount !== null);
+
 // Subscribe to stores
 $effect(() => {
-    const unsubCardsCount = cardsCount.subscribe((v) => (currentCardsCount = v));
+    const unsubCardsCount = cardsCount.subscribe((v) => {
+        currentCardsCount = v;
+        if (!cardsCountDraftTouched) {
+            cardsCountDraft = String(v);
+        }
+    });
     const unsubPos = partOfSpeech.subscribe((v) => (currentPartOfSpeech = v));
     const unsubSound = autoPlaySound.subscribe((v) => (soundEnabled = v));
     const unsubT = tStore.subscribe((v) => (t = v));
@@ -51,6 +64,7 @@ $effect(() => {
 const levels = $derived(getAvailableLevels(vocab));
 
 function selectLevel(level: string) {
+    if (!isCardsCountValid) return;
     goto(`${base}/learn/${level}`);
 }
 
@@ -58,14 +72,20 @@ function toggleSound() {
     autoPlaySound.update((v) => !v);
 }
 
-function handleCardsCountChange(event: Event) {
-    const target = event.target as HTMLInputElement;
-    const value = parseInt(target.value, 10);
-    if (value > 0 && value <= 100) {
-        cardsCount.set(value);
-    } else {
-        target.value = currentCardsCount.toString();
+function handleCardsCountInput() {
+    cardsCountDraftTouched = true;
+    const parsed = parseCardsCount(cardsCountDraft);
+    if (parsed !== null) {
+        cardsCount.set(parsed);
     }
+}
+
+function adjustCardsCount(delta: number) {
+    const current = parsedCardsCount ?? currentCardsCount;
+    const next = Math.min(MAX_CARDS_COUNT, Math.max(MIN_CARDS_COUNT, current + delta));
+    cardsCountDraftTouched = true;
+    cardsCountDraft = String(next);
+    cardsCount.set(next);
 }
 
 function handlePartOfSpeechChange(event: Event) {
@@ -95,7 +115,11 @@ function resetProgress() {
 	<h2>{t('Select Your Armenian Level')}</h2>
 	<div class="level-buttons">
 		{#each levels as level}
-			<button class="level-btn" onclick={() => selectLevel(level)}>
+			<button
+				class="level-btn"
+				disabled={!isCardsCountValid}
+				onclick={() => selectLevel(level)}
+			>
 				{level}
 				{#if LEVEL_DESCRIPTIONS[level]}
 					- {t(LEVEL_DESCRIPTIONS[level])}
@@ -105,19 +129,40 @@ function resetProgress() {
 	</div>
 
 	<div class="settings-row">
-		<label class="setting-item horizontal">
-			<span>{t('Number of words to learn:')}</span>
-			<input
-				type="number"
-				id="cards-count"
-				class="cards-count-input"
-				min="1"
-				max="100"
-				value={currentCardsCount}
-				onchange={handleCardsCountChange}
-				oninput={handleCardsCountChange}
-			/>
-		</label>
+		<div class="setting-item horizontal">
+			<label for="cards-count">{t('Number of words to learn:')}</label>
+			<span class="cards-count-control">
+				<button
+					type="button"
+					class="cards-count-step"
+					aria-label={t('Decrease number of words')}
+					onclick={() => adjustCardsCount(-1)}
+					disabled={parsedCardsCount === MIN_CARDS_COUNT}
+				>
+					−
+				</button>
+				<input
+					type="text"
+					inputmode="numeric"
+					pattern="[0-9]*"
+					id="cards-count"
+					class="cards-count-input"
+					class:invalid={!isCardsCountValid}
+					autocomplete="off"
+					bind:value={cardsCountDraft}
+					oninput={handleCardsCountInput}
+				/>
+				<button
+					type="button"
+					class="cards-count-step"
+					aria-label={t('Increase number of words')}
+					onclick={() => adjustCardsCount(1)}
+					disabled={parsedCardsCount === MAX_CARDS_COUNT}
+				>
+					+
+				</button>
+			</span>
+		</div>
 
 		<div class="setting-item">
 			<label for="part-of-speech">{t('Part of speech:')}</label>
