@@ -1,0 +1,41 @@
+# Keep GitHub Actions event triggers alive for low-traffic repos.
+#
+# Public repos with no commits for ~60 days can have Actions event triggers
+# (push / pull_request) suspended. Merges then do not deploy until someone
+# manually re-enables Actions. Calling the workflow "enable" API resets that
+# inactivity timer without creating empty commits.
+name: Keep Actions Alive
+
+on:
+  schedule:
+    # 1st and 15th of each month (UTC) — well under GitHub's ~60-day idle window
+    - cron: "17 5 1,15 * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: keepalive-actions
+  cancel-in-progress: true
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-enable workflows (reset inactivity timer)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          # Always touch the deploy workflow so push-to-main deploys stay armed.
+          gh api --method PUT "repos/${{ github.repository }}/actions/workflows/deploy.yml/enable"
+          # Also re-enable anything GitHub marked disabled_inactivity.
+          gh api "repos/${{ github.repository }}/actions/workflows" --paginate \
+            --jq '.workflows[] | select(.state == "disabled_inactivity") | .id' \
+            | while read -r id; do
+                echo "Re-enabling workflow id=${id}"
+                gh api --method PUT "repos/${{ github.repository }}/actions/workflows/${id}/enable"
+              done
+          echo "Keepalive complete."
