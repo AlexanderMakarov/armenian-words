@@ -112,14 +112,20 @@ header p {
     font-weight: 600;
 }
 
-.level-btn:hover {
+.level-btn:hover:not(:disabled) {
     border-color: #667eea;
     background: #f7fafc;
     transform: translateY(-2px);
 }
 
-.level-btn:active {
+.level-btn:active:not(:disabled) {
     transform: translateY(0);
+}
+
+.level-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .settings-row {
@@ -141,6 +147,12 @@ header p {
 .setting-item.horizontal {
     flex-direction: row;
     gap: 0.5rem;
+    align-items: center;
+}
+
+.setting-item.horizontal label {
+    margin-bottom: 0;
+    text-align: left;
     cursor: pointer;
 }
 
@@ -159,8 +171,40 @@ header p {
     text-align: left;
 }
 
+.cards-count-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.cards-count-step {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    color: #4a5568;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.cards-count-step:hover:not(:disabled) {
+    border-color: #667eea;
+    background: #f7fafc;
+}
+
+.cards-count-step:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .cards-count-input {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0.5rem;
     border: 2px solid #e2e8f0;
     border-radius: 8px;
     background: white;
@@ -168,8 +212,10 @@ header p {
     font-size: 0.9rem;
     font-weight: 500;
     color: #4a5568;
-    width: 80px;
+    width: 3.5rem;
     text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
 }
 
 .cards-count-input:hover {
@@ -181,6 +227,16 @@ header p {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.cards-count-input.invalid {
+    border-color: #e53e3e;
+    background: #fff5f5;
+}
+
+.cards-count-input.invalid:focus {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15);
 }
 
 .pos-select {

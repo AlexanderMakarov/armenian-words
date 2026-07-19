@@ -8,6 +8,8 @@ export const en: Record<string, string> = {
         'App would show given number of words to learn translation of and after this show quiz for translating it back. Your preferences and progress stay saved on this device.',
     'Select Your Armenian Level': 'Select Your Armenian Level',
     'Number of words to learn:': 'Number of words to learn:',
+    'Decrease number of words': 'Decrease number of words',
+    'Increase number of words': 'Increase number of words',
     'Language:': 'Language:',
     'Auto-play pronunciation': 'Auto-play pronunciation',
     'Part of speech:': 'Part of speech:',

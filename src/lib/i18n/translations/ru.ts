@@ -8,6 +8,8 @@ export const ru: Record<string, string> = {
         'Приложение покажет заданное количество слов для изучения перевода, а затем проведёт викторину для проверки. Ваши настройки и прогресс сохраняются на этом устройстве.',
     'Select Your Armenian Level': 'Выберите ваш уровень армянского',
     'Number of words to learn:': 'Количество слов для изучения:',
+    'Decrease number of words': 'Уменьшить количество слов',
+    'Increase number of words': 'Увеличить количество слов',
     'Language:': 'Язык:',
     'Auto-play pronunciation': 'Автоматически проигрывать произношение',
     'Part of speech:': 'Часть речи:',

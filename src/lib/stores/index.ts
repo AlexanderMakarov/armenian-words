@@ -1,3 +1,4 @@
+export { MAX_CARDS_COUNT, MIN_CARDS_COUNT, parseCardsCount } from '../cardsCount.js';
 export { learntTranslations, userStats } from './progress.js';
 export {
     createQuizQuestions,
