@@ -174,12 +174,24 @@ armenian-words/
 - User can navigate forward/backward
 - Progress bar shows current position
 
-### Analytics
+### Analytics & User Feedback
 
-- PostHog initialized in HTML `<head>`
-- Tracks: `app_opened` (first visit), `quiz_completed` (with metadata)
-- User ID stored in localStorage (`armenianApp_userID`)
-- Events include: level, score, progress by level, learnt words count
+- PostHog (EU cloud, project `110913`) initialized in `src/lib/analytics.ts`; no backend, so PostHog is the only source of user feedback besides GitHub issues.
+- Events: `app_opened` (first visit), `quiz_completed` (level, progress by level, learnt words, language, cards count).
+- User ID = ISO timestamp of first visit, stored in localStorage `armenianApp_userID` and passed to `posthog.identify` (so `distinct_id` looks like `2026-01-08T18:47:46.364Z`).
+- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover with `url: __never_auto_show__`, opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`.
+  - Q1 single choice, no "Other"/free text (bilingual labels: "Translation error (ошибка перевода)", "Pronunciation issue (проблема с произношением)", "App bug (ошибка в приложении)", "Suggestion for improvement (предложение по улучшению)"), Q2 open "describe the issue".
+  - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
+  - Responses before 2026-09-16 may carry free text in the Q1 answer: the old Q1 was multiple choice with an open "Other" option, so users typed whole reports there and skipped Q2. Removed so every report has a category plus Q2 text.
+  - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
+  - Most reports are missing/wrong words → fix in vocabulary data (`static/vocabulary.json`, see `scripts/`); check if already fixed before acting.
+  - Responses from `localhost` or text like "test" are the maintainer's own tests.
+- **Error tracking / session replay are NOT enabled** — there are no exception issues in PostHog; "errors users reported" means survey responses.
+
+#### Reading feedback with the PostHog MCP (Claude Code `posthog` plugin, authenticate via `/mcp`)
+
+- `surveys-get-all` → survey definition; `surveys-responses-list {"id": "<survey id>"}` → responses with resolved question text, device, URL; `surveys-global-stats` → shown/dismissed/sent counts.
+- `execute-sql` on `events` for `survey sent` / `quiz_completed` when property-level detail is needed.
 
 ## Testing Checklist
 
