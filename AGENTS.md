@@ -174,12 +174,14 @@ armenian-words/
 - User can navigate forward/backward
 - Progress bar shows current position
 
-### Analytics
+### Analytics & User Feedback
 
-- PostHog initialized in HTML `<head>`
-- Tracks: `app_opened` (first visit), `quiz_completed` (with metadata)
-- User ID stored in localStorage (`armenianApp_userID`)
-- Events include: level, score, progress by level, learnt words count
+- PostHog (EU cloud, project `110913`) initialized in `src/lib/analytics.ts`; no backend, so PostHog is the only source of user feedback besides GitHub issues. Responses are readable in the PostHog UI or via its API/MCP server.
+- Events: `app_opened` (first visit), `quiz_completed` (level, progress by level, learnt words, language, cards count).
+- User ID = ISO timestamp of first visit, stored in localStorage `armenianApp_userID` and passed to `posthog.identify` (so `distinct_id` looks like `2026-01-08T18:47:46.364Z`).
+- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover with `url: __never_auto_show__`, opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`.
+  - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
+  - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
 
 ## Testing Checklist
 

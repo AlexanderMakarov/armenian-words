@@ -1498,9 +1498,12 @@
   {
    "am": "ամեն",
    "en": [
+    "each, every",
     "amen"
    ],
    "ru": [
+    "каждый",
+    "всякий",
     "аминь"
    ],
    "spell": "amen",
@@ -72989,6 +72992,24 @@
    "spell": "handuržoġakanutʻyun",
    "pos": "noun",
    "etymology_text": "հանդուրժողական (handuržoġakan) + -ություն (-utʻyun)"
+  },
+  {
+   "am": "թաղամաս",
+   "en": [
+    "district",
+    "neighborhood",
+    "city block",
+    "quarter"
+   ],
+   "ru": [
+    "район",
+    "квартал",
+    "микрорайон"
+   ],
+   "spell": "tʻaġamas",
+   "pos": "noun",
+   "etymology_text": "From թաղ (tʻaġ) + -ա- (-a-) + մաս (mas).",
+   "ogg_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Hy-%D5%A9%D5%A1%D5%B2%D5%A1%D5%B4%D5%A1%D5%BD.ogg"
   }
  ],
  "B1": [
