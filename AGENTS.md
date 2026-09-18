@@ -135,8 +135,9 @@ armenian-words/
 - `bun run dev` - Development server: Watches `src/`, compiles to `static/`, serves on port 8000
 - `bun run lint` - Run Biome linter on source files
 - `bun run lint:fix` - Run Biome linter with auto-fix
-- `bun run vocabulary-build` - Build vocabulary.json using Python
-- `bun run vocabulary-build-no-cache` - Build vocabulary.json without cache
+- `bun run vocabulary-build` - Build vocabulary.json using the existing Python pipeline
+- `bun run vocabulary-overrides-apply` - Apply `scripts/translation_overrides.json` onto `static/vocabulary.json` (TypeScript)
+- `bun run search-index-build` - Rebuild `static/search-index.bin` from vocabulary.json
 
 ## Key Implementation Details
 

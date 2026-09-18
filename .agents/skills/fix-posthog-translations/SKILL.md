@@ -29,31 +29,32 @@ Fetch rows with PostHog `surveys-responses-list` for that survey id. Prefer resp
 ```json
 {
   "տալ": {
-    "en": ["to give", "sister-in-law"],
-    "ru": ["дать", "золовка"],
+    "en": ["to give", "to hand over", "to allot"],
+    "ru": ["давать, дать", "отдавать, отдать", "золовка"],
     "note": "optional human rationale"
   }
 }
 ```
 
-3. Apply without full dictionary rebuild:
+3. **Maximum 5 meanings per language** (`en` and `ru` arrays each ≤ 5). Prefer the most common learner-facing senses; drop slang, grammar-form glosses, and rare senses when over the cap. `scripts/apply-translation-overrides.ts` truncates to 5 if an override exceeds it.
+4. Apply without full dictionary rebuild:
 
 ```bash
-python3 scripts/apply_translation_overrides.py
+bun run vocabulary-overrides-apply
 bun run search-index-build
 ```
 
-4. Full rebuilds already call the same overrides via `scripts/build_vocabulary_v2.py` after CEFR leveling, so overrides survive `bun run vocabulary-build`.
+5. Full rebuilds also apply the same overrides via `scripts/build_vocabulary_v2.py` after CEFR leveling, so overrides survive `bun run vocabulary-build`.
 
-5. Verify with unit search tests or by checking `static/vocabulary.json` for the lemma. Run `bun run lint` and `bun run build` before declaring done.
+6. Verify by checking `static/vocabulary.json` for the lemma. Run `bun run lint` and `bun run build` before declaring done.
 
-Put the **primary learner-facing sense first** in `en` / `ru` arrays. Keep secondary senses when they are real (homographs/polysemy), rather than deleting them blindly.
+Put the **primary learner-facing sense first** in `en` / `ru` arrays. Keep secondary senses when they are real (homographs/polysemy), rather than deleting them blindly — but never more than 5 per language.
 
 ## Bulk workflow
 
 1. List translation-error responses from PostHog (filter on the choice answer; skip empty descriptions unless `feedback_word` / browse URL identifies the lemma).
 2. Deduplicate by Armenian lemma.
-3. Resolve correct EN + RU glosses (see lookup section below).
+3. Resolve correct EN + RU glosses (see lookup section below); trim each list to ≤ 5.
 4. Write all overrides into `scripts/translation_overrides.json` in one edit.
 5. Run apply + search-index-build once for the batch.
 6. Summarize fixed lemmas vs skipped (with reason) for the user.
@@ -80,7 +81,7 @@ Probe words used when validating: `տալ` (common/polysemous), `գրադարա�
    - Rank listed dictionary senses above “automatic translations” / Google blocks on the same page.
 4. **https://www.museum.am/glossary/display-armrus.php?action=search&word=<lemma>&type=full&method=1**
    - Armenian–Russian; good coverage (tested on all three probe words).
-   - Often **very verbose** (many senses/examples). Use to confirm meaning; extract the primary learner gloss, do not dump the whole article into `en`/`ru` arrays.
+   - Often **very verbose** (many senses/examples). Use to confirm meaning; extract at most 5 learner glosses, do not dump the whole article into `en`/`ru` arrays.
    - Note the hyphenated script name `display-armrus.php` (not `displayarmrus.php`).
 5. **https://www.armdict.com/dictionary/armenian-russian/<lemma>** (and `/dictionary/armenian-english/<lemma>` for EN)
    - Works for the probe set and returns useful multi-sense RU for `տալ`.
@@ -97,8 +98,8 @@ Probe words used when validating: `տալ` (common/polysemous), `գրադարա�
 ### Conflict / sense rules
 
 - Prefer **multi-sense** sources (local kaikki + StarDict, brrn, Glosbe, museum, armdict) over MT one-liners.
-- If EN (kaikki) and RU (StarDict) disagree on the *primary* sense, check brrn + Glosbe; put the learner-primary sense first in both languages and keep real secondary senses.
-- Homographs (e.g. `տալ` = give **and** sister-in-law): keep both, primary first.
+- If EN (kaikki) and RU (StarDict) disagree on the *primary* sense, check brrn + Glosbe; put the learner-primary sense first in both languages and keep real secondary senses (**≤ 5**).
+- Homographs (e.g. `տալ` = give **and** sister-in-law): keep both when space allows under the cap, primary first.
 - If local pipeline missed a sense that dictionaries agree on, fix via override (do not wait for a full rebuild).
 - If sources conflict and no clear primary sense emerges, ask the user rather than guessing.
 
