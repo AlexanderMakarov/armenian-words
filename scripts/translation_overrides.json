@@ -1,0 +1,7 @@
+{
+  "տալ": {
+    "en": ["to give", "sister-in-law"],
+    "ru": ["дать", "золовка"],
+    "note": "Kaikki verb gloss 'to give' was overwritten by noun gloss 'sister-in-law'; StarDict only had золовка. Keep both senses; put give/дать first."
+  }
+}

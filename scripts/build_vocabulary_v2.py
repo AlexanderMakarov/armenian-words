@@ -31,9 +31,45 @@ KAIKKI_FILE = Path("vocabulary_sources/kaikki.org-dictionary-Armenian-words.json
 STARDICT_DIR = Path("vocabulary_sources/ArmRus_1.28")
 STARDICT_CACHE = Path("scripts/tmp/armenian_russian.csv")
 KAIKKI_CACHE = Path("scripts/tmp/kaikki_entries.json")
+OVERRIDES_FILE = Path("scripts/translation_overrides.json")
 OUTPUT_FILE = Path("static/vocabulary.json")
 TMP_DIR = Path("scripts/tmp")
 TMP_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def load_translation_overrides(path: Path = OVERRIDES_FILE) -> Dict[str, Dict[str, Any]]:
+    """Load manual translation overrides keyed by Armenian word."""
+    if not path.exists():
+        return {}
+    with open(path, 'r', encoding='utf-8') as f:
+        raw = json.load(f)
+    return {normalize_armenian_word(k): v for k, v in raw.items()}
+
+
+def apply_translation_overrides(
+    leveled_vocabulary: Dict[str, List[Dict[str, Any]]],
+    overrides: Dict[str, Dict[str, Any]],
+) -> int:
+    """Apply overrides to leveled vocabulary. Returns number of entries updated."""
+    if not overrides:
+        return 0
+    updated = 0
+    for _level, words in leveled_vocabulary.items():
+        for entry in words:
+            key = normalize_armenian_word(entry.get('am', ''))
+            override = overrides.get(key)
+            if not override:
+                continue
+            if 'en' in override:
+                entry['en'] = list(override['en'])
+            if 'ru' in override:
+                entry['ru'] = list(override['ru'])
+            if 'pos' in override:
+                entry['pos'] = override['pos']
+            if 'spell' in override:
+                entry['spell'] = override['spell']
+            updated += 1
+    return updated
 
 
 def normalize_armenian_word(word: str) -> str:
@@ -184,10 +220,14 @@ def parse_kaikki_and_collect_frequency(
                     }
                     parsed_entries.append(simplified_entry)
                     
-                    # Store English translations
+                    # Store English translations (merge across POS entries; later senses append)
                     if english_translations:
                         normalized = normalize_armenian_word(word)
-                        english_index[normalized] = english_translations
+                        existing = english_index.get(normalized, [])
+                        for gloss in english_translations:
+                            if gloss.lower() not in [t.lower() for t in existing]:
+                                existing.append(gloss)
+                        english_index[normalized] = existing
                     
                     # Collect all example texts
                     for sense in senses:
@@ -522,6 +562,11 @@ def main():
     
     for level, words in leveled_vocabulary.items():
         print(f"  {level}: {len(words):,} words")
+
+    overrides = load_translation_overrides()
+    applied = apply_translation_overrides(leveled_vocabulary, overrides)
+    if applied:
+        print(f"\nApplied {applied} translation override(s) from {OVERRIDES_FILE}")
     
     # Save to JSON
     output_path = Path(args.output)

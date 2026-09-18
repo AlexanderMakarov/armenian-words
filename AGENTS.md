@@ -179,9 +179,11 @@ armenian-words/
 - PostHog (EU cloud, project `110913`) initialized in `src/lib/analytics.ts`; no backend, so PostHog is the only source of user feedback besides GitHub issues. Responses are readable in the PostHog UI or via its API/MCP server.
 - Events: `app_opened` (first visit), `quiz_completed` (level, progress by level, learnt words, language, cards count).
 - User ID = ISO timestamp of first visit, stored in localStorage `armenianApp_userID` and passed to `posthog.identify` (so `distinct_id` looks like `2026-01-08T18:47:46.364Z`).
-- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover with `url: __never_auto_show__`, opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`.
-  - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
-  - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
+- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`. `posthog.init` sets `disable_surveys_automatic_display: true` so surveys never auto-popup; the survey itself has no URL match condition (a former `__never_auto_show__` URL caused PostHog to dismiss the popover on every SPA navigation). Partial responses are enabled so a completed first question is still stored if the user abandons later.
+ - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
+ - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
+ - **Translation fixes from survey**: project skill `.cursor/skills/fix-posthog-translations/SKILL.md` plus `scripts/translation_overrides.json` / `bun run vocabulary-overrides-apply`.
+ - **Triage survey inbox**: project skill `.cursor/skills/triage-posthog-feedback/SKILL.md` (fix-now vs GitHub issue).
 
 ## Testing Checklist
 
