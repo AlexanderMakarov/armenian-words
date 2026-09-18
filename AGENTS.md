@@ -91,6 +91,11 @@ armenian-words/
 - **ALWAYS use `bun` instead of `npm`**: This project uses Bun as the package manager and runtime
 - **NEVER use `npm` commands**: Use `bun install`, `bun run`, `bun add`, `bunx` instead of `npm install`, `npm run`, `npm install --save`, `npx`
 
+### Scripts
+
+- **New repo scripts must be TypeScript** (Bun-runnable under `scripts/`, e.g. `bun run scripts/foo.ts`). Do **not** add new Python scripts for app/tooling workflows.
+- Existing vocabulary pipeline (`scripts/build_vocabulary_v2.py` and related) may stay Python until migrated; do not expand it with new Python helpers when a TS script would do.
+
 ### Code Quality
 
 - **No console.log in production**: Remove or comment out debug statements
@@ -179,11 +184,10 @@ armenian-words/
 - PostHog (EU cloud, project `110913`) initialized in `src/lib/analytics.ts`; no backend, so PostHog is the only source of user feedback besides GitHub issues. Responses are readable in the PostHog UI or via its API/MCP server.
 - Events: `app_opened` (first visit), `quiz_completed` (level, progress by level, learnt words, language, cards count).
 - User ID = ISO timestamp of first visit, stored in localStorage `armenianApp_userID` and passed to `posthog.identify` (so `distinct_id` looks like `2026-01-08T18:47:46.364Z`).
-- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`. `posthog.init` sets `disable_surveys_automatic_display: true` so surveys never auto-popup; the survey itself has no URL match condition (a former `__never_auto_show__` URL caused PostHog to dismiss the popover on every SPA navigation). Partial responses are enabled so a completed first question is still stored if the user abandons later.
+- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`.
  - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
  - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
- - **Translation fixes from survey**: project skill `.cursor/skills/fix-posthog-translations/SKILL.md` plus `scripts/translation_overrides.json` / `bun run vocabulary-overrides-apply`.
- - **Triage survey inbox**: project skill `.cursor/skills/triage-posthog-feedback/SKILL.md` (fix-now vs GitHub issue).
+ - **Agent skills** (canonical under `.agents/skills/`; symlinked into `.cursor/skills/` and `.claude/skills/` for Cursor and Claude Code): `fix-posthog-translations`, `triage-posthog-feedback`. Apply translation overrides with `bun run vocabulary-overrides-apply`.
 
 ## Testing Checklist
 

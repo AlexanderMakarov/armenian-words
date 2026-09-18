@@ -1,7 +1,7 @@
 {
   "տալ": {
-    "en": ["to give", "sister-in-law"],
-    "ru": ["дать", "золовка"],
-    "note": "Kaikki verb gloss 'to give' was overwritten by noun gloss 'sister-in-law'; StarDict only had золовка. Keep both senses; put give/дать first."
+    "en": ["to give", "to hand over", "to allot", "to contribute", "sister-in-law"],
+    "ru": ["давать, дать", "отдавать, отдать", "передавать, передать", "выдавать, выдать", "золовка"],
+    "note": "Primary verb senses from brrn/armdict/Glosbe; noun золовка/sister-in-law kept last. Cap 5 per language."
   }
 }

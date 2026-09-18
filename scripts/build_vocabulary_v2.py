@@ -61,9 +61,9 @@ def apply_translation_overrides(
             if not override:
                 continue
             if 'en' in override:
-                entry['en'] = list(override['en'])
+                entry['en'] = list(override['en'])[:5]
             if 'ru' in override:
-                entry['ru'] = list(override['ru'])
+                entry['ru'] = list(override['ru'])[:5]
             if 'pos' in override:
                 entry['pos'] = override['pos']
             if 'spell' in override:

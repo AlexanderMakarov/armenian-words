@@ -17,7 +17,7 @@
         "lint:ci": "biome check src/",
         "lint:fix": "biome check --write src/",
         "vocabulary-build": "python3 scripts/build_vocabulary_v2.py",
-        "vocabulary-overrides-apply": "python3 scripts/apply_translation_overrides.py",
+        "vocabulary-overrides-apply": "bun run scripts/apply-translation-overrides.ts",
         "search-index-build": "bun run scripts/build-search-index.ts"
     },
     "devDependencies": {
