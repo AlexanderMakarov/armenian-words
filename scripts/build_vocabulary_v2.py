@@ -31,50 +31,57 @@ KAIKKI_FILE = Path("vocabulary_sources/kaikki.org-dictionary-Armenian-words.json
 STARDICT_DIR = Path("vocabulary_sources/ArmRus_1.28")
 STARDICT_CACHE = Path("scripts/tmp/armenian_russian.csv")
 KAIKKI_CACHE = Path("scripts/tmp/kaikki_entries.json")
-OVERRIDES_FILE = Path("scripts/translation_overrides.json")
 OUTPUT_FILE = Path("static/vocabulary.json")
 TMP_DIR = Path("scripts/tmp")
 TMP_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def load_translation_overrides(path: Path = OVERRIDES_FILE) -> Dict[str, Dict[str, Any]]:
-    """Load manual translation overrides keyed by Armenian word."""
-    if not path.exists():
-        return {}
-    with open(path, 'r', encoding='utf-8') as f:
-        raw = json.load(f)
-    return {normalize_armenian_word(k): v for k, v in raw.items()}
-
-
-def apply_translation_overrides(
-    leveled_vocabulary: Dict[str, List[Dict[str, Any]]],
-    overrides: Dict[str, Dict[str, Any]],
-) -> int:
-    """Apply overrides to leveled vocabulary. Returns number of entries updated."""
-    if not overrides:
-        return 0
-    updated = 0
-    for _level, words in leveled_vocabulary.items():
-        for entry in words:
-            key = normalize_armenian_word(entry.get('am', ''))
-            override = overrides.get(key)
-            if not override:
-                continue
-            if 'en' in override:
-                entry['en'] = list(override['en'])[:5]
-            if 'ru' in override:
-                entry['ru'] = list(override['ru'])[:5]
-            if 'pos' in override:
-                entry['pos'] = override['pos']
-            if 'spell' in override:
-                entry['spell'] = override['spell']
-            updated += 1
-    return updated
-
-
 def normalize_armenian_word(word: str) -> str:
     """Normalize Armenian word for comparison (lowercase)."""
     return word.lower()
+
+
+def load_existing_translations_by_am(path: Path) -> Dict[str, Dict[str, Any]]:
+    """Index curated en/ru (and related fields) from an existing vocabulary.json by lemma."""
+    if not path.exists():
+        return {}
+    with open(path, 'r', encoding='utf-8') as f:
+        leveled = json.load(f)
+    index: Dict[str, Dict[str, Any]] = {}
+    for words in leveled.values():
+        if not isinstance(words, list):
+            continue
+        for entry in words:
+            am = entry.get('am', '')
+            if not am:
+                continue
+            index[normalize_armenian_word(am)] = entry
+    return index
+
+
+def preserve_curated_translations(
+    leveled_vocabulary: Dict[str, List[Dict[str, Any]]],
+    previous_by_am: Dict[str, Dict[str, Any]],
+) -> int:
+    """
+    Keep hand-patched en/ru from the previous vocabulary.json for lemmas that already exist.
+    New lemmas from sources are left unchanged. Returns how many entries were preserved.
+    """
+    if not previous_by_am:
+        return 0
+    preserved = 0
+    for words in leveled_vocabulary.values():
+        for entry in words:
+            key = normalize_armenian_word(entry.get('am', ''))
+            prev = previous_by_am.get(key)
+            if not prev:
+                continue
+            if 'en' in prev:
+                entry['en'] = list(prev['en'])
+            if 'ru' in prev:
+                entry['ru'] = list(prev['ru'])
+            preserved += 1
+    return preserved
 
 
 def is_direct_translation(text: str, language: str = 'en') -> bool:
@@ -431,11 +438,26 @@ def main():
                         help='Skip loading kaikki.org data from cache')
     parser.add_argument('--output', type=str, default=str(OUTPUT_FILE),
                         help=f'Output file for vocabulary (default: {OUTPUT_FILE})')
+    parser.add_argument(
+        '--replace-all-translations',
+        action='store_true',
+        help=(
+            'Dangerous: overwrite en/ru for existing lemmas from dictionary sources '
+            'instead of preserving hand patches already in the output vocabulary.json'
+        ),
+    )
     args = parser.parse_args()
     
     print("=" * 60)
     print("Build Vocabulary V2 - From kaikki.org Dictionary")
     print("=" * 60)
+    print(
+        "\nWARNING: static/vocabulary.json is a curated file with many hand-patched "
+        "translations (script bugs + bad source glosses). By default this build "
+        "PRESERVES en/ru from the existing output file for every lemma already present. "
+        "Only use --replace-all-translations if you intentionally want source glosses "
+        "to wipe those patches."
+    )
     
     # Load StarDict Russian translations
     print("\n[1/4] Loading StarDict Russian translations...")
@@ -563,13 +585,19 @@ def main():
     for level, words in leveled_vocabulary.items():
         print(f"  {level}: {len(words):,} words")
 
-    overrides = load_translation_overrides()
-    applied = apply_translation_overrides(leveled_vocabulary, overrides)
-    if applied:
-        print(f"\nApplied {applied} translation override(s) from {OVERRIDES_FILE}")
+    output_path = Path(args.output)
+    if not args.replace_all_translations:
+        previous = load_existing_translations_by_am(output_path)
+        preserved = preserve_curated_translations(leveled_vocabulary, previous)
+        print(
+            f"\nPreserved curated en/ru for {preserved} existing lemma(s) from {output_path}"
+        )
+    else:
+        print(
+            "\nWARNING: --replace-all-translations set; NOT preserving hand-patched en/ru"
+        )
     
     # Save to JSON
-    output_path = Path(args.output)
     print(f"\n💾 Saving to {output_path}...")
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(leveled_vocabulary, f, ensure_ascii=False, indent=1)
