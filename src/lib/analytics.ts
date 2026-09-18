@@ -13,6 +13,9 @@ export function initAnalytics(): void {
     posthog.init(POSTHOG_KEY, {
         api_host: POSTHOG_HOST,
         opt_in_site_apps: true, // Required for surveys to work
+        // Manual "Report an Issue" only — do not auto-popup surveys.
+        // Without a URL condition, PostHog would otherwise auto-match every page.
+        disable_surveys_automatic_display: true,
         defaults: '2025-11-30',
     });
 

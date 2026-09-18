@@ -41,6 +41,49 @@ def normalize_armenian_word(word: str) -> str:
     return word.lower()
 
 
+def load_existing_translations_by_am(path: Path) -> Dict[str, Dict[str, Any]]:
+    """Index curated en/ru (and related fields) from an existing vocabulary.json by lemma."""
+    if not path.exists():
+        return {}
+    with open(path, 'r', encoding='utf-8') as f:
+        leveled = json.load(f)
+    index: Dict[str, Dict[str, Any]] = {}
+    for words in leveled.values():
+        if not isinstance(words, list):
+            continue
+        for entry in words:
+            am = entry.get('am', '')
+            if not am:
+                continue
+            index[normalize_armenian_word(am)] = entry
+    return index
+
+
+def preserve_curated_translations(
+    leveled_vocabulary: Dict[str, List[Dict[str, Any]]],
+    previous_by_am: Dict[str, Dict[str, Any]],
+) -> int:
+    """
+    Keep hand-patched en/ru from the previous vocabulary.json for lemmas that already exist.
+    New lemmas from sources are left unchanged. Returns how many entries were preserved.
+    """
+    if not previous_by_am:
+        return 0
+    preserved = 0
+    for words in leveled_vocabulary.values():
+        for entry in words:
+            key = normalize_armenian_word(entry.get('am', ''))
+            prev = previous_by_am.get(key)
+            if not prev:
+                continue
+            if 'en' in prev:
+                entry['en'] = list(prev['en'])
+            if 'ru' in prev:
+                entry['ru'] = list(prev['ru'])
+            preserved += 1
+    return preserved
+
+
 def is_direct_translation(text: str, language: str = 'en') -> bool:
     """
     Check if text is a direct translation (short, simple) vs dictionary definition/explanation.
@@ -184,10 +227,14 @@ def parse_kaikki_and_collect_frequency(
                     }
                     parsed_entries.append(simplified_entry)
                     
-                    # Store English translations
+                    # Store English translations (merge across POS entries; later senses append)
                     if english_translations:
                         normalized = normalize_armenian_word(word)
-                        english_index[normalized] = english_translations
+                        existing = english_index.get(normalized, [])
+                        for gloss in english_translations:
+                            if gloss.lower() not in [t.lower() for t in existing]:
+                                existing.append(gloss)
+                        english_index[normalized] = existing
                     
                     # Collect all example texts
                     for sense in senses:
@@ -391,11 +438,26 @@ def main():
                         help='Skip loading kaikki.org data from cache')
     parser.add_argument('--output', type=str, default=str(OUTPUT_FILE),
                         help=f'Output file for vocabulary (default: {OUTPUT_FILE})')
+    parser.add_argument(
+        '--replace-all-translations',
+        action='store_true',
+        help=(
+            'Dangerous: overwrite en/ru for existing lemmas from dictionary sources '
+            'instead of preserving hand patches already in the output vocabulary.json'
+        ),
+    )
     args = parser.parse_args()
     
     print("=" * 60)
     print("Build Vocabulary V2 - From kaikki.org Dictionary")
     print("=" * 60)
+    print(
+        "\nWARNING: static/vocabulary.json is a curated file with many hand-patched "
+        "translations (script bugs + bad source glosses). By default this build "
+        "PRESERVES en/ru from the existing output file for every lemma already present. "
+        "Only use --replace-all-translations if you intentionally want source glosses "
+        "to wipe those patches."
+    )
     
     # Load StarDict Russian translations
     print("\n[1/4] Loading StarDict Russian translations...")
@@ -522,9 +584,20 @@ def main():
     
     for level, words in leveled_vocabulary.items():
         print(f"  {level}: {len(words):,} words")
+
+    output_path = Path(args.output)
+    if not args.replace_all_translations:
+        previous = load_existing_translations_by_am(output_path)
+        preserved = preserve_curated_translations(leveled_vocabulary, previous)
+        print(
+            f"\nPreserved curated en/ru for {preserved} existing lemma(s) from {output_path}"
+        )
+    else:
+        print(
+            "\nWARNING: --replace-all-translations set; NOT preserving hand-patched en/ru"
+        )
     
     # Save to JSON
-    output_path = Path(args.output)
     print(f"\n💾 Saving to {output_path}...")
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(leveled_vocabulary, f, ensure_ascii=False, indent=1)

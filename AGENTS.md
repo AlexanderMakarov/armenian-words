@@ -91,6 +91,11 @@ armenian-words/
 - **ALWAYS use `bun` instead of `npm`**: This project uses Bun as the package manager and runtime
 - **NEVER use `npm` commands**: Use `bun install`, `bun run`, `bun add`, `bunx` instead of `npm install`, `npm run`, `npm install --save`, `npx`
 
+### Scripts
+
+- **New repo scripts must be TypeScript** (Bun-runnable under `scripts/`, e.g. `bun run scripts/foo.ts`). Do **not** add new Python scripts for app/tooling workflows.
+- Existing vocabulary pipeline (`scripts/build_vocabulary_v2.py` and related) may stay Python until migrated; do not expand it with new Python helpers when a TS script would do.
+
 ### Code Quality
 
 - **No console.log in production**: Remove or comment out debug statements
@@ -104,6 +109,14 @@ armenian-words/
 
 - **vocabulary.json structure**: Must match existing format exactly
 - **localStorage keys**: Use consistent prefixes (`armenianApp_*`, `armenianLearningStats`)
+
+### Vocabulary curation (read before regenerating)
+
+**Do not casually re-run `bun run vocabulary-build`.** `static/vocabulary.json` is the curated dictionary shipped to users. Many lemmas already have **hand-patched** `en`/`ru` because of bugs in the builder and/or bad glosses in kaikki/StarDict source data. A naïve rebuild from sources will invent wrong translations again unless preservations run.
+
+- **One-off translation fixes:** edit `static/vocabulary.json` directly, then `bun run search-index-build`. Do not add a separate overrides file for that.
+- **If you must regenerate** (new words, CEFR reshuffle, metadata): `build_vocabulary_v2.py` **preserves existing `en`/`ru` for every lemma already present** in the output file. Only brand-new lemmas take glosses from sources. To wipe curated translations on purpose, pass `--replace-all-translations` (dangerous).
+- After any vocabulary change that affects search keys, run `bun run search-index-build`.
 
 ## Development Workflow
 
@@ -130,8 +143,8 @@ armenian-words/
 - `bun run dev` - Development server: Watches `src/`, compiles to `static/`, serves on port 8000
 - `bun run lint` - Run Biome linter on source files
 - `bun run lint:fix` - Run Biome linter with auto-fix
-- `bun run vocabulary-build` - Build vocabulary.json using Python
-- `bun run vocabulary-build-no-cache` - Build vocabulary.json without cache
+- `bun run vocabulary-build` - Rebuild vocabulary from sources (**preserves curated en/ru** for existing lemmas; see Vocabulary curation above)
+- `bun run search-index-build` - Rebuild `static/search-index.bin` from vocabulary.json
 
 ## Key Implementation Details
 
@@ -179,9 +192,10 @@ armenian-words/
 - PostHog (EU cloud, project `110913`) initialized in `src/lib/analytics.ts`; no backend, so PostHog is the only source of user feedback besides GitHub issues. Responses are readable in the PostHog UI or via its API/MCP server.
 - Events: `app_opened` (first visit), `quiz_completed` (level, progress by level, learnt words, language, cards count).
 - User ID = ISO timestamp of first visit, stored in localStorage `armenianApp_userID` and passed to `posthog.identify` (so `distinct_id` looks like `2026-01-08T18:47:46.364Z`).
-- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover with `url: __never_auto_show__`, opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`.
-  - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
-  - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
+- **Feedback survey** "Open feedback" (ID in `FEEDBACK_SURVEY_ID`): popover opened only by the feedback button in `src/routes/+layout.svelte` via `showFeedbackSurvey()`.
+ - Before showing, context is registered as super-properties: `feedback_page_url`, `feedback_page_path`, `feedback_word` (from `/browse/<word>`), `feedback_level`, `feedback_quiz_language`, `feedback_cards_count`, `feedback_learnt_words_count`.
+ - `feedback_word` is only set on `/browse/<word>` pages; reports sent from the `/browse` search page carry no word (the search text is not captured), so check `current_url` too.
+ - **Agent skills** (canonical under `.agents/skills/`; symlinked into `.cursor/skills/` and `.claude/skills/` for Cursor and Claude Code): `fix-posthog-translations`, `triage-posthog-feedback`. Translation fixes edit `static/vocabulary.json` directly, then rebuild the search index.
 
 ## Testing Checklist
 
